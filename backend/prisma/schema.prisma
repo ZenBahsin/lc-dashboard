@@ -1,0 +1,2681 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model dtITEMTRANSAKSI {
+  idnya             BigInt    @default(autoincrement())
+  No_Transaksi      String?   @default("", map: "DF_dtITEMTRANSAKSI_No_Transaksi") @db.NVarChar(20)
+  No_Item_Transaksi String?   @default("", map: "DF_dtITEMTRANSAKSI_No_Item_Transaksi") @db.NVarChar(50)
+  Kode_Barang       String?   @default("", map: "DF_dtITEMTRANSAKSI_Kode_Barang") @db.NChar(13)
+  Deskripsi         String?   @default("", map: "DF_dtITEMTRANSAKSI_Deskripsi") @db.NChar(60)
+  Qty               Decimal?  @default(0, map: "DF_dtITEMTRANSAKSI_Qty") @db.Decimal(18, 2)
+  Cost              Decimal?  @default(0, map: "DF_dtITEMTRANSAKSI_Cost") @db.Decimal(18, 2)
+  Harga             Decimal?  @default(0, map: "DF_dtITEMTRANSAKSI_Harga") @db.Decimal(18, 2)
+  Diskon            Decimal?  @default(0, map: "DF_dtITEMTRANSAKSI_Diskon") @db.Decimal(18, 2)
+  Total_Nilai       Decimal?  @default(0, map: "DF_dtITEMTRANSAKSI_Total_Nilai") @db.Decimal(18, 2)
+  Jenis             String?   @default("", map: "DF_dtITEMTRANSAKSI_Jenis") @db.NChar(20)
+  Status_Kirim      String?   @default("", map: "DF_dtITEMTRANSAKSI_Status_Kirim") @db.NChar(10)
+  Void              String?   @default("N", map: "DF_dtITEMTRANSAKSI_Void") @db.NChar(1)
+  Kode_Cabang       String?   @default("HO", map: "DF_dtITEMTRANSAKSI_Kode_Cabang") @db.NChar(10)
+  User_ID           String?   @default("77777", map: "DF_dtITEMTRANSAKSI_User_ID") @db.NChar(10)
+  Tgl_Input         DateTime? @default(now(), map: "DF_dtITEMTRANSAKSI_Tgl_Input") @db.SmallDateTime
+  Updated           String?   @default("N", map: "DF_dtITEMTRANSAKSI_Updated") @db.NChar(1)
+  Send_HO           String?   @default("N", map: "DF_dtITEMTRANSAKSI_Send_HO") @db.NChar(1)
+  Send_CAB          String?   @default("N", map: "DF_dtITEMTRANSAKSI_Send_CAB") @db.NChar(1)
+  Send_CAB_Date     DateTime? @default(now(), map: "DF_dtITEMTRANSAKSI_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model dtITEMTRANSAKSI_SEMENTARA {
+  idnya             BigInt    @default(autoincrement())
+  No_Transaksi      String?   @db.NVarChar(20)
+  No_Item_Transaksi String?   @db.NVarChar(50)
+  Kode_Barang       String?   @db.NChar(13)
+  Deskripsi         String?   @db.NChar(60)
+  Qty               Decimal?  @db.Decimal(18, 2)
+  Cost              Decimal?  @db.Decimal(18, 2)
+  Harga             Decimal?  @db.Decimal(18, 2)
+  Diskon            Decimal?  @db.Decimal(18, 2)
+  Total_Nilai       Decimal?  @db.Decimal(18, 2)
+  Jenis             String?   @db.NChar(10)
+  Status_Kirim      String?   @db.NChar(10)
+  Void              String?   @db.NChar(1)
+  Kode_Cabang       String?   @db.NChar(10)
+  Unique_ID         String?   @db.NVarChar(14)
+  User_ID           String?   @db.NChar(10)
+  Tgl_Input         DateTime? @default(now(), map: "DF_dtITEMTRANSAKSI_SEMENTARA_Tgl_Input") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model dtITEMTRANSAKSICARD {
+  idnya         BigInt    @default(autoincrement())
+  No_Transaksi  String?   @default("", map: "DF_dtITEMTRANSAKSICARD_No_Transaksi") @db.NVarChar(20)
+  No_Card       String?   @default("", map: "DF_dtITEMTRANSAKSICARD_No_Card") @db.NChar(20)
+  Jenis_Card    String?   @default("", map: "DF_dtITEMTRANSAKSICARD_Jenis_Card") @db.NChar(50)
+  Tenor         Decimal?  @default(0, map: "DF_dtITEMTRANSAKSICARD_Tenor") @db.Decimal(18, 0)
+  Bayar_Card    Decimal?  @default(0, map: "DF_dtITEMTRANSAKSICARD_Bayar_Card") @db.Decimal(18, 0)
+  Biaya_Adm     Decimal?  @default(0, map: "DF_dtITEMTRANSAKSICARD_Biaya_Adm") @db.Decimal(18, 0)
+  Void          String?   @default("N", map: "DF_dtITEMTRANSAKSICARD_Void") @db.NChar(1)
+  Kode_Cabang   String?   @default("HO", map: "DF_dtITEMTRANSAKSICARD_Kode_Cabang") @db.NChar(10)
+  User_ID       String?   @default("77777", map: "DF_dtITEMTRANSAKSICARD_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_dtITEMTRANSAKSICARD_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_dtITEMTRANSAKSICARD_Updated") @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_dtITEMTRANSAKSICARD_Send_HO") @db.NChar(1)
+  Send_CAB      DateTime? @default(now(), map: "DF_dtITEMTRANSAKSICARD_Send_CAB") @db.SmallDateTime
+  Send_CAB_Date DateTime? @default(now(), map: "DF_dtITEMTRANSAKSICARD_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model dtITEMTRANSAKSICARD_SEMENTARA {
+  idnya        BigInt    @default(autoincrement())
+  No_Transaksi String?   @db.NVarChar(20)
+  No_Card      String?   @db.NChar(20)
+  Jenis_Card   String?   @db.NChar(50)
+  Tenor        Decimal?  @db.Decimal(18, 0)
+  Bayar_Card   Decimal?  @db.Decimal(18, 0)
+  Biaya_Adm    Decimal?  @db.Decimal(18, 0)
+  Void         String?   @db.NChar(1)
+  Kode_Cabang  String?   @db.NChar(10)
+  User_ID      String?   @db.NChar(10)
+  Tgl_Input    DateTime? @default(now(), map: "DF_ITEMTRANSAKSICARD_SEMENTARA_Tgl_Input") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model dtKODEPOS {
+  idnya         BigInt    @default(autoincrement())
+  Kode          String?   @db.NChar(5)
+  Kelurahan     String?   @db.NChar(50)
+  Kecamatan     String?   @db.NChar(50)
+  Jenis         String?   @db.NChar(50)
+  Kabupaten     String?   @db.NChar(50)
+  Propinsi      String?   @db.NChar(50)
+  Kode_Cabang   String?   @default("HO", map: "DF_dtKODEPOS_Kode_Cabang") @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_dtKODEPOS_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_dtKODEPOS_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_dtKODEPOS_Updated") @db.NChar(1)
+  Send_HO       String    @default("N", map: "DF_dtKODEPOS_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_dtKODEPOS_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @default(now(), map: "DF_dtKODEPOS_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model dtMSPROMOCODE {
+  idnya         BigInt    @default(autoincrement())
+  Kode          String?   @default("", map: "DF_dtMSPROMOCODE_Kode") @db.NChar(20)
+  Promo         String?   @default("", map: "DF_dtMSPROMOCODE_Promo") @db.NChar(50)
+  Pasien        String?   @default("SEMUA", map: "DF_dtMSPROMOCODE_Promo1") @db.NChar(10)
+  Exp_Date      DateTime? @default(now(), map: "DF_dtMSPROMOCODE_Exp_Date") @db.SmallDateTime
+  ItemOrTotal   String?   @default("Item", map: "DF_dtMSPROMOCODE_ItemOrTotal") @db.NChar(5)
+  Nilai_Total   Decimal?  @default(0, map: "DF_dtMSPROMOCODE_Nilai_Total") @db.Decimal(18, 0)
+  Quota         Decimal?  @default(0, map: "DF_dtMSPROMOCODE_Quota") @db.Decimal(18, 0)
+  Kode_Barang   String?   @default("", map: "DF_dtMSPROMOCODE_Kode_Barang") @db.NChar(20)
+  Kode_Tindakan String?   @default("", map: "DF_dtMSPROMOCODE_Kode_Tindakan") @db.NChar(20)
+  Kode_Paket    String?   @default("", map: "DF_dtMSPROMOCODE_Kode_Paket") @db.NChar(20)
+  Diskon_Persen Decimal?  @default(0, map: "DF_dtMSPROMOCODE_Diskon_Persen") @db.Decimal(18, 0)
+  Diskon_Rupiah Decimal?  @default(0, map: "DF_dtMSPROMOCODE_Diskon_Rupiah") @db.Decimal(18, 0)
+  Senin         String?   @default("Y", map: "DF_dtMSPROMOCODE_Senin") @db.NChar(1)
+  Selasa        String?   @default("Y", map: "DF_dtMSPROMOCODE_Selasa") @db.NChar(1)
+  Rabu          String?   @default("Y", map: "DF_dtMSPROMOCODE_Rabu") @db.NChar(1)
+  Kamis         String?   @default("Y", map: "DF_dtMSPROMOCODE_Kamis") @db.NChar(1)
+  Jumat         String?   @default("Y", map: "DF_dtMSPROMOCODE_Jumat") @db.NChar(1)
+  Sabtu         String?   @default("Y", map: "DF_dtMSPROMOCODE_Sabtu") @db.NChar(1)
+  Minggu        String?   @default("Y", map: "DF_dtMSPROMOCODE_Minggu") @db.NChar(1)
+  Jam_Awal      String?   @default("0000", map: "DF_dtMSPROMOCODE_Jam_Awal") @db.NChar(4)
+  Jam_Akhir     String?   @default("0000", map: "DF_dtMSPROMOCODE_Jam_Akhir") @db.NChar(4)
+  Cabang        String?   @default("XX", map: "DF_dtMSPROMOCODE_Klinik") @db.NChar(2)
+  Aktif         String?   @default("Y", map: "DF_dtMSPROMOCODE_Aktif") @db.NChar(1)
+  Kode_Cabang   String?   @default("LC", map: "DF_dtMSPROMOCODE_Kode_Cabang") @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_dtMSPROMOCODE_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_dtMSPROMOCODE_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_dtMSPROMOCODE_Updated") @db.NChar(1)
+  Send_HO       String    @default("N", map: "DF_dtMSPROMOCODE_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_dtMSPROMOCODE_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @default(now(), map: "DF_dtMSPROMOCODE_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model dtTRANSAKSI {
+  idnya            BigInt    @default(autoincrement())
+  No_Transaksi     String?   @db.VarChar(20)
+  Tanggal          DateTime? @db.SmallDateTime
+  Tgl_Kirim_Pasien DateTime? @default(now(), map: "DF_dtTRANSAKSI_Tgl_Kirim_Pasien") @db.SmallDateTime
+  Tgl_Kirim_Kurir  DateTime? @db.SmallDateTime
+  Nama_Pasien      String?   @db.NChar(30)
+  No_Rekam_Medik   String?   @db.NChar(13)
+  No_Registrasi    String?   @db.NChar(13)
+  Total_Transaksi  Decimal?  @default(0, map: "DF_dtTRANSAKSI_Total_Transaksi") @db.Decimal(18, 0)
+  Biaya_Adm        Decimal?  @default(0, map: "DF_dtTRANSAKSI_Biaya_Adm") @db.Decimal(18, 0)
+  Diskon_Voucher   Decimal?  @default(0, map: "DF_dtTRANSAKSI_Diskon") @db.Decimal(18, 0)
+  Diskon_Item      Decimal?  @default(0, map: "DF_dtTRANSAKSI_Diskon_Klinik") @db.Decimal(18, 0)
+  Diskon_Kartu     Decimal?  @default(0, map: "DF_dtTRANSAKSI_Diskon_Kartu") @db.Decimal(18, 0)
+  Uang_Muka        Decimal?  @default(0, map: "DF_dtTRANSAKSI_Uang_Muka") @db.Decimal(18, 0)
+  Net_Transaksi    Decimal?  @db.Decimal(18, 0)
+  Bayar_Transfer   Decimal?  @default(0, map: "DF_dtTRANSAKSI_Bayar_Transfer") @db.Decimal(18, 0)
+  Bayar_Cash       Decimal?  @default(0, map: "DF_dtTRANSAKSI_Bayar_Cash") @db.Decimal(18, 0)
+  Bayar_Card       Decimal?  @default(0, map: "DF_dtTRANSAKSI_Bayar_Card") @db.Decimal(18, 0)
+  Bayar_Voucher    Decimal?  @default(0, map: "DF_dtTRANSAKSI_Bayar_Voucher") @db.Decimal(18, 0)
+  Total_Change     Decimal?  @default(0, map: "DF_dtTRANSAKSI_Total_Change") @db.Decimal(18, 0)
+  Void             String?   @default("N", map: "DF_dtTRANSAKSI_Void") @db.NChar(1)
+  No_Voucher       String?   @db.NChar(20)
+  Otorisasi_Klinik String?   @db.NChar(10)
+  NIK              String?   @db.NChar(13)
+  Nama_Anggota_Kry String?   @db.NChar(30)
+  Keterangan       String    @default("", map: "DF_dtTRANSAKSI_Keterangan") @db.NChar(70)
+  Status_Kirim     String?   @default("", map: "DF_dtTRANSAKSI_Status_Kirim") @db.NChar(10)
+  Kode_Cabang      String?   @default("HO", map: "DF_dtTRANSAKSI_Kode_Cabang") @db.NChar(10)
+  User_ID          String?   @default("77777", map: "DF_dtTRANSAKSI_User_ID") @db.NChar(10)
+  Tgl_Input        DateTime? @default(now(), map: "DF_dtTRANSAKSI_Tgl_Input") @db.SmallDateTime
+  Updated          String?   @default("N", map: "DF_dtTRANSAKSI_Updated") @db.NChar(1)
+  Send_HO          String?   @default("N", map: "DF_dtTRANSAKSI_Send_HO") @db.NChar(1)
+  Send_CAB         String?   @default("N", map: "DF_dtTRANSAKSI_Send_CAB") @db.NChar(1)
+  Send_CAB_Date    DateTime? @default(now(), map: "DF_dtTRANSAKSI_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model dtTRANSAKSI_SEMENTARA {
+  Idnya            BigInt    @default(autoincrement())
+  No_Transaksi     String?   @db.VarChar(20)
+  Tanggal          DateTime? @db.SmallDateTime
+  Tgl_Kirim_Pasien DateTime? @db.SmallDateTime
+  Tgl_Kirim_Kurir  DateTime? @db.SmallDateTime
+  Nama_Pasien      String?   @db.NChar(30)
+  No_Rekam_Medik   String?   @db.NChar(13)
+  No_Registrasi    String?   @db.NChar(13)
+  Total_Transaksi  Decimal?  @db.Decimal(18, 0)
+  Biaya_Adm        Decimal?  @db.Decimal(18, 0)
+  Diskon_Voucher   Decimal?  @db.Decimal(18, 0)
+  Diskon_Item      Decimal?  @db.Decimal(18, 0)
+  Diskon_Kartu     Decimal?  @db.Decimal(18, 0)
+  Uang_Muka        Decimal?  @db.Decimal(18, 0)
+  Net_Transaksi    Decimal?  @db.Decimal(18, 0)
+  Bayar_Transfer   Decimal?  @db.Decimal(18, 0)
+  Bayar_Cash       Decimal?  @db.Decimal(18, 0)
+  Bayar_Card       Decimal?  @db.Decimal(18, 0)
+  Bayar_Voucher    Decimal?  @db.Decimal(18, 0)
+  Total_Change     Decimal?  @db.Decimal(18, 0)
+  Void             String?   @default("N", map: "DF_dtTRANSAKSI_SEMENTARA_Void") @db.NChar(1)
+  No_Voucher       String?   @db.NChar(20)
+  Status_Kirim     String?   @db.NChar(10)
+  Kode_Cabang      String?   @db.NChar(10)
+  User_ID          String?   @db.NChar(10)
+  Unique_ID        String?   @db.NVarChar(14)
+  Tgl_Input        DateTime? @default(now(), map: "DF_dtTRANSAKSI_SEMENTARA_Tgl_Input") @db.SmallDateTime
+  Sudah_Proses     String?   @default("N", map: "DF_dtTRANSAKSI_SEMENTARA_Sudah_Proses") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invADJUSTMENT {
+  idnya         Int       @default(autoincrement())
+  No_Adjustment String?   @db.NChar(13)
+  Tanggal       DateTime? @db.SmallDateTime
+  Total_Cost    Decimal?  @default(0, map: "DF_invADJUSTMENT_Nilai") @db.Decimal(18, 0)
+  Customer      String?   @db.NChar(10)
+  Keterangan    String?   @db.NChar(100)
+  Status        String?   @db.NChar(10)
+  Approved_By   String?   @db.NChar(10)
+  Approved_Date DateTime? @db.SmallDateTime
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invADJUSTMENT_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invAPADJUSTMENT {
+  idnya         Int       @default(autoincrement())
+  No_Adjustment String?   @db.NChar(13)
+  No_PO         String?   @db.NChar(13)
+  No_GR         String?   @db.NChar(13)
+  Tanggal       DateTime  @db.SmallDateTime
+  Supplier      String?   @db.NChar(13)
+  Nilai         Decimal?  @default(0, map: "DF_invAPADJUSTMENT_Nilai") @db.Decimal(18, 2)
+  Keterangan    String?   @db.NChar(100)
+  Approved_By   String?   @db.NChar(10)
+  Approved_Date DateTime? @db.SmallDateTime
+  Status        String?   @db.NChar(10)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invAPADJUSTMENT_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invAPFL {
+  idnya        Int       @default(autoincrement())
+  No_PO        String?   @db.NChar(13)
+  Supplier     String?   @db.NChar(13)
+  No_GR        String?   @db.NChar(13)
+  Tgl_GR       DateTime? @db.SmallDateTime
+  Tgl_JT       DateTime? @db.SmallDateTime
+  Nilai_Faktur Decimal?  @default(0, map: "DF_invAPFL_Nil_Fak") @db.Decimal(18, 2)
+  Uang_Muka    Decimal?  @default(0, map: "DF_invAPFL_Uang_Muka") @db.Decimal(18, 2)
+  Bayar        Decimal?  @default(0, map: "DF_invAPFL_Bayar") @db.Decimal(18, 2)
+  Sisa         Decimal?  @default(0, map: "DF_invAPFL_Sisa") @db.Decimal(18, 2)
+  Retur        Decimal?  @default(0, map: "DF_invAPFL_Retur") @db.Decimal(18, 2)
+  Adjustment   Decimal?  @default(0, map: "DF_invAPFL_Adjustment") @db.Decimal(18, 2)
+  YYYYMM       String?   @db.NChar(6)
+  Kode_Cabang  String?   @db.NChar(2)
+  User_ID      String?   @db.NChar(10)
+  Tgl_Input    DateTime? @db.SmallDateTime
+  Updated      String?   @db.NChar(1)
+  Send_HO      String?   @default("N", map: "DF_invAPFL_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invAPVENDOR {
+  idnya       Int       @default(autoincrement())
+  supplier    String?   @db.NChar(13)
+  bsawal      Decimal?  @default(0, map: "DF_InvAPVENDOR_bsawal") @db.Decimal(18, 2)
+  bbeli       Decimal?  @default(0, map: "DF_InvAPVENDOR_bbeli") @db.Decimal(18, 2)
+  bbayar      Decimal?  @default(0, map: "DF_InvAPVENDOR_bbayar") @db.Decimal(18, 2)
+  bretur      Decimal?  @default(0, map: "DF_InvAPVENDOR_bretur") @db.Decimal(18, 2)
+  badj        Decimal?  @default(0, map: "DF_InvAPVENDOR_badj") @db.Decimal(18, 2)
+  bakhir      Decimal?  @default(0, map: "DF_InvAPVENDOR_bakhir") @db.Decimal(18, 2)
+  tsawal      Decimal?  @default(0, map: "DF_InvAPVENDOR_tsawal") @db.Decimal(18, 2)
+  tbeli       Decimal?  @default(0, map: "DF_InvAPVENDOR_tbeli") @db.Decimal(18, 2)
+  tbayar      Decimal?  @default(0, map: "DF_InvAPVENDOR_tbayar") @db.Decimal(18, 2)
+  tretur      Decimal?  @default(0, map: "DF_InvAPVENDOR_tretur") @db.Decimal(18, 2)
+  tadj        Decimal?  @default(0, map: "DF_InvAPVENDOR_tadj") @db.Decimal(18, 2)
+  takhir      Decimal?  @default(0, map: "DF_InvAPVENDOR_takhir") @db.Decimal(18, 2)
+  yyyymm      String?   @db.NChar(6)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_InvAPVENDOR_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invARFL {
+  idnya           Int       @default(autoincrement())
+  Kode_Cabang     String?   @db.NChar(10)
+  Tanggal         DateTime? @db.SmallDateTime
+  Jenis_Transaksi String?   @db.NChar(50)
+  Jumlah          Decimal?  @default(0, map: "DF_invARFL_Jumlah") @db.Decimal(18, 2)
+  Biaya_Adm       Decimal?  @default(0, map: "DF_invARFL_Biaya_Adm") @db.Decimal(18, 2)
+  Realisasi       Decimal?  @default(0, map: "DF_invARFL_Realisasi") @db.Decimal(18, 2)
+  Sisa            Decimal?  @default(0, map: "DF_invARFL_Sisa") @db.Decimal(18, 2)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invBANK {
+  idnya        Int       @default(autoincrement())
+  Kode         String?   @db.NChar(5)
+  Deskripsi    String?   @db.NChar(30)
+  No_Perkiraan String?   @db.NChar(10)
+  Kode_Cabang  String?   @db.NChar(2)
+  User_ID      String?   @db.NChar(10)
+  Tgl_Input    DateTime? @db.SmallDateTime
+  Updated      String?   @db.NChar(1)
+  Send_HO      String?   @default("N", map: "DF_invBANK_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invBARANGMASUK {
+  idnya         Int       @default(autoincrement())
+  No_Bukti      String?   @db.NChar(13)
+  Tanggal       DateTime? @db.SmallDateTime
+  Pengirim      String?   @db.NChar(10)
+  Qty           Decimal?  @default(0, map: "DF_invBARANGMASUK_Qty") @db.Decimal(18, 2)
+  Total_Jual    Decimal?  @default(0, map: "DF_invBARANGMASUK_Total_Jual") @db.Decimal(18, 2)
+  Status        String?   @db.NChar(10)
+  Approved_By   String?   @default("", map: "DF_invBARANGMASUK_Approved_By_1") @db.NChar(10)
+  Approved_Date DateTime? @db.SmallDateTime
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invBARANGMASUK_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invBARANGMASUK_Send_HO") @db.NChar(1)
+  Send_Cab      String?   @default("N", map: "DF_invBARANGMASUK_Send_Cab") @db.NChar(1)
+  Send_Cab_Date DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invBAYAR {
+  idnya         BigInt    @default(autoincrement())
+  Kode          String?   @db.NChar(3)
+  Deskripsi     String?   @db.NChar(30)
+  RECIEVED_BY   String?   @db.NChar(10)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_invBAYAR_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invBAYAR_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_invBAYAR_Updated") @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invBAYAR_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invBAYAR_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @default(now(), map: "DF_invBAYAR_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invBERITAACARAWO {
+  idnya               Int       @default(autoincrement())
+  No_PO               String?   @db.NChar(13)
+  Hari                String?   @db.NChar(10)
+  Tanggal             DateTime? @default(now(), map: "DF_invBERITAACARAWO_Tanggal") @db.SmallDateTime
+  Tanggal_Selesai     DateTime? @default(now(), map: "DF_invBERITAACARAWO_Tanggal_Selesai") @db.SmallDateTime
+  Lama_Pekerjaan      String?   @db.NChar(50)
+  Nama_Supplier       String?   @db.NChar(50)
+  Deskripsi_Pekerjaan String?   @db.NChar(200)
+  Tindak_Lanjut       String?   @db.Text
+  Kode_Cabang         String?   @db.NChar(2)
+  User_ID             String?   @db.NChar(10)
+  Tgl_Input           DateTime? @db.SmallDateTime
+  Updated             String?   @db.NChar(1)
+  Send_HO             String?   @default("N", map: "DF_invBERITAACARAWO_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invCABANG {
+  idnya         Int       @default(autoincrement())
+  Kode          String?   @db.NChar(2)
+  Deskripsi     String?   @db.NVarChar(50)
+  Alamat        String?   @db.NChar(200)
+  Kota          String?   @db.NChar(50)
+  Telepon       String?   @db.NChar(20)
+  Term_Payment  Decimal?  @default(0, map: "DF_invCABANG_Term_Payment") @db.Decimal(18, 0)
+  NPWP          String?   @db.NChar(20)
+  Kelas         String?   @default("A", map: "DF_invCABANG_Kelas") @db.NChar(1)
+  COA_PIUTANG   String?   @db.NChar(8)
+  Aktif         String?   @default("Y", map: "DF_invCABANG_Aktif") @db.NChar(1)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_invCABANG_Updated") @db.NChar(1)
+  Send_HO       String    @default("N", map: "DF_invCABANG_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invCABANG_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model InvCETAKPO {
+  idnya               BigInt    @default(autoincrement())
+  tanggal             DateTime? @default(now(), map: "DF_InvCetakPO_tanggal") @db.SmallDateTime
+  tanggal_kirim       DateTime? @default(now(), map: "DF_InvCetakPO_tanggal_kirim") @db.SmallDateTime
+  No_PR               String?   @db.NChar(13)
+  No_Distribusi       String?   @default("", map: "DF_InvCetakPO_no_po1") @db.NChar(13)
+  no_po               String?   @db.NChar(13)
+  kode                String?   @db.NChar(13)
+  deskripsi           String?   @db.NChar(50)
+  unit                String?   @db.NChar(10)
+  harga_beli          Decimal?  @default(0, map: "DF_InvCetakPO_harga_beli") @db.Decimal(18, 0)
+  qty_po              Decimal?  @default(0, map: "DF_InvCetakPO_qty_po") @db.Decimal(18, 0)
+  diskonitem          Decimal?  @default(0, map: "DF_InvCetakPO_diskonitem") @db.Decimal(18, 0)
+  net_total           Decimal?  @default(0, map: "DF_InvCetakPO_net_total") @db.Decimal(18, 0)
+  totqty              Decimal?  @default(0, map: "DF_InvCetakPO_totqty") @db.Decimal(18, 0)
+  nilai               Decimal?  @default(0, map: "DF_InvCetakPO_nilai") @db.Decimal(18, 0)
+  totalDiskonitem     Decimal?  @default(0, map: "DF_InvCetakPO_totalDiskonitem") @db.Decimal(18, 0)
+  totalDiskontambahan Decimal?  @default(0, map: "DF_InvCetakPO_totalDiskontambahan") @db.Decimal(18, 0)
+  net_blm_ppn         Decimal?  @default(0, map: "DF_InvCetakPO_net_blm_ppn") @db.Decimal(18, 0)
+  nilai_ppn           Decimal?  @default(0, map: "DF_InvCetakPO_nilai_ppn") @db.Decimal(18, 0)
+  net_sdh_ppn         Decimal?  @default(0, map: "DF_InvCetakPO_net_sdh_ppn") @db.Decimal(18, 0)
+  jenis               String?   @default("", map: "DF_InvCetakPO_jenis") @db.NChar(10)
+  IsPPN               String?   @default("", map: "DF_InvCetakPO_IsPPN") @db.NChar(1)
+  uang_muka           Decimal?  @default(0, map: "DF_InvCetakPO_uang_muka") @db.Decimal(18, 0)
+  total_transaksi     Decimal?  @default(0, map: "DF_InvCetakPO_total_transaksi") @db.Decimal(18, 0)
+  keterangan          String?   @default("", map: "DF_InvCetakPO_keterangan") @db.NChar(200)
+  supplier            String?   @default("", map: "DF_InvCetakPO_supplier") @db.NChar(50)
+  contact_person      String?   @default("", map: "DF_InvCetakPO_contact_person") @db.NChar(50)
+  alamat              String?   @default("", map: "DF_InvCetakPO_alamat") @db.NChar(200)
+  kota                String?   @default("", map: "DF_InvCetakPO_kota") @db.NChar(50)
+  telepon             String?   @default("", map: "DF_InvCetakPO_telepon") @db.NChar(50)
+  term_payment        Decimal?  @db.Decimal(18, 0)
+  syarat_bayar        String?   @default("", map: "DF_InvCetakPO_syarat_bayar") @db.NChar(20)
+  Approved_By         String?   @default("", map: "DF_InvCetakPO_Approved_By") @db.NChar(10)
+  Approved_Date       DateTime? @default(now(), map: "DF_InvCetakPO_Approved_Date") @db.SmallDateTime
+  Approved_CEO        String?   @default("", map: "DF_InvCetakPO_Approved_CEO") @db.NChar(10)
+  Approved_CEO_Date   DateTime? @default(now(), map: "DF_InvCetakPO_Approved_CEO_Date") @db.SmallDateTime
+  NamaKlinik          String?   @default("", map: "DF_InvCetakPO_NamaKlinik") @db.NVarChar(50)
+  AlamatKlinik        String?   @default("", map: "DF_InvCetakPO_AlamatKlinik") @db.NChar(200)
+  KotaKlinik          String?   @default("", map: "DF_InvCetakPO_KotaKlinik") @db.NChar(50)
+  RECIEVED_BY         String    @default("", map: "DF_InvCETAKPO_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang         String?   @default("HO", map: "DF_InvCetakPO_Kode_Cabang") @db.NChar(2)
+  User_ID             String?   @default("77777", map: "DF_InvCetakPO_User_ID") @db.NChar(10)
+  Tgl_Input           DateTime? @default(now(), map: "DF_InvCetakPO_Tgl_Input") @db.SmallDateTime
+  Updated             String?   @default("N", map: "DF_InvCetakPO_Updated") @db.NChar(1)
+  Send_HO             String    @default("N", map: "DF_InvCetakPO_Send_HO") @db.NChar(1)
+  Send_CAB            String?   @default("N", map: "DF_InvCetakPO_Send_CAB") @db.NChar(1)
+  Send_CAB_Date       DateTime? @default(now(), map: "DF_InvCetakPO_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invCLOSING {
+  idnya      Int       @default(autoincrement())
+  Tanggal    DateTime? @db.SmallDateTime
+  No_Bukti   String?   @db.NChar(20)
+  No_Voucher String?   @default("", map: "DF_invCLOSING_No_Voucher") @db.NChar(30)
+  Periode    String?   @db.NChar(6)
+  Tipe       String?   @db.NChar(10)
+  User_ID    String?   @db.NChar(10)
+  Tgl_Input  DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invCUSTOMERxxx {
+  idnya         Int       @default(autoincrement())
+  Kode          String?   @db.NChar(10)
+  Deskripsi     String?   @db.NVarChar(50)
+  Alamat        String?   @db.NChar(200)
+  Kota          String?   @db.NChar(50)
+  Telepon       String?   @db.NChar(20)
+  Term_Payment  Decimal?  @default(0, map: "DF_invCUSTOMER_Term_Payment") @db.Decimal(18, 0)
+  NPWP          String?   @db.NChar(20)
+  Kelas         String?   @default("", map: "DF_invCUSTOMER_Kelas") @db.NChar(1)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String    @default("N", map: "DF_invCUSTOMER_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invCUSTOMER_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invDC {
+  idnya         Int       @default(autoincrement())
+  Kode          String?   @db.NChar(2)
+  Deskripsi     String?   @db.NChar(50)
+  Aktif         String?   @default("Y", map: "DF_invDC_Aktif") @db.NChar(1)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_invDC_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invDC_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_invDC_Updated") @db.NChar(1)
+  Send_HO       String    @default("N", map: "DF_invDC_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invDC_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @default(now(), map: "DF_invDC_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invDEPARTEMEN {
+  idnya       Int       @default(autoincrement())
+  Kode        String?   @db.NChar(5)
+  Deskripsi   String?   @db.NChar(50)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invDEPARTEMEN_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invDISTIN {
+  idnya         Int       @default(autoincrement())
+  No_Bukti      String?   @default("", map: "DF_invDISTIN_No_Bukti") @db.NChar(13)
+  No_Request    String?   @default("", map: "DF_invDISTIN_No_Bukti1") @db.NChar(13)
+  Tanggal       DateTime? @default(now(), map: "DF_invDISTIN_Tanggal") @db.SmallDateTime
+  Qty           Decimal?  @default(0, map: "DF_invDISTIN_Qty") @db.Decimal(18, 2)
+  Total_Jual    Decimal?  @default(0, map: "DF_invDISTIN_Total_Jual") @db.Decimal(18, 2)
+  Approved_By   String?   @default("", map: "DF_invDISTIN_Approved_By") @db.NChar(10)
+  Approved_Date DateTime? @db.SmallDateTime
+  Pengirim      String?   @default("", map: "DF_Table_1_Penerima") @db.NChar(10)
+  Status        String?   @default("Process", map: "DF_invDISTIN_Status") @db.NChar(10)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_invDISTIN_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invDISTIN_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invDISTIN_Send_HO") @db.NChar(1)
+  Send_Cab      String?   @default("N", map: "DF_invDISTIN_Send_Cab") @db.NChar(1)
+  Send_Cab_Date DateTime? @default(now(), map: "DF_invDISTIN_Send_Cab_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invDISTOUT {
+  idnya         Int       @default(autoincrement())
+  No_Bukti      String?   @default("", map: "DF_invDISTOUT_No_Bukti") @db.NChar(13)
+  No_Request    String?   @default("", map: "DF_invDISTOUT_No_Bukti1") @db.NChar(13)
+  Tanggal       DateTime? @default(now(), map: "DF_invDISTOUT_Tanggal") @db.SmallDateTime
+  Qty           Decimal?  @default(0, map: "DF_invDISTOUT_Qty") @db.Decimal(18, 2)
+  Total_Jual    Decimal?  @default(0, map: "DF_invDISTOUT_Total_Jual") @db.Decimal(18, 2)
+  Approved_By   String?   @default("", map: "DF_invDISTOUT_Approved_By") @db.NChar(10)
+  Approved_Date DateTime? @db.SmallDateTime
+  Penerima      String?   @default("", map: "DF_invDISTOUT_Penerima") @db.NChar(10)
+  Status        String?   @default("Process", map: "DF_invDISTOUT_Status") @db.NChar(10)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_invDISTOUT_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invDISTOUT_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invDISTOUT_Send_HO") @db.NChar(1)
+  Send_Cab      String?   @default("N", map: "DF_invDISTOUT_Send_Cab") @db.NChar(1)
+  Send_Cab_Date DateTime? @default(now(), map: "DF_invDISTOUT_Send_Cab_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+model invFARMASI {
+  idnya           Int       @default(autoincrement())
+  Kode            String    @id(map: "PK_invFARMASI") @db.NChar(20)
+  Deskripsi       String?   @db.NChar(50)
+  Deskripsi_Sales String?   @db.NChar(50)
+  Jenis           String?   @db.NChar(20)
+  Unit_PO         String?   @db.NChar(10)
+  Unit_Distribusi String?   @db.NChar(10)
+  Unit_Konsumsi   String?   @db.NChar(10)
+  Isi_Unit_PO     Decimal?  @default(0, map: "DF_invFARMASI_Isi_Unit_PO") @db.Decimal(18, 0)
+  Isi_Unit        Decimal?  @default(1, map: "DF_invFARMASI_Isi_Unit") @db.Decimal(18, 0)
+  Katagori        String?   @default("", map: "DF_invFARMASI_Katagori") @db.NChar(10)
+  Status_Stok     String?   @default("Y", map: "DF_invFARMASI_Status_Stok") @db.NChar(1)
+  Harga_Beli      Decimal?  @db.Decimal(18, 0)
+  Harga_Jual      Decimal?  @default(0, map: "DF_invFARMASI_Harga_Jual") @db.Decimal(18, 0)
+  Harga_Jual_A    Decimal?  @default(0, map: "DF_invFARMASI_Harga_Jual_A") @db.Decimal(18, 0)
+  Harga_Jual_B    Decimal?  @default(0, map: "DF_invFARMASI_Harga_Jual_B") @db.Decimal(18, 0)
+  Harga_Jual_C    Decimal?  @default(0, map: "DF_invFARMASI_Harga_Jual_C") @db.Decimal(18, 0)
+  Harga_Jual_D    Decimal?  @default(0, map: "DF_invFARMASI_Harga_Jual_D") @db.Decimal(18, 0)
+  Diskon          Decimal?  @default(0, map: "DF_invFARMASI_Diskon") @db.Decimal(18, 2)
+  RECIEVED_BY     String    @default("", map: "DF_invFARMASI_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang     String?   @default("HO", map: "DF_invFARMASI_Kode_Cabang") @db.NChar(2)
+  User_ID         String?   @default("77777", map: "DF_invFARMASI_User_ID") @db.NChar(10)
+  Tgl_Input       DateTime? @default(now(), map: "DF_invFARMASI_Tgl_Input") @db.SmallDateTime
+  Updated         String?   @default("N", map: "DF_invFARMASI_Updated_1") @db.NChar(1)
+  Send_HO         String?   @default("N", map: "DF_invFARMASI_Send_HO") @db.NChar(1)
+  Send_CAB        String?   @default("N", map: "DF_invFARMASI_Send_CAB") @db.NChar(1)
+  Send_CAB_Date   DateTime? @default(now(), map: "DF_invFARMASI_Send_CAB_Date") @db.SmallDateTime
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model InvFARMASIBYMERK {
+  idnya           Int       @default(autoincrement())
+  Kode            String    @db.NChar(20)
+  Deskripsi       String?   @db.NChar(50)
+  Deskripsi_Sales String?   @db.NChar(50)
+  Jenis           String?   @db.NChar(10)
+  Unit_PO         String?   @db.NChar(10)
+  Isi_Unit_PO     Decimal?  @default(0, map: "DF_InvFARMASIBYMERK_Isi_Unit_PO") @db.Decimal(18, 0)
+  Harga_Beli      Decimal?  @db.Decimal(18, 0)
+  Diskon          Decimal?  @default(0, map: "DF_InvFARMASIBYMERK_Diskon") @db.Decimal(18, 2)
+  Kode_Stok       String?   @db.NChar(20)
+  Dosis           String?   @db.NChar(30)
+  Merk_Pabrik     String?   @db.NChar(50)
+  Kode_Cabang     String?   @default("HO", map: "DF_InvFARMASIBYMERK_Kode_Cabang") @db.NChar(2)
+  User_ID         String?   @default("77777", map: "DF_InvFARMASIBYMERK_User_ID") @db.NChar(10)
+  Tgl_Input       DateTime? @default(now(), map: "DF_InvFARMASIBYMERK_Tgl_Input") @db.SmallDateTime
+  Updated         String?   @db.NChar(1)
+  Send_HO         String?   @default("N", map: "DF_InvFARMASIBYMERK_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invFARMASIREQUEST {
+  idnya         Int       @default(autoincrement())
+  No_PR         String?   @db.NChar(13)
+  No_PO         String?   @db.NChar(13)
+  Tanggal       DateTime? @db.SmallDateTime
+  Departemen    String?   @db.NChar(5)
+  Nilai         Decimal?  @default(0, map: "DF_invFARMASIREQUEST_Nilai") @db.Decimal(18, 0)
+  Jenis         String?   @db.NChar(10)
+  Status        String?   @db.NChar(10)
+  Approved_By   String?   @db.NChar(10)
+  Approved_Date DateTime? @db.SmallDateTime
+  Rejected_By   String?   @db.NChar(10)
+  Rejected_Date DateTime? @db.SmallDateTime
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invFARMASIREQUEST_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invGLCOA {
+  idnya        Int     @default(autoincrement())
+  Group_Coa    String? @db.NChar(1)
+  SubGroup_Coa String? @db.NChar(2)
+  No_Account   String? @db.NChar(6)
+  Deskripsi    String? @db.NChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invGLCOABUP {
+  idnya        Int     @default(autoincrement())
+  Group_Coa    String? @db.NChar(1)
+  SubGroup_Coa String? @db.NChar(2)
+  No_Account   String? @db.NChar(6)
+  Deskripsi    String? @db.NChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invGLGROUPCOA {
+  idnya     Int     @default(autoincrement())
+  Group_Coa String? @db.NChar(1)
+  Deskripsi String? @db.NChar(30)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model InvGLProfLoss {
+  Keterangan String? @db.NChar(100)
+  Nilai1     String? @db.NChar(50)
+  Nilai2     String? @db.NChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invGLREKAP {
+  idnya       Int      @default(autoincrement())
+  Kode_Cabang String?  @db.NChar(2)
+  Divisi      String?  @db.NChar(4)
+  No_Account  String?  @db.NChar(6)
+  Awal        Decimal? @default(0, map: "DF_invGLREKAP_Awal") @db.Decimal(18, 2)
+  Debet       Decimal? @default(0, map: "DF_invGLREKAP_Debet") @db.Decimal(18, 2)
+  Kredit      Decimal? @default(0, map: "DF_invGLREKAP_Kredit") @db.Decimal(18, 2)
+  YYYYMM      String?  @db.NChar(6)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invGLSUBGROUPCOA {
+  idnya        Int     @default(autoincrement())
+  Group_Coa    String? @db.NChar(1)
+  SubGroup_Coa String? @db.NChar(2)
+  Deskripsi    String? @db.NChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invGLTEMPORER {
+  idnya          Int       @default(autoincrement())
+  Kode_Cabang    String?   @db.NChar(2)
+  Divisi         String?   @db.NChar(4)
+  Tanggal        DateTime? @db.SmallDateTime
+  No_Bukti       String?   @db.NChar(20)
+  No_Voucher     String?   @db.NChar(30)
+  No_Account     String?   @db.NChar(6)
+  Keterangan_Coa String?   @db.NChar(50)
+  Keterangan_Trx String?   @db.NChar(50)
+  Jumlah         Decimal?  @default(0, map: "DF_invGLTemporer_Jumlah") @db.Decimal(18, 2)
+  DK             String?   @default("D", map: "DF_invGLTemporer_DK") @db.NChar(1)
+  YYYYMM         String?   @db.NChar(6)
+  Flag           String?   @default("0", map: "DF_invGLTEMPORER_Flag") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invHisFARMASI {
+  idnya           Int       @default(autoincrement())
+  Kode            String    @db.NChar(20)
+  Deskripsi       String?   @db.NChar(50)
+  Deskripsi_Sales String?   @db.NChar(50)
+  Jenis           String?   @db.NChar(20)
+  Unit_PO         String?   @db.NChar(10)
+  Unit_Distribusi String?   @db.NChar(10)
+  Unit_Konsumsi   String?   @db.NChar(10)
+  Isi_Unit_PO     Decimal?  @default(0, map: "DF_invHisFARMASI_Isi_Unit_PO") @db.Decimal(18, 0)
+  Isi_Unit        Decimal?  @default(1, map: "DF_invHisFARMASI_Isi_Unit") @db.Decimal(18, 0)
+  Katagori        String?   @default("", map: "DF_invHisFARMASI_Katagori") @db.NChar(10)
+  Harga_Beli      Decimal?  @db.Decimal(18, 0)
+  Harga_Jual      Decimal?  @default(0, map: "DF_invHisFARMASI_Harga_Jual") @db.Decimal(18, 0)
+  Harga_Jual_A    Decimal?  @default(0, map: "DF_invHisFARMASI_Harga_Jual_A") @db.Decimal(18, 0)
+  Harga_Jual_B    Decimal?  @default(0, map: "DF_invHisFARMASI_Harga_Jual_B") @db.Decimal(18, 0)
+  Harga_Jual_C    Decimal?  @default(0, map: "DF_invHisFARMASI_Harga_Jual_C") @db.Decimal(18, 0)
+  Harga_Jual_D    Decimal?  @default(0, map: "DF_invHisFARMASI_Harga_Jual_D") @db.Decimal(18, 0)
+  Diskon          Decimal?  @default(0, map: "DF_invHisFARMASI_Diskon") @db.Decimal(18, 2)
+  Keterangan      String?   @db.NChar(4)
+  Kode_Cabang     String?   @db.NChar(2)
+  User_ID         String?   @db.NChar(10)
+  Tgl_Input       DateTime? @db.SmallDateTime
+  Updated         String?   @db.NChar(1)
+  Send_HO         String?   @default("N", map: "DF_invHisFARMASI_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invHisPAKET {
+  idnya       Int       @default(autoincrement())
+  No_Paket    String?   @default("", map: "DF_invHisPAKET_No_Paket") @db.NChar(13)
+  Kode        String?   @default("", map: "DF_invHisPAKET_Kode") @db.NChar(13)
+  Deskripsi   String?   @default("", map: "DF_invHisPAKET_Deskripsi") @db.NChar(50)
+  Unit        String?   @default("", map: "DF_invHisPAKET_Unit") @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invHisPAKET_Harga_Beli") @db.Decimal(18, 0)
+  Harga_Jual  Decimal?  @default(0, map: "DF_invHisPAKET_Harga_Beli1") @db.Decimal(18, 0)
+  Qty         Decimal?  @default(0, map: "DF_invHisPAKET_Qty") @db.Decimal(18, 0)
+  Keterangan  String?   @db.NChar(4)
+  Kode_Cabang String?   @default("LC", map: "DF_invHisPAKET_Kode_Cabang") @db.NChar(2)
+  User_ID     String?   @default("77777", map: "DF_invHisPAKET_User_ID") @db.NChar(10)
+  Tgl_Input   DateTime? @default(now(), map: "DF_invHisPAKET_Tgl_Input") @db.SmallDateTime
+  Updated     String?   @default("N", map: "DF_invHisPAKET_Updated") @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invHisPAKET_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invHOREQUEST {
+  idnya         Int       @default(autoincrement())
+  No_PR         String?   @db.NChar(13)
+  No_PO         String?   @db.NChar(13)
+  Tanggal       DateTime? @db.SmallDateTime
+  Departemen    String?   @db.NChar(5)
+  Nilai         Decimal?  @default(0, map: "DF_invHOREQUEST_Nilai") @db.Decimal(18, 0)
+  Jenis         String?   @db.NChar(20)
+  Atk_Asset     String?   @db.NChar(10)
+  Keterangan    String?   @default("", map: "DF_invHOREQUEST_Keterangan") @db.NChar(100)
+  Status        String?   @db.NChar(10)
+  Approved_By   String?   @db.NChar(10)
+  Approved_Date DateTime? @db.SmallDateTime
+  Rejected_By   String?   @db.NChar(10)
+  Rejected_Date DateTime? @db.SmallDateTime
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invHOREQUEST_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invIDENTITAS {
+  idnya       Int     @default(autoincrement())
+  Kode_Cabang String? @db.NChar(2)
+  Nama_Cabang String? @db.NChar(50)
+  Alamat      String? @db.NChar(100)
+  Alamat_2    String? @db.NChar(100)
+  Kota        String? @db.NChar(30)
+  Telepon     String? @db.NChar(20)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invINVOICE {
+  idnya            Int       @default(autoincrement())
+  No_Invoice       String?   @db.NChar(13)
+  Tanggal          DateTime? @db.SmallDateTime
+  Tgl_JT           DateTime? @db.SmallDateTime
+  No_SP            String?   @db.NChar(13)
+  Kode_Pelanggan   String?   @default("", map: "DF_invINVOICE_Kode_Pelanggan") @db.NChar(13)
+  Qty              Decimal?  @default(0, map: "DF_invINVOICE_Qty") @db.Decimal(18, 0)
+  Total_Sales      Decimal?  @default(0, map: "DF_invINVOICE_Total_Sales") @db.Decimal(18, 0)
+  Total_DiskonItem Decimal?  @default(0, map: "DF_invINVOICE_Total_DiskonItem") @db.Decimal(18, 0)
+  Diskon_Tambahan  Decimal?  @default(0, map: "DF_invINVOICE_Diskon_Tambahan") @db.Decimal(18, 0)
+  Total_NetBlmPPN  Decimal?  @default(0, map: "DF_invINVOICE_Total_NetBlmPPN") @db.Decimal(18, 0)
+  Total_PPN        Decimal?  @default(0, map: "DF_invINVOICE_Total_PPN") @db.Decimal(18, 0)
+  Total_NetSdhPPN  Decimal?  @default(0, map: "DF_invINVOICE_Total_NetBlmPPN1") @db.Decimal(18, 0)
+  Uang_Muka        Decimal?  @default(0, map: "DF_invINVOICE_Uang_Muka") @db.Decimal(18, 0)
+  Grand_Total      Decimal?  @default(0, map: "DF_invINVOICE_Grand_Total") @db.Decimal(18, 0)
+  IsPPN            String?   @default("N", map: "DF_invINVOICE_IsPPN") @db.NChar(1)
+  Approved_By      String?   @default("", map: "DF_invINVOICE_Approved_By") @db.NChar(10)
+  Approved_Date    DateTime? @db.SmallDateTime
+  Status           String?   @default("Process", map: "DF_invINVOICE_Status") @db.NChar(10)
+  Send_CAB         String?   @default("N", map: "DF_invINVOICE_Send_CAB") @db.NChar(1)
+  RECIEVED_BY      String    @default("", map: "DF_invINVOICE_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang      String?   @db.NChar(2)
+  User_ID          String?   @db.NChar(10)
+  Tgl_Input        DateTime? @db.SmallDateTime
+  Updated          String?   @db.NChar(1)
+  Send_HO          String?   @default("N", map: "DF_invINVOICE_Send_HO") @db.NChar(1)
+  Send_CAB_Date    DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invINVOICEPRO {
+  idnya            Int       @default(autoincrement())
+  No_Invoice       String?   @db.NChar(13)
+  Tanggal          DateTime? @db.SmallDateTime
+  Tgl_JT           DateTime? @db.SmallDateTime
+  No_SP            String?   @db.NChar(13)
+  Kode_Pelanggan   String?   @default("", map: "DF_invINVOICEPRO_Kode_Pelanggan") @db.NChar(13)
+  Qty              Decimal?  @default(0, map: "DF_invINVOICEPRO_Qty") @db.Decimal(18, 0)
+  Total_Sales      Decimal?  @default(0, map: "DF_invINVOICEPRO_Total_Sales") @db.Decimal(18, 0)
+  Total_DiskonItem Decimal?  @default(0, map: "DF_invINVOICEPRO_Total_DiskonItem") @db.Decimal(18, 0)
+  Diskon_Tambahan  Decimal?  @default(0, map: "DF_invINVOICEPRO_Diskon_Tambahan") @db.Decimal(18, 0)
+  Total_NetBlmPPN  Decimal?  @default(0, map: "DF_invINVOICEPRO_Total_NetBlmPPN") @db.Decimal(18, 0)
+  Total_PPN        Decimal?  @default(0, map: "DF_invINVOICEPRO_Total_PPN") @db.Decimal(18, 0)
+  Total_NetSdhPPN  Decimal?  @default(0, map: "DF_invINVOICEPRO_Total_NetSdhPPN") @db.Decimal(18, 0)
+  Uang_Muka        Decimal?  @default(0, map: "DF_invINVOICEPRO_Uang_Muka") @db.Decimal(18, 0)
+  Grand_Total      Decimal?  @default(0, map: "DF_invINVOICEPRO_Grand_Total") @db.Decimal(18, 0)
+  IsPPN            String?   @default("N", map: "DF_invINVOICEPRO_IsPPN") @db.NChar(1)
+  Approved_By      String?   @default("", map: "DF_invINVOICEPRO_Approved_By") @db.NChar(10)
+  Approved_Date    DateTime? @db.SmallDateTime
+  Status           String?   @default("Process", map: "DF_invINVOICEPRO_Status") @db.NChar(10)
+  Send_CAB         String?   @default("N", map: "DF_invINVOICEPRO_Send_CAB") @db.NChar(1)
+  RECIEVED_BY      String    @default("", map: "DF_invINVOICEPRO_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang      String?   @db.NChar(2)
+  User_ID          String?   @db.NChar(10)
+  Tgl_Input        DateTime? @db.SmallDateTime
+  Updated          String?   @db.NChar(1)
+  Send_HO          String?   @default("N", map: "DF_invINVOICEPRO_Send_HO") @db.NChar(1)
+  Send_CAB_Date    DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMADJUSTMENT {
+  idnya         Int       @default(autoincrement())
+  No_Adjustment String?   @db.NChar(13)
+  Kode          String?   @db.NChar(13)
+  Deskripsi     String?   @db.NChar(50)
+  Unit          String?   @db.NChar(10)
+  Harga_Beli    Decimal?  @default(0, map: "DF_invADJUSTMENTITEM_Harga_Beli") @db.Decimal(18, 0)
+  Harga_Jual    Decimal?  @default(0, map: "DF_invADJUSTMENTITEM_Harga_Jual") @db.Decimal(18, 0)
+  Qty           Decimal?  @default(0, map: "DF_invADJUSTMENTITEM_Qty") @db.Decimal(18, 0)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invADJUSTMENTITEM_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMARFL {
+  idnya           Int       @default(autoincrement())
+  Kode_Cabang     String?   @db.NChar(10)
+  Tanggal         DateTime? @db.SmallDateTime
+  Jenis_Transaksi String?   @default("", map: "DF_invITEMARFL_Jenis_Transaksi") @db.NChar(50)
+  Jumlah          Decimal?  @default(0, map: "DF_invITEMARFL_Jumlah") @db.Decimal(18, 2)
+  Tgl_JT          DateTime? @db.SmallDateTime
+  Biaya_Adm       Decimal?  @default(0, map: "DF_invITEMARFL_Biaya_Adm") @db.Decimal(18, 2)
+  Realisasi       Decimal?  @default(0, map: "DF_invITEMARFL_Realisasi") @db.Decimal(18, 2)
+  Tgl_Realisasi   DateTime? @db.SmallDateTime
+  Sisa            Decimal?  @default(0, map: "DF_invITEMARFL_Sisa") @db.Decimal(18, 2)
+  No_Account      String?   @default("", map: "DF_invITEMARFL_No_Account") @db.NChar(6)
+  No_BuktiGL      String?   @default("", map: "DF_invITEMARFL_No_BuktiGL") @db.NChar(20)
+  No_Voucher      String?   @default("", map: "DF_invITEMARFL_No_Voucher") @db.NChar(30)
+  Periode_GL      String?   @default("", map: "DF_invITEMARFL_Periode_GL") @db.NChar(6)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMBAKURACIK {
+  idnya       Int       @default(autoincrement())
+  No_Bukti    String?   @db.NChar(13)
+  Kode        String?   @db.NChar(20)
+  Deskripsi   String?   @db.NChar(50)
+  Unit        String?   @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_Table_1_Total_Cost_Baku") @db.Decimal(18, 0)
+  Qty         Decimal?  @default(0, map: "DF_Table_1_Total_Cost_Obat") @db.Decimal(18, 2)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMBAKURACIK_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMBARANGMASUK {
+  idnya         Int       @default(autoincrement())
+  No_Bukti      String?   @db.NChar(13)
+  Kode          String?   @db.NChar(20)
+  Deskripsi     String?   @db.NChar(50)
+  Unit_Konsumsi String?   @db.NChar(10)
+  Harga_Beli    Decimal?  @default(0, map: "DF_invITEMBARANGMASUK_Harga_Beli") @db.Decimal(18, 0)
+  Harga_Jual    Decimal?  @default(0, map: "DF_invITEMBARANGMASUK_Harga_Jual") @db.Decimal(18, 0)
+  Qty           Decimal?  @default(0, map: "DF_invITEMBARANGMASUK_Qty") @db.Decimal(18, 0)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invITEMBARANGMASUK_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invITEMBARANGMASUK_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMBHDRACIK {
+  idnya       Int       @default(autoincrement())
+  No_Bukti    String?   @default("", map: "DF_invITEMBHDRACIK_No_Bukti") @db.NChar(13)
+  Kode        String?   @default("", map: "DF_invITEMBHDRACIK_Kode") @db.NChar(20)
+  Deskripsi   String?   @default("", map: "DF_invITEMBHDRACIK_Deskripsi") @db.NChar(50)
+  Unit        String?   @default("", map: "DF_invITEMBHDRACIK_Unit") @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMBHDRACIK_Harga_Beli") @db.Decimal(18, 0)
+  Qty         Decimal?  @default(0, map: "DF_invITEMBHDRACIK_Qty") @db.Decimal(18, 0)
+  Kode_Cabang String?   @default("HO", map: "DF_invITEMBHDRACIK_Kode_Cabang") @db.NChar(2)
+  User_ID     String?   @default("77777", map: "DF_invITEMBHDRACIK_User_ID") @db.NChar(10)
+  Tgl_Input   DateTime? @default(now(), map: "DF_invITEMBHDRACIK_Tgl_Input") @db.SmallDateTime
+  Updated     String?   @default("N", map: "DF_invITEMBHDRACIK_Updated") @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMBHDRACIK_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMDISTIN {
+  idnya         Int       @default(autoincrement())
+  No_Bukti      String?   @default("", map: "DF_invITEMDISTIN_No_Bukti") @db.NChar(13)
+  Kode          String?   @default("", map: "DF_invITEMDISTIN_Kode") @db.NChar(20)
+  Deskripsi     String?   @default("", map: "DF_invITEMDISTIN_Deskripsi") @db.NChar(50)
+  Unit_Konsumsi String?   @default("", map: "DF_invITEMDISTIN_Unit_Konsumsi") @db.NChar(10)
+  Harga_Beli    Decimal?  @default(0, map: "DF_invITEMDISTIN_Harga_Beli") @db.Decimal(18, 0)
+  Harga_Jual    Decimal?  @default(0, map: "DF_invITEMDISTIN_Harga_Jual") @db.Decimal(18, 0)
+  Qty           Decimal?  @default(0, map: "DF_invITEMDISTIN_Qty") @db.Decimal(18, 0)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_invITEMDISTIN_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invITEMDISTIN_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_invITEMDISTIN_Updated") @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invITEMDISTIN_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invITEMDISTIN_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @default(now(), map: "DF_invITEMDISTIN_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMDISTOUT {
+  idnya         Int       @default(autoincrement())
+  No_Bukti      String?   @default("", map: "DF_invITEMDISTOUT_No_Bukti") @db.NChar(13)
+  Kode          String?   @default("", map: "DF_invITEMDISTOUT_Kode") @db.NChar(20)
+  Deskripsi     String?   @default("", map: "DF_invITEMDISTOUT_Deskripsi") @db.NChar(50)
+  Unit_Konsumsi String?   @default("", map: "DF_invITEMDISTOUT_Unit_Konsumsi") @db.NChar(10)
+  Harga_Beli    Decimal?  @default(0, map: "DF_invITEMDISTOUT_Harga_Beli") @db.Decimal(18, 0)
+  Harga_Jual    Decimal?  @default(0, map: "DF_invITEMDISTOUT_Harga_Jual") @db.Decimal(18, 0)
+  Qty           Decimal?  @default(0, map: "DF_invITEMDISTOUT_Qty") @db.Decimal(18, 0)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_invITEMDISTOUT_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invITEMDISTOUT_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_invITEMDISTOUT_Updated") @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invITEMDISTOUT_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invITEMDISTOUT_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @default(now(), map: "DF_invITEMDISTOUT_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMFARMASIREQUEST {
+  idnya       Int       @default(autoincrement())
+  No_PR       String?   @db.NChar(13)
+  Kode        String?   @db.NChar(13)
+  Deskripsi   String?   @db.NChar(50)
+  Kode_Stok   String?   @db.NChar(13)
+  Dosis       String?   @db.NChar(30)
+  Merk_Pabrik String?   @db.NChar(50)
+  Unit        String?   @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMFARMASIREQUEST_Harga_Beli") @db.Decimal(18, 0)
+  Qty_Req     Decimal?  @default(0, map: "DF_invITEMFARMASIREQUEST_Qty_Req") @db.Decimal(18, 0)
+  Qty_PO      Decimal?  @default(0, map: "DF_invITEMFARMASIREQUEST_Qty_PO") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMFARMASIREQUEST_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMHOREQUEST {
+  idnya       Int       @default(autoincrement())
+  No_PR       String?   @db.NChar(13)
+  Kode        String?   @db.NChar(13)
+  Deskripsi   String?   @db.NChar(50)
+  Unit        String?   @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMHOREQUEST_Harga_Beli") @db.Decimal(18, 0)
+  Qty_Req     Decimal?  @default(0, map: "DF_invITEMHOREQUEST_Qty_Req") @db.Decimal(18, 0)
+  Qty_PO      Decimal?  @default(0, map: "DF_invITEMHOREQUEST_Qty_PO") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMHOREQUEST_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMINVOICE {
+  idnya                    Int       @default(autoincrement())
+  No_Invoice               String?   @db.NChar(13)
+  No_SP                    String?   @db.NChar(13)
+  No_SJ                    String?   @db.NChar(13)
+  Kode                     String?   @db.NChar(13)
+  Deskripsi                String?   @db.NChar(50)
+  Unit                     String?   @db.NChar(10)
+  Harga_Beli               Decimal?  @default(0, map: "DF_invITEMINVOICE_Harga_Beli") @db.Decimal(18, 0)
+  Harga_Jual               Decimal?  @default(0, map: "DF_invITEMINVOICE_Harga_Jual") @db.Decimal(18, 0)
+  Diskon_Item              Decimal?  @default(0, map: "DF_invITEMINVOICE_Diskon_Item") @db.Decimal(18, 0)
+  Harga_JualNET            Decimal?  @default(0, map: "DF_invITEMINVOICE_Harga_JualNET") @db.Decimal(18, 0)
+  Diskon_TambahanPersen    Decimal?  @default(0, map: "DF_invITEMINVOICE_Diskon_TambahanPersen") @db.Decimal(18, 0)
+  Diskon_TambahanNilai     Decimal?  @default(0, map: "DF_invITEMINVOICE_Diskon_TambahanNilai") @db.Decimal(18, 0)
+  Qty                      Decimal?  @default(0, map: "DF_Table_1_Qty_SJ") @db.Decimal(18, 0)
+  Total_Diskon             Decimal?  @default(0, map: "DF_invITEMINVOICE_Total_Diskon") @db.Decimal(18, 0)
+  TotalDiskonTambahan_Item Decimal?  @default(0, map: "DF_invITEMINVOICE_TotalDiskonTambahan_Item") @db.Decimal(18, 0)
+  Total_Net                Decimal?  @default(0, map: "DF_invITEMINVOICE_Total_Diskon1") @db.Decimal(18, 0)
+  RECIEVED_BY              String    @default("", map: "DF_invITEMINVOICE_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang              String?   @db.NChar(2)
+  User_ID                  String?   @db.NChar(10)
+  Tgl_Input                DateTime? @db.SmallDateTime
+  Updated                  String?   @default("Y", map: "DF_invITEMINVOICE_Updated") @db.NChar(1)
+  Send_HO                  String?   @default("N", map: "DF_invITEMINVOICE_Send_HO") @db.NChar(1)
+  Send_Cab                 String?   @default("N", map: "DF_invITEMINVOICE_Send_Cab") @db.NChar(1)
+  Send_CAB_Date            DateTime? @default(now(), map: "DF_invITEMINVOICE_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMINVOICEPRO {
+  idnya                    Int       @default(autoincrement())
+  No_Invoice               String?   @db.NChar(13)
+  No_SP                    String?   @db.NChar(13)
+  No_SJ                    String?   @db.NChar(13)
+  Kode                     String?   @db.NChar(13)
+  Deskripsi                String?   @db.NChar(50)
+  Unit                     String?   @db.NChar(10)
+  Harga_Beli               Decimal?  @default(0, map: "DF_invITEMINVOICEPRO_Harga_Beli") @db.Decimal(18, 0)
+  Harga_Jual               Decimal?  @default(0, map: "DF_invITEMINVOICEPRO_Harga_Jual") @db.Decimal(18, 0)
+  Diskon_Item              Decimal?  @default(0, map: "DF_invITEMINVOICEPRO_Diskon_Item") @db.Decimal(18, 0)
+  Harga_JualNET            Decimal?  @default(0, map: "DF_invITEMINVOICEPRO_Harga_JualNET") @db.Decimal(18, 0)
+  Diskon_TambahanPersen    Decimal?  @default(0, map: "DF_invITEMINVOICEPRO_Diskon_TambahanPersen") @db.Decimal(18, 0)
+  Diskon_TambahanNilai     Decimal?  @default(0, map: "DF_invITEMINVOICEPRO_Diskon_TambahanNilai") @db.Decimal(18, 0)
+  Qty                      Decimal?  @default(0, map: "DF_invITEMINVOICEPRO_Qty") @db.Decimal(18, 0)
+  Total_Diskon             Decimal?  @default(0, map: "DF_invITEMINVOICEPRO_Total_Diskon") @db.Decimal(18, 0)
+  TotalDiskonTambahan_Item Decimal?  @default(0, map: "DF_invITEMINVOICEPRO_TotalDiskonTambahan_Item") @db.Decimal(18, 0)
+  Total_Net                Decimal?  @default(0, map: "DF_invITEMINVOICEPRO_Total_Diskon1") @db.Decimal(18, 0)
+  RECIEVED_BY              String    @default("", map: "DF_invITEMINVOICEPRO_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang              String?   @db.NChar(2)
+  User_ID                  String?   @db.NChar(10)
+  Tgl_Input                DateTime? @db.SmallDateTime
+  Updated                  String?   @default("Y", map: "DF_invITEMINVOICEPRO_Updated") @db.NChar(1)
+  Send_HO                  String?   @default("N", map: "DF_invITEMINVOICEPRO_Send_HO") @db.NChar(1)
+  Send_Cab                 String?   @default("N", map: "DF_invITEMINVOICEPRO_Send_Cab") @db.NChar(1)
+  Send_CAB_Date            DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMMEALRACIK {
+  idnya       Int       @default(autoincrement())
+  No_Bukti    String?   @db.NChar(13)
+  Kode        String?   @db.NChar(20)
+  Deskripsi   String?   @db.NChar(50)
+  Unit        String?   @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMMEALRACIK_Harga_Beli") @db.Decimal(18, 0)
+  Qty         Decimal?  @default(0, map: "DF_invITEMMEALRACIK_Qty") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMMEALRACIK_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMMUTASIASSET {
+  idnya         Int       @default(autoincrement())
+  No_Mutasi     String?   @db.NChar(13)
+  Kode          String?   @db.NChar(13)
+  Kode_Asset    String?   @db.NChar(13)
+  Deskripsi     String?   @db.NChar(50)
+  Unit          String?   @db.NChar(10)
+  Qty_Kirim     Decimal?  @default(0, map: "DF_invITEMMUTASIASSET_Qty_Kirim") @db.Decimal(18, 0)
+  Qty_Terima    Decimal?  @default(0, map: "DF_invITEMMUTASIASSET_Qty_Terima") @db.Decimal(18, 0)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_invITEMMUTASIASSET_Updated") @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invITEMMUTASIASSET_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invITEMMUTASIASSET_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMOBATRACIK {
+  idnya       Int       @default(autoincrement())
+  No_Bukti    String?   @db.NChar(13)
+  Kode        String?   @db.NChar(20)
+  Deskripsi   String?   @db.NChar(50)
+  Unit        String?   @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMOBATRACIK_Harga_Beli") @db.Decimal(18, 0)
+  Qty         Decimal?  @default(0, map: "DF_invITEMOBATRACIK_Qty") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMOBATRACIK_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMOTHERRACIK {
+  idnya       Int       @default(autoincrement())
+  No_Bukti    String?   @default("", map: "DF_invITEMOTHERRACIK_No_Bukti") @db.NChar(13)
+  Kode        String?   @default("", map: "DF_invITEMOTHERRACIK_Kode") @db.NChar(20)
+  Deskripsi   String?   @default("", map: "DF_invITEMOTHERRACIK_Deskripsi") @db.NChar(50)
+  Unit        String?   @default("", map: "DF_invITEMOTHERRACIK_Unit") @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMOTHERRACIK_Harga_Beli") @db.Decimal(18, 0)
+  Qty         Decimal?  @default(0, map: "DF_invITEMOTHERRACIK_Qty") @db.Decimal(18, 0)
+  Kode_Cabang String?   @default("HO", map: "DF_invITEMOTHERRACIK_Kode_Cabang") @db.NChar(2)
+  User_ID     String?   @default("77777", map: "DF_invITEMOTHERRACIK_User_ID") @db.NChar(10)
+  Tgl_Input   DateTime? @default(now(), map: "DF_invITEMOTHERRACIK_Tgl_Input") @db.SmallDateTime
+  Updated     String?   @default("N", map: "DF_invITEMOTHERRACIK_Updated") @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMOTHERRACIK_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMPELUNASAN {
+  idnya       Int       @default(autoincrement())
+  No_Bukti    String?   @db.NChar(13)
+  No_PO       String?   @db.NChar(13)
+  No_GR       String?   @db.NChar(13)
+  Supplier    String?   @db.NChar(13)
+  Cabang      String?   @db.NChar(2)
+  Divisi      String?   @db.NChar(4)
+  Keterangan  String?   @db.NChar(50)
+  Saldo_PO    Decimal?  @default(0, map: "DF_invITEMPELUNASAN_Nilai") @db.Decimal(18, 2)
+  Bayar       Decimal?  @default(0, map: "DF_invITEMPELUNASAN_Bayar") @db.Decimal(18, 2)
+  Uang_Muka   Decimal?  @default(0, map: "DF_invITEMPELUNASAN_Bayar1") @db.Decimal(18, 2)
+  Sisa        Decimal?  @default(0, map: "DF_invITEMPELUNASAN_Sisa") @db.Decimal(18, 2)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMPELUNASAN_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMPERMINTAANDANA {
+  idnya       Int       @default(autoincrement())
+  No_PR       String?   @db.NChar(13)
+  Deskripsi   String?   @db.NChar(100)
+  Unit        String?   @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMPERMINTAANDANA_Harga_Beli") @db.Decimal(18, 0)
+  Qty         Decimal?  @default(0, map: "DF_invITEMPERMINTAANDANA_Qty") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMPERMINTAANDANA_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMPURCORDER {
+  idnya       Int       @default(autoincrement())
+  No_PO       String?   @db.NChar(13)
+  Kode        String?   @db.NChar(13)
+  Deskripsi   String?   @db.NChar(50)
+  Unit        String?   @db.NChar(10)
+  Isi_Unit_PO Decimal?  @default(0, map: "DF_invITEMPURCORDER_Isi_Unit_PO") @db.Decimal(18, 0)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMPURCORDER_Harga_Beli") @db.Decimal(18, 0)
+  Diskon      Decimal?  @default(0, map: "DF_invITEMPURCORDER_Diskon") @db.Decimal(18, 0)
+  Qty_PO      Decimal?  @default(0, map: "DF_invITEMPURCORDER_Qty_PO") @db.Decimal(18, 0)
+  Net_Total   Decimal?  @default(0, map: "DF_invITEMPURCORDER_Net_Total") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMPURCORDER_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMPURCREALISASI {
+  idnya       Int       @default(autoincrement())
+  No_PO       String?   @db.NChar(13)
+  No_Faktur   String?   @default("", map: "DF_invITEMPURCREALISASI_No_Faktur") @db.NChar(30)
+  No_GR       String?   @db.NChar(13)
+  Kode        String?   @db.NChar(13)
+  Deskripsi   String?   @db.NChar(50)
+  Unit        String?   @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMPURCREALISASI_Harga_Beli") @db.Decimal(18, 0)
+  Diskon      Decimal?  @default(0, map: "DF_invITEMPURCREALISASI_Diskon") @db.Decimal(18, 0)
+  Qty_PO      Decimal?  @default(0, map: "DF_invITEMPURCREALISASI_Qty_PO") @db.Decimal(18, 0)
+  Net_Total   Decimal?  @default(0, map: "DF_invITEMPURCREALISASI_Net_Total") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMPURCREALISASI_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMPURCREALISASIFARMASI {
+  idnya       Int       @default(autoincrement())
+  No_PO       String?   @db.NChar(13)
+  No_PR       String?   @db.NChar(13)
+  No_GR       String?   @db.NChar(13)
+  Kode        String?   @db.NChar(13)
+  Deskripsi   String?   @db.NChar(50)
+  Kode_Stok   String?   @db.NChar(13)
+  Dosis       String?   @db.NChar(30)
+  Merk_Pabrik String?   @db.NChar(50)
+  Unit        String?   @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMPURCREALISASIFARMASI_Harga_Beli") @db.Decimal(18, 0)
+  Qty_Req     Decimal?  @default(0, map: "DF_invITEMPURCREALISASIFARMASI_Qty_Req") @db.Decimal(18, 0)
+  Qty_PO      Decimal?  @default(0, map: "DF_invITEMPURCREALISASIFARMASI_Qty_PO") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMPURCREALISASIFARMASI_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMPURCREQUEST {
+  idnya       Int       @default(autoincrement())
+  No_PR       String?   @db.NChar(13)
+  Kode        String?   @db.NChar(13)
+  Deskripsi   String?   @db.NChar(50)
+  Unit        String?   @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMPURCREQUEST_Harga_Beli") @db.Decimal(18, 0)
+  Qty_Req     Decimal?  @default(0, map: "DF_invITEMPURCREQUEST_Qty_Req") @db.Decimal(18, 0)
+  Qty_PO      Decimal?  @default(0, map: "DF_invITEMPURCREQUEST_Qty_PO") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMPURCREQUEST_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMPURCTANPAPO {
+  idnya       Int       @default(autoincrement())
+  No_PR       String?   @db.NChar(13)
+  Deskripsi   String?   @db.NChar(100)
+  Unit        String?   @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMPURCTANPAPO_Harga_Beli") @db.Decimal(18, 0)
+  Qty         Decimal?  @default(0, map: "DF_Table_1_Qty_Req") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMPURCTANPAPO_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMREFUND {
+  idnya         Int       @default(autoincrement())
+  No_Refund     String?   @default("", map: "DF_invITEMREFUND_No_Refund") @db.NChar(13)
+  No_Permintaan String?   @db.NChar(13)
+  Customer      String?   @db.NChar(10)
+  Kode          String?   @db.NChar(13)
+  Deskripsi     String?   @db.NChar(50)
+  Unit          String?   @db.NChar(10)
+  Unit_Konsumsi String?   @db.NChar(10)
+  Harga_Beli    Decimal?  @default(0, map: "DF_invITEMREFUND_Harga_Beli") @db.Decimal(18, 0)
+  Harga_Jual    Decimal?  @default(0, map: "DF_invITEMREFUND_Harga_Jual") @db.Decimal(18, 0)
+  Qty           Decimal?  @default(0, map: "DF_invITEMREFUND_Qty") @db.Decimal(18, 0)
+  Qty_Kirim     Decimal?  @default(0, map: "DF_invITEMREFUND_Qty_Kirim") @db.Decimal(18, 0)
+  Total_Diskon  Decimal?  @default(0, map: "DF_invITEMREFUND_Total_Diskon") @db.Decimal(18, 0)
+  NoBatch       String?   @default("", map: "DF_invITEMREFUND_NoBatch") @db.NChar(20)
+  ExpDate       String?   @default("", map: "DF_invITEMREFUND_ExpDate") @db.NChar(8)
+  Keterangan    String?   @db.Text
+  RECIEVED_BY   String    @default("", map: "DF_invITEMREFUND_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @default("Y", map: "DF_invITEMREFUND_Updated") @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invITEMREFUND_Send_HO") @db.NChar(1)
+  Send_Cab      String?   @default("N", map: "DF_invITEMREFUND_Send_Cab") @db.NChar(1)
+  Send_CAB_Date DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMREQGUDANG {
+  idnya         Int       @default(autoincrement())
+  No_Bukti      String?   @default("", map: "DF_invITEMREQGUDANG_No_Bukti") @db.NChar(13)
+  Kode          String?   @default("", map: "DF_invITEMREQGUDANG_Kode") @db.NChar(20)
+  Deskripsi     String?   @default("", map: "DF_invITEMREQGUDANG_Deskripsi") @db.NChar(50)
+  Unit_Konsumsi String?   @default("", map: "DF_invITEMREQGUDANG_Unit_Konsumsi") @db.NChar(10)
+  Harga_Beli    Decimal?  @default(0, map: "DF_invITEMREQGUDANG_Harga_Beli") @db.Decimal(18, 0)
+  Harga_Jual    Decimal?  @default(0, map: "DF_invITEMREQGUDANG_Harga_Jual") @db.Decimal(18, 0)
+  Qty           Decimal?  @default(0, map: "DF_invITEMREQGUDANG_Qty") @db.Decimal(18, 0)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_invITEMREQGUDANG_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invITEMREQGUDANG_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_invITEMREQGUDANG_Updated") @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invITEMREQGUDANG_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invITEMREQGUDANG_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @default(now(), map: "DF_invITEMREQGUDANG_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMREQUESTCAB {
+  idnya         Int       @default(autoincrement())
+  No_Permintaan String?   @db.NChar(13)
+  Customer      String?   @db.NChar(10)
+  Kode          String?   @db.NChar(13)
+  Deskripsi     String?   @db.NChar(50)
+  Unit          String?   @db.NChar(10)
+  Unit_Konsumsi String?   @db.NChar(10)
+  Harga_Beli    Decimal?  @default(0, map: "DF_Table_1_Qty") @db.Decimal(18, 0)
+  Harga_Jual    Decimal?  @default(0, map: "DF_invITEMREQUESTCAB_Harga_Jual") @db.Decimal(18, 0)
+  Qty           Decimal?  @default(0, map: "DF_invITEMREQUESTCAB_Qty") @db.Decimal(18, 0)
+  Qty_Kirim     Decimal?  @default(0, map: "DF_invITEMREQUESTCAB_Qty_Kirim") @db.Decimal(18, 0)
+  NoBatch       String?   @default("", map: "DF_invITEMREQUESTCAB_NoBatch") @db.NChar(20)
+  ExpDate       String?   @default("", map: "DF_invITEMREQUESTCAB_ExpDate") @db.NChar(8)
+  Keterangan    String?   @db.Text
+  RECIEVED_BY   String    @default("", map: "DF_invITEMREQUESTCAB_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @default("Y", map: "DF_invITEMREQUESTCAB_Updated") @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invITEMREQUESTCAB_Send_HO") @db.NChar(1)
+  Send_Cab      String?   @default("N", map: "DF_invITEMREQUESTCAB_Send_Cab") @db.NChar(1)
+  Send_CAB_Date DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMREQUESTFARMASICAB {
+  idnya         Int       @default(autoincrement())
+  No_Permintaan String?   @db.NChar(13)
+  Cabang        String?   @db.NChar(2)
+  Kode          String?   @db.NChar(13)
+  Deskripsi     String?   @db.NChar(50)
+  Kode_Stok     String?   @db.NChar(20)
+  Dosis         String?   @db.NChar(30)
+  Merk_Pabrik   String?   @db.NChar(50)
+  Qty           Decimal?  @default(0, map: "DF_invITEMREQUESTFARMASICAB_Qty") @db.Decimal(18, 0)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @default("Y", map: "DF_invITEMREQUESTFARMASICAB_Updated") @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invITEMREQUESTFARMASICAB_Send_HO") @db.NChar(1)
+  Send_Cab      String?   @default("N", map: "DF_invITEMREQUESTFARMASICAB_Send_Cab") @db.NChar(1)
+  Send_CAB_Date DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMRETUR {
+  idnya       Int       @default(autoincrement())
+  No_Retur    String?   @db.NChar(13)
+  Kode        String?   @db.NChar(13)
+  Deskripsi   String?   @db.NChar(50)
+  Unit        String?   @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invITEMRETUR_Harga_Beli") @db.Decimal(18, 0)
+  Qty         Decimal?  @default(0, map: "DF_invITEMRETUR_Qty") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMRETUR_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMSALES {
+  idnya         Int       @default(autoincrement())
+  No_Permintaan String?   @db.NChar(13)
+  Customer      String?   @db.NChar(10)
+  Kode          String?   @db.NChar(13)
+  Deskripsi     String?   @db.NChar(50)
+  Unit          String?   @db.NChar(10)
+  Unit_Konsumsi String?   @db.NChar(10)
+  Harga_Beli    Decimal?  @default(0, map: "DF_invITEMSALES_Harga_Beli") @db.Decimal(18, 0)
+  Harga_Jual    Decimal?  @default(0, map: "DF_invITEMSALES_Harga_Jual") @db.Decimal(18, 0)
+  Qty           Decimal?  @default(0, map: "DF_invITEMSALES_Qty") @db.Decimal(18, 0)
+  Qty_Kirim     Decimal?  @default(0, map: "DF_invITEMSALES_Qty_Kirim") @db.Decimal(18, 0)
+  Total_Diskon  Decimal?  @default(0, map: "DF_invITEMSALES_Total_Diskon") @db.Decimal(18, 0)
+  NoBatch       String?   @default("", map: "DF_invITEMSALES_NoBatch") @db.NChar(20)
+  ExpDate       String?   @default("", map: "DF_invITEMSALES_ExpDate") @db.NChar(8)
+  Keterangan    String?   @db.Text
+  RECIEVED_BY   String    @default("", map: "DF_invITEMSALES_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @default("Y", map: "DF_invITEMSALES_Updated") @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invITEMSALES_Send_HO") @db.NChar(1)
+  Send_Cab      String?   @default("N", map: "DF_invITEMSALES_Send_Cab") @db.NChar(1)
+  Send_CAB_Date DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMSERVICEREQUEST {
+  idnya       Int       @default(autoincrement())
+  No_PO       String?   @db.NChar(13)
+  Deskripsi   String?   @db.NChar(200)
+  Harga       Decimal?  @default(0, map: "DF_invITEMSERVICEREQUEST_Harga") @db.Decimal(18, 0)
+  Qty_PO      Decimal?  @default(0, map: "DF_invITEMSERVICEREQUEST_Qty_PO") @db.Decimal(18, 0)
+  Net_Total   Decimal?  @default(0, map: "DF_invITEMSERVICEREQUEST_Net_Total") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMSERVICEREQUEST_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMSJ {
+  idnya                    Int       @default(autoincrement())
+  No_SJ                    String?   @db.NChar(13)
+  Kode                     String?   @db.NChar(13)
+  Deskripsi                String?   @db.NChar(50)
+  Unit                     String?   @db.NChar(10)
+  Harga_Beli               Decimal?  @default(0, map: "DF_invITEMSJ_Harga_Beli_1") @db.Decimal(18, 0)
+  Harga_Jual               Decimal?  @default(0, map: "DF_invITEMSJ_Harga_Jual_1") @db.Decimal(18, 0)
+  Diskon_Item              Decimal?  @default(0, map: "DF_invITEMSJ_Diskon_Item_1") @db.Decimal(18, 0)
+  Harga_JualNET            Decimal?  @default(0, map: "DF_invITEMSJ_Harga_JualNET") @db.Decimal(18, 0)
+  Diskon_TambahanPersen    Decimal?  @default(0, map: "DF_invITEMSJ_Diskon_TambahanPersen") @db.Decimal(18, 0)
+  Diskon_TambahanNilai     Decimal?  @default(0, map: "DF_invITEMSJ_Diskon_TambahanNilai") @db.Decimal(18, 0)
+  Total_Diskon             Decimal?  @default(0, map: "DF_invITEMSJ_Total_Diskon_1") @db.Decimal(18, 0)
+  TotalDiskonTambahan_Item Decimal?  @default(0, map: "DF_invITEMSJ_Total_Diskon1") @db.Decimal(18, 0)
+  Total_Net                Decimal?  @default(0, map: "DF_invITEMSJ_Total_Diskon1_1") @db.Decimal(18, 0)
+  No_SP                    String?   @db.NChar(13)
+  Qty_SP                   Decimal?  @default(0, map: "DF_invITEMSJ_Qty") @db.Decimal(18, 0)
+  Qty_SJ                   Decimal?  @default(0, map: "DF_invITEMSJ_Qty_SP1") @db.Decimal(18, 0)
+  Keterangan               String    @default("", map: "DF_invITEMSJ_RECIEVED_BY1") @db.NChar(100)
+  RECIEVED_BY              String    @default("", map: "DF_invITEMSJ_RECIEVED_BY_1") @db.NChar(100)
+  Kode_Cabang              String?   @db.NChar(2)
+  User_ID                  String?   @db.NChar(10)
+  Tgl_Input                DateTime? @db.SmallDateTime
+  Updated                  String?   @default("Y", map: "DF_invITEMSJ_Updated_1") @db.NChar(1)
+  Send_HO                  String?   @default("N", map: "DF_invITEMSJ_Send_HO_1") @db.NChar(1)
+  Send_Cab                 String?   @default("N", map: "DF_invITEMSJ_Send_Cab_1") @db.NChar(1)
+  Send_CAB_Date            DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMSP {
+  idnya                 Int       @default(autoincrement())
+  No_SP                 String?   @db.NChar(13)
+  Kode                  String?   @db.NChar(13)
+  Deskripsi             String?   @db.NChar(50)
+  Unit                  String?   @db.NChar(10)
+  Harga_Beli            Decimal?  @default(0, map: "DF_invITEMSP_Harga_Beli") @db.Decimal(18, 0)
+  Harga_Jual            Decimal?  @default(0, map: "DF_invITEMSP_Harga_Jual") @db.Decimal(18, 0)
+  Diskon_Item           Decimal?  @default(0, map: "DF_invITEMSP_Diskon_Item") @db.Decimal(18, 0)
+  Harga_JualNET         Decimal?  @default(0, map: "DF_invITEMSP_Harga_JualNET") @db.Decimal(18, 0)
+  Qty                   Decimal?  @default(0, map: "DF_invITEMSP_Qty") @db.Decimal(18, 0)
+  Diskon_TambahanPersen Decimal?  @default(0, map: "DF_invITEMSP_Diskon_TambahanPersen") @db.Decimal(18, 0)
+  Diskon_TambahanNilai  Decimal?  @default(0, map: "DF_invITEMSP_Diskon_TambahanNilai") @db.Decimal(18, 0)
+  Total_Diskon          Decimal?  @default(0, map: "DF_invITEMSP_Total_Diskon") @db.Decimal(18, 0)
+  Total_Net             Decimal?  @default(0, map: "DF_invITEMSP_Total_Diskon1") @db.Decimal(18, 0)
+  RECIEVED_BY           String    @default("", map: "DF_invITEMSP_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang           String?   @db.NChar(2)
+  User_ID               String?   @db.NChar(10)
+  Tgl_Input             DateTime? @db.SmallDateTime
+  Updated               String?   @default("Y", map: "DF_invITEMSP_Updated") @db.NChar(1)
+  Send_HO               String?   @default("N", map: "DF_invITEMSP_Send_HO") @db.NChar(1)
+  Send_Cab              String?   @default("N", map: "DF_invITEMSP_Send_Cab") @db.NChar(1)
+  Send_CAB_Date         DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMVOUCHEROUT {
+  idnya       Int       @default(autoincrement())
+  No_Bukti    String?   @db.NChar(13)
+  No_Doc      String?   @db.NChar(13)
+  Cabang      String?   @db.NChar(2)
+  Divisi      String?   @db.NChar(4)
+  Keterangan  String?   @db.NChar(50)
+  Nilai       Decimal?  @default(0, map: "DF_Table_1_Saldo_PO") @db.Decimal(18, 2)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMVOUCHERK_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invITEMWORKORDER {
+  idnya       Int       @default(autoincrement())
+  No_PO       String?   @db.NChar(13)
+  Deskripsi   String?   @db.NChar(200)
+  Harga       Decimal?  @default(0, map: "DF_Table_1_Harga_Beli") @db.Decimal(18, 0)
+  Qty_PO      Decimal?  @default(0, map: "DF_Table_1_Qty_PO") @db.Decimal(18, 0)
+  Net_Total   Decimal?  @default(0, map: "DF_invITEMWORKORDER_Net_Total") @db.Decimal(18, 0)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invITEMWORKORDER_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invKATAGORI {
+  idnya         Int       @default(autoincrement())
+  Kode          String?   @db.NChar(2)
+  Deskripsi     String?   @db.NChar(20)
+  Aktif         String?   @default("Y", map: "DF_invKATAGORI_Aktif") @db.NChar(1)
+  RECIEVED_BY   String    @default("", map: "DF_invKATAGORI_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_invKATAGORI_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invKATAGORI_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_invKATAGORI_Updated") @db.NChar(1)
+  Send_HO       String    @default("N", map: "DF_invKATAGORI_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invKATAGORI_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @default(now(), map: "DF_invKATAGORI_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invLOKASI {
+  idnya         Int       @default(autoincrement())
+  Kode          String?   @db.NChar(2)
+  Deskripsi     String?   @db.NChar(20)
+  Aktif         String?   @default("Y", map: "DF_invLOKASI_Aktif") @db.NChar(1)
+  RECIEVED_BY   String?   @default("", map: "DF_invLOKASI_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_invLOKASI_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invLOKASI_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_invLOKASI_Updated") @db.NChar(1)
+  Send_HO       String    @default("N", map: "DF_invLOKASI_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invLOKASI_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @default(now(), map: "DF_invLOKASI_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+model invMASTERUMUM {
+  idnya       Int       @default(autoincrement())
+  Kode        String    @id(map: "PK_invMASTERUMUM") @db.NChar(13)
+  Deskripsi   String?   @db.NChar(50)
+  Jenis       String?   @db.NChar(20)
+  Unit        String?   @db.NChar(10)
+  Isi_Unit    Decimal   @default(1, map: "DF_invMASTERUMUM_Isi_Unit") @db.Decimal(18, 0)
+  Harga       Decimal?  @default(0, map: "DF_invMASTERUMUM_Harga") @db.Decimal(18, 0)
+  Kode_Cabang String?   @default("HO", map: "DF_invMASTERUMUM_Kode_Cabang") @db.NChar(2)
+  User_ID     String?   @default("77777", map: "DF_invMASTERUMUM_User_ID") @db.NChar(10)
+  Tgl_Input   DateTime? @default(now(), map: "DF_invMASTERUMUM_Tgl_Input") @db.SmallDateTime
+  Updated     String?   @default("N", map: "DF_invMASTERUMUM_Updated") @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invMASTERUMUM_Send_HO") @db.NChar(1)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invMSTARGETSALES {
+  idnya         BigInt    @default(autoincrement())
+  bln           String?   @db.NVarChar(2)
+  thn           String?   @db.NVarChar(4)
+  target        Decimal?  @db.Decimal(18, 0)
+  Kode_Cabang   String?   @db.NVarChar(2)
+  User_ID       String?   @default("77777", map: "DF_invMSTARGETSALES_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invMSTARGETSALES_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_invMSTARGETSALES_Updated") @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invMSTARGETSALES_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invMSTARGETSALES_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @default(now(), map: "DF_invMSTARGETSALES_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invPAKET {
+  idnya       Int       @default(autoincrement())
+  No_Paket    String?   @default("", map: "DF_invPAKET_No_Paket") @db.NChar(13)
+  Kode        String?   @default("", map: "DF_invPAKET_Kode") @db.NChar(13)
+  Deskripsi   String?   @default("", map: "DF_invPAKET_Deskripsi") @db.NChar(50)
+  Unit        String?   @default("", map: "DF_invPAKET_Unit") @db.NChar(10)
+  Harga_Beli  Decimal?  @default(0, map: "DF_invPAKET_Harga_Beli") @db.Decimal(18, 0)
+  Harga_Jual  Decimal?  @default(0, map: "DF_invPAKET_Harga_Beli1") @db.Decimal(18, 0)
+  Qty         Decimal?  @default(0, map: "DF_invPAKET_Qty") @db.Decimal(18, 0)
+  Tgl_Awal    DateTime? @db.SmallDateTime
+  Tgl_Akhir   DateTime? @db.SmallDateTime
+  Kode_Cabang String?   @default("LC", map: "DF_invPAKET_Kode_Cabang") @db.NChar(2)
+  User_ID     String?   @default("77777", map: "DF_invPAKET_User_ID") @db.NChar(10)
+  Tgl_Input   DateTime? @default(now(), map: "DF_invPAKET_Tgl_Input") @db.SmallDateTime
+  Updated     String?   @default("N", map: "DF_invPAKET_Updated") @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invPAKET_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invPELANGGAN {
+  idnya            BigInt    @default(autoincrement())
+  Titlenya         String?   @default("", map: "DF_invPELANGGAN_Titlenya") @db.NChar(2)
+  No_ID            String    @default("", map: "DF_invPELANGGAN_No_ID") @db.NChar(13)
+  Nama_Lengkap     String?   @default("", map: "DF_invPELANGGAN_Nama_Lengkap") @db.NChar(30)
+  Nama_Panggilan   String?   @default("", map: "DF_invPELANGGAN_Nama_Panggilan") @db.NChar(30)
+  No_KTP_Passport  String?   @default("", map: "DF_invPELANGGAN_No_KTP_Passport") @db.NChar(30)
+  Tempat_Lahir     String?   @default("", map: "DF_invPELANGGAN_Tempat_Lahir") @db.NChar(30)
+  Tgl_Lahir        DateTime? @db.SmallDateTime
+  Jenis_Kelamin    String?   @default("", map: "DF_invPELANGGAN_Jenis_Kelamin") @db.NChar(1)
+  Status_Kawin     String?   @default("", map: "DF_invPELANGGAN_Status_Kawin") @db.NChar(2)
+  Agama            String?   @default("", map: "DF_invPELANGGAN_Agama") @db.NChar(15)
+  Kewarganegaraan  String?   @default("", map: "DF_invPELANGGAN_Kewarganegaraan") @db.NChar(30)
+  Pendidikan       String?   @default("", map: "DF_invPELANGGAN_Pendidikan") @db.NChar(20)
+  Tipe             String?   @default("", map: "DF_invPELANGGAN_Tipe") @db.NChar(20)
+  Lokasi           String?   @default("", map: "DF_invPELANGGAN_Lokasi") @db.NChar(20)
+  Alamat           String    @default("", map: "DF_invPELANGGAN_Alamat") @db.NChar(100)
+  Kelurahan        String?   @default("", map: "DF_invPELANGGAN_Kelurahan") @db.NChar(50)
+  Kecamatan        String?   @default("", map: "DF_invPELANGGAN_Kelurahan1") @db.NChar(50)
+  Kabupaten        String?   @default("", map: "DF_invPELANGGAN_Kelurahan2") @db.NChar(50)
+  Provinsi         String?   @default("", map: "DF_invPELANGGAN_Kelurahan3") @db.NChar(50)
+  Kode_Pos         String?   @default("", map: "DF_invPELANGGAN_Kode_Pos") @db.NChar(6)
+  No_Telepon_Rumah String?   @default("", map: "DF_invPELANGGAN_No_Telepon_Rumah") @db.NChar(20)
+  No_HP            String?   @default("", map: "DF_invPELANGGAN_No_HP") @db.NChar(20)
+  Email            String?   @default("", map: "DF_invPELANGGAN_Email") @db.NChar(100)
+  Bank             String?   @default("", map: "DF_invPELANGGAN_Bank") @db.NChar(150)
+  No_Rekening      String?   @default("", map: "DF_invPELANGGAN_No_Rekening") @db.NChar(50)
+  Diskon           Decimal?  @default(0, map: "DF_invPELANGGAN_Diskon") @db.Decimal(18, 0)
+  Uang_Muka        Decimal?  @default(0, map: "DF_invPELANGGAN_Uang_Muka") @db.Decimal(18, 0)
+  Term_Payment     Decimal?  @default(0, map: "DF_invPELANGGAN_Term_Payment") @db.Decimal(18, 0)
+  Aktif            String?   @default("Y", map: "DF_invPELANGGAN_Aktif") @db.NChar(1)
+  Kode_Cabang      String?   @default("LC", map: "DF_invPELANGGAN_Kode_Cabang") @db.NChar(2)
+  User_ID          String?   @default("77777", map: "DF_invPELANGGAN_User_ID") @db.NChar(10)
+  Tgl_Input        DateTime? @default(now(), map: "DF_invPELANGGAN_Tgl_Input") @db.SmallDateTime
+  Updated          String?   @default("N", map: "DF_invPELANGGAN_Updated") @db.NChar(1)
+  Send_CAB         String?   @default("N", map: "DF_invPELANGGAN_Send_CAB") @db.NChar(1)
+  Send_HO          String?   @default("N", map: "DF_invPELANGGAN_Send_HO_1") @db.NChar(1)
+  Send_CAB_Date    DateTime? @default(now(), map: "DF_invPELANGGAN_Send_HO") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invPELANGGANCORP {
+  idnya            BigInt    @default(autoincrement())
+  Kode             String    @default("", map: "DF_Table_1_No_ID") @db.NChar(20)
+  Deskripsi        String?   @default("", map: "DF_Table_1_Nama_Lengkap") @db.NChar(100)
+  Contact_Person   String?   @default("", map: "DF_Table_1_Nama_Panggilan") @db.NChar(50)
+  Tipe             String?   @default("", map: "DF_invPELANGGANCORP_Tipe") @db.NChar(20)
+  Lokasi           String?   @default("", map: "DF_invPELANGGANCORP_Lokasi") @db.NChar(20)
+  Alamat           String    @default("", map: "DF_invPELANGGANCORP_Alamat") @db.NChar(200)
+  Kelurahan        String?   @default("", map: "DF_invPELANGGANCORP_Kelurahan") @db.NChar(50)
+  Kecamatan        String?   @default("", map: "DF_invPELANGGANCORP_Kecamatan") @db.NChar(50)
+  Kabupaten        String?   @default("", map: "DF_invPELANGGANCORP_Kabupaten") @db.NChar(50)
+  Provinsi         String?   @default("", map: "DF_invPELANGGANCORP_Provinsi") @db.NChar(50)
+  Kode_Pos         String?   @default("", map: "DF_invPELANGGANCORP_Kode_Pos") @db.NChar(6)
+  No_Telepon_Rumah String?   @default("", map: "DF_invPELANGGANCORP_No_Telepon_Rumah") @db.NChar(20)
+  No_HP            String?   @default("", map: "DF_invPELANGGANCORP_No_HP") @db.NChar(20)
+  Email            String?   @default("", map: "DF_invPELANGGANCORP_Email") @db.NChar(100)
+  Bank             String?   @default("", map: "DF_invPELANGGANCORP_Bank") @db.NChar(150)
+  No_Rekening      String?   @default("", map: "DF_invPELANGGANCORP_No_Rekening") @db.NChar(50)
+  Diskon           Decimal?  @default(0, map: "DF_invPELANGGANCORP_Diskon") @db.Decimal(18, 0)
+  Uang_Muka        Decimal?  @default(0, map: "DF_invPELANGGANCORP_Uang_Muka") @db.Decimal(18, 0)
+  Term_Payment     Decimal?  @default(0, map: "DF_invPELANGGANCORP_Term_Payment") @db.Decimal(18, 0)
+  Aktif            String?   @default("Y", map: "DF_invPELANGGANCORP_Aktif") @db.NChar(1)
+  RECIEVED_BY      String    @default("", map: "DF_invPELANGGANCORP_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang      String?   @default("LC", map: "DF_invPELANGGANCORP_Kode_Cabang") @db.NChar(2)
+  User_ID          String?   @default("77777", map: "DF_invPELANGGANCORP_User_ID") @db.NChar(10)
+  Tgl_Input        DateTime? @default(now(), map: "DF_invPELANGGANCORP_Tgl_Input") @db.SmallDateTime
+  Updated          String?   @default("N", map: "DF_invPELANGGANCORP_Updated") @db.NChar(1)
+  Send_CAB         String?   @default("N", map: "DF_invPELANGGANCORP_Send_CAB") @db.NChar(1)
+  Send_HO          String?   @default("N", map: "DF_invPELANGGANCORP_Send_HO") @db.NChar(1)
+  Send_CAB_Date    DateTime? @default(now(), map: "DF_invPELANGGANCORP_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invPELUNASAN {
+  idnya         Int       @default(autoincrement())
+  No_Bukti      String?   @db.NChar(13)
+  No_Voucher    String?   @default("", map: "DF_invPELUNASAN_No_Voucher") @db.NChar(20)
+  Tanggal       DateTime? @db.SmallDateTime
+  Supplier      String?   @db.NChar(13)
+  Total_Bayar   Decimal?  @default(0, map: "DF_invPELUNASAN_Nilai") @db.Decimal(18, 2)
+  Bank          String?   @db.NChar(10)
+  No_Perkiraan  String?   @db.NChar(6)
+  Approved_By   String?   @db.NChar(10)
+  Approved_Date DateTime? @db.SmallDateTime
+  Ada_PO        String?   @default("Y", map: "DF_invPELUNASAN_Ada_PO") @db.NChar(1)
+  Status        String?   @db.NChar(10)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invPELUNASAN_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invPERMINTAANDANA {
+  idnya             Int       @default(autoincrement())
+  No_PR             String?   @db.NChar(13)
+  Tanggal           DateTime? @db.SmallDateTime
+  Departemen        String?   @db.NChar(5)
+  Keperluan         String?   @db.NChar(100)
+  Nilai             Decimal?  @default(0, map: "DF_invPERMINTAANDANA_Nilai") @db.Decimal(18, 0)
+  No_Bukti_VK       String?   @default("", map: "DF_invPERMINTAANDANA_No_Bukti_VK") @db.NChar(13)
+  No_Voucher        String?   @default("", map: "DF_invPERMINTAANDANA_No_Voucher") @db.NChar(30)
+  Status            String?   @db.NChar(10)
+  Approved_By       String?   @default("", map: "DF_invPERMINTAANDANA_Approved_By") @db.NChar(10)
+  Approved_Date     DateTime? @db.SmallDateTime
+  Approved_FIN      String?   @default("", map: "DF_invPERMINTAANDANA_Approved_FIN") @db.NChar(10)
+  Approved_FIN_Date DateTime? @db.SmallDateTime
+  Approved_CEO      String?   @default("", map: "DF_invPERMINTAANDANA_Approved_CEO") @db.NChar(10)
+  Approved_CEO_Date DateTime? @db.SmallDateTime
+  Rejected_By       String?   @db.NChar(10)
+  Rejected_Date     DateTime? @db.SmallDateTime
+  Kode_Cabang       String?   @db.NChar(2)
+  User_ID           String?   @db.NChar(10)
+  Tgl_Input         DateTime? @db.SmallDateTime
+  Updated           String?   @db.NChar(1)
+  Send_HO           String?   @default("N", map: "DF_invPERMINTAANDANA_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invPURCORDER {
+  idnya             Int       @default(autoincrement())
+  No_PO             String?   @db.NChar(13)
+  No_Distribusi     String?   @default("", map: "DF_invPURCORDER_No_Distribusi") @db.NChar(13)
+  No_PR             String?   @db.NChar(13)
+  Tanggal           DateTime? @db.SmallDateTime
+  Tanggal_Kirim     DateTime? @db.SmallDateTime
+  Supplier          String?   @db.NChar(13)
+  Uang_Muka         Decimal?  @default(0, map: "DF_invPURCORDER_Uang_Muka") @db.Decimal(18, 0)
+  Qty               Decimal?  @default(0, map: "DF_invPURCORDER_Qty") @db.Decimal(18, 0)
+  Nilai             Decimal?  @default(0, map: "DF_invPURCORDER_Nilai") @db.Decimal(18, 0)
+  Diskon_Item       Decimal?  @default(0, map: "DF_invPURCORDER_Diskon") @db.Decimal(18, 0)
+  Diskon_Tambahan   Decimal?  @default(0, map: "DF_invPURCORDER_Diskon_Tambahan") @db.Decimal(18, 0)
+  Net_Blm_PPN       Decimal?  @default(0, map: "DF_invPURCORDER_Nilai_Net_Belum_PPN") @db.Decimal(18, 0)
+  Nilai_PPN         Decimal?  @default(0, map: "DF_invPURCORDER_PPN") @db.Decimal(18, 0)
+  Net_Sdh_PPN       Decimal?  @default(0, map: "DF_invPURCORDER_Nilai_Net_Sudah_PPN") @db.Decimal(18, 0)
+  Total_Transaksi   Decimal?  @default(0, map: "DF_invPURCORDER_Net_Transaksi") @db.Decimal(18, 0)
+  Jenis             String?   @db.NChar(20)
+  Atk_Asset         String?   @db.NChar(10)
+  No_Bukti_VK       String?   @default("", map: "DF_invPURCORDER_No_Bukti_VK") @db.NChar(13)
+  No_Voucher        String?   @default("", map: "DF_invPURCORDER_No_Voucher") @db.NChar(30)
+  Sdh_Byr_DP        String?   @default("", map: "DF_invPURCORDER_No_Bukti_VK1") @db.NChar(1)
+  Status            String?   @db.NChar(10)
+  IsPPN             String?   @default("N", map: "DF_invPURCORDER_IsPPN") @db.NChar(1)
+  IsKonsinyasi      String?   @default("N", map: "DF_invPURCORDER_IsKonsinyasi") @db.NChar(1)
+  Keterangan        String?   @default("", map: "DF_invPURCORDER_Keterangan") @db.NChar(200)
+  Approved_By       String?   @db.NChar(10)
+  Approved_Date     DateTime? @db.SmallDateTime
+  Approved_CEO      String?   @db.NChar(10)
+  Approved_CEO_Date DateTime? @db.SmallDateTime
+  Rejected_By       String?   @db.NChar(10)
+  Rejected_Date     DateTime? @db.SmallDateTime
+  Kode_Cabang       String    @db.NChar(2)
+  User_ID           String?   @db.NChar(10)
+  Tgl_Input         DateTime? @db.SmallDateTime
+  Updated           String?   @db.NChar(1)
+  Send_HO           String?   @default("N", map: "DF_invPURCORDER_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invPURCREALISASI {
+  idnya           Int       @default(autoincrement())
+  No_PO           String?   @db.NChar(13)
+  No_Faktur       String?   @default("", map: "DF_invPURCREALISASI_No_Faktur") @db.NChar(30)
+  No_GR           String?   @db.NChar(13)
+  Tanggal         DateTime? @db.SmallDateTime
+  Supplier        String?   @db.NChar(13)
+  Uang_Muka       Decimal?  @default(0, map: "DF_invPURCREALISASI_Uang_Muka") @db.Decimal(18, 0)
+  Qty             Decimal?  @default(0, map: "DF_invREALISASIPO_Qty") @db.Decimal(18, 0)
+  Nilai           Decimal?  @default(0, map: "DF_invREALISASIPO_Nilai") @db.Decimal(18, 0)
+  Diskon_Item     Decimal?  @default(0, map: "DF_invREALISASIPO_Diskon") @db.Decimal(18, 0)
+  Diskon_Tambahan Decimal?  @default(0, map: "DF_invPURCREALISASI_Diskon_Tambahan") @db.Decimal(18, 0)
+  Net_Blm_PPN     Decimal?  @default(0, map: "DF_invREALISASIPO_Net_Blm_PPN") @db.Decimal(18, 0)
+  Nilai_PPN       Decimal?  @default(0, map: "DF_invREALISASIPO_Nilai_PPN") @db.Decimal(18, 0)
+  Net_Sdh_PPN     Decimal?  @default(0, map: "DF_invREALISASIPO_Net_Sdh_PPN") @db.Decimal(18, 0)
+  Total_Transaksi Decimal?  @default(0, map: "DF_invPURCREALISASI_Net_Transaksi") @db.Decimal(18, 0)
+  Jenis           String?   @db.NChar(20)
+  Atk_Asset       String?   @db.NChar(10)
+  Status          String?   @db.NChar(10)
+  IsPPN           String?   @db.NChar(1)
+  No_BuktiGL      String?   @default("", map: "DF_invPURCREALISASI_No_BuktiGL") @db.NChar(20)
+  Kode_Cabang     String?   @db.NChar(2)
+  User_ID         String?   @db.NChar(10)
+  Tgl_Input       DateTime? @db.SmallDateTime
+  Updated         String?   @db.NChar(1)
+  Send_HO         String?   @default("N", map: "DF_invREALISASIPO_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invPURCREQUEST {
+  idnya         Int       @default(autoincrement())
+  No_PR         String?   @db.NChar(13)
+  No_PO         String?   @db.NChar(13)
+  Tanggal       DateTime? @db.SmallDateTime
+  Departemen    String?   @db.NChar(5)
+  Nilai         Decimal?  @default(0, map: "DF_invPURCREQUEST_Nilai") @db.Decimal(18, 0)
+  Jenis         String?   @db.NChar(20)
+  Atk_Asset     String?   @db.NChar(10)
+  Status        String?   @db.NChar(10)
+  Approved_By   String?   @db.NChar(10)
+  Approved_Date DateTime? @db.SmallDateTime
+  Rejected_By   String?   @db.NChar(10)
+  Rejected_Date DateTime? @db.SmallDateTime
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invPURCREQUEST_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invPURCTANPAPO {
+  idnya             Int       @default(autoincrement())
+  No_PR             String?   @db.NChar(13)
+  Tanggal           DateTime? @db.SmallDateTime
+  Departemen        String?   @db.NChar(5)
+  Nilai             Decimal?  @default(0, map: "DF_invPURCTANPAPO_Nilai") @db.Decimal(18, 0)
+  Jenis             String?   @db.NChar(10)
+  Status            String?   @db.NChar(10)
+  Approved_By       String?   @db.NChar(10)
+  Approved_Date     DateTime? @db.SmallDateTime
+  Approved_FIN      String?   @db.NChar(10)
+  Approved_FIN_Date DateTime? @db.SmallDateTime
+  Approved_CEO      String?   @db.NChar(10)
+  Approved_CEO_Date DateTime? @db.SmallDateTime
+  Kode_Cabang       String?   @db.NChar(2)
+  User_ID           String?   @db.NChar(10)
+  Tgl_Input         DateTime? @db.SmallDateTime
+  Updated           String?   @db.NChar(1)
+  Send_HO           String?   @default("N", map: "DF_invPURCTANPAPO_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invRACIKMEAL {
+  idnya           Int       @default(autoincrement())
+  No_Bukti        String?   @db.NChar(13)
+  Tanggal         DateTime? @db.SmallDateTime
+  Keterangan      String?   @db.NChar(100)
+  Keperluan       String?   @db.NChar(10)
+  Total_Cost_Baku Decimal?  @default(0, map: "DF_invRACIKMEAL_Total_Cost_Baku") @db.Decimal(18, 0)
+  Total_Cost_Jadi Decimal?  @default(0, map: "DF_Table_1_Total_Cost_Obat_1") @db.Decimal(18, 0)
+  Proses          String?   @db.NChar(50)
+  Status          String?   @db.NChar(10)
+  Kode_Cabang     String?   @db.NChar(2)
+  User_ID         String?   @db.NChar(10)
+  Tgl_Input       DateTime? @db.SmallDateTime
+  Updated         String?   @db.NChar(1)
+  Send_HO         String?   @default("N", map: "DF_invRACIKMEAL_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invRACIKOBAT {
+  idnya           Int       @default(autoincrement())
+  No_Bukti        String?   @db.NChar(13)
+  Tanggal         DateTime? @db.SmallDateTime
+  Keterangan      String?   @db.NChar(100)
+  Keperluan       String?   @db.NChar(10)
+  Total_Cost_Baku Decimal?  @default(0, map: "DF_Table_1_Total_Cost") @db.Decimal(18, 0)
+  Total_Cost_Obat Decimal?  @default(0, map: "DF_invRACIKOBAT_Total_Cost_Obat") @db.Decimal(18, 0)
+  Status          String?   @db.NChar(10)
+  Kode_Cabang     String?   @db.NChar(2)
+  User_ID         String?   @db.NChar(10)
+  Tgl_Input       DateTime? @db.SmallDateTime
+  Updated         String?   @db.NChar(1)
+  Send_HO         String?   @default("N", map: "DF_invRACIKOBAT_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invRACIKOTHER {
+  idnya           Int       @default(autoincrement())
+  No_Bukti        String?   @default("", map: "DF_invRACIKOTHER_No_Bukti") @db.NChar(13)
+  Tanggal         DateTime? @default(now(), map: "DF_invRACIKOTHER_Tanggal") @db.SmallDateTime
+  Keterangan      String?   @default("", map: "DF_invRACIKOTHER_Keterangan") @db.NChar(100)
+  Keperluan       String?   @default("", map: "DF_invRACIKOTHER_Keterangan1") @db.NChar(10)
+  Total_Cost_Baku Decimal?  @default(0, map: "DF_invRACIKOTHER_Total_Cost_Baku") @db.Decimal(18, 0)
+  Total_Cost_Obat Decimal?  @default(0, map: "DF_invRACIKOTHER_Total_Cost_Obat") @db.Decimal(18, 0)
+  Status          String?   @default("Process", map: "DF_invRACIKOTHER_Status") @db.NChar(10)
+  Kode_Cabang     String?   @default("HO", map: "DF_invRACIKOTHER_Kode_Cabang") @db.NChar(2)
+  User_ID         String?   @default("77777", map: "DF_invRACIKOTHER_User_ID") @db.NChar(10)
+  Tgl_Input       DateTime? @default(now(), map: "DF_invRACIKOTHER_Tgl_Input") @db.SmallDateTime
+  Updated         String?   @default("N", map: "DF_invRACIKOTHER_Updated") @db.NChar(1)
+  Send_HO         String?   @default("N", map: "DF_invRACIKOTHER_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invREFUND {
+  idnya           Int       @default(autoincrement())
+  No_Refund       String?   @default("", map: "DF_invREFUND_No_Refund") @db.NChar(13)
+  Tanggal_Refund  DateTime? @default(now(), map: "DF_invREFUND_Tanggal_Refund") @db.SmallDateTime
+  Keterangan      String?   @default("", map: "DF_invREFUND_Keterangan") @db.Text
+  No_Permintaan   String?   @db.NChar(13)
+  No_Distribusi   String?   @db.NChar(13)
+  Tanggal         DateTime? @db.SmallDateTime
+  Tanggal_Kirim   DateTime? @db.SmallDateTime
+  Tgl_JT          DateTime? @db.SmallDateTime
+  Customer        String?   @db.NChar(10)
+  Source          String?   @default("", map: "DF_invREFUND_Source") @db.NChar(30)
+  Pembayaran      String?   @default("TRANSFER", map: "DF_invREFUND_Pembayaran") @db.NChar(30)
+  Kode_Penerima   String?   @default("", map: "DF_invREFUND_Kode_Penerima") @db.NChar(13)
+  Nama_Penerima   String?   @default("", map: "DF_invREFUND_Nama_Penerima") @db.NChar(70)
+  Alamat_Penerima String?   @default("", map: "DF_invREFUND_Alamat_Penerima") @db.NChar(150)
+  Qty             Decimal?  @default(0, map: "DF_invREFUND_Qty") @db.Decimal(18, 0)
+  Qty_Kirim       Decimal?  @default(0, map: "DF_invREFUND_Qty_Kirim") @db.Decimal(18, 0)
+  Total_Sales     Decimal?  @default(0, map: "DF_invREFUND_Total_Sales") @db.Decimal(18, 0)
+  Total_Diskon    Decimal?  @default(0, map: "DF_invREFUND_Total_Diskon") @db.Decimal(18, 0)
+  Total_NetBlmPPN Decimal?  @default(0, map: "DF_invREFUND_Total_NetBlmPPN") @db.Decimal(18, 0)
+  IsPPN           String?   @default("N", map: "DF_invREFUND_IsPPN") @db.NChar(1)
+  Total_PPN       Decimal?  @default(0, map: "DF_invREFUND_Total_PPN") @db.Decimal(18, 0)
+  Grand_Total     Decimal?  @default(0, map: "DF_invREFUND_Grand_Total") @db.Decimal(18, 0)
+  Total_Kirim     Decimal?  @default(0, map: "DF_invREFUND_Total_Kirim") @db.Decimal(18, 0)
+  Jenis           String?   @db.NChar(20)
+  Kelompok        String?   @default("", map: "DF_invREFUND_Kelompok") @db.NChar(10)
+  No_Voucher      String?   @default("", map: "DF_invREFUND_No_Voucher") @db.NChar(20)
+  Approved_By     String?   @default("", map: "DF_invREFUND_Approved_By") @db.NChar(10)
+  Approved_Date   DateTime? @db.SmallDateTime
+  Otorisasi       String?   @default("", map: "DF_invREFUND_Otorisasi") @db.NChar(10)
+  Otorisasi_Date  DateTime? @db.SmallDateTime
+  Cab_Terima      String?   @default("N", map: "DF_invREFUND_Cab_Terima") @db.NChar(1)
+  Status          String?   @db.NChar(10)
+  Send_CAB        String?   @default("N", map: "DF_invREFUND_Send_CAB") @db.NChar(1)
+  RECIEVED_BY     String    @default("", map: "DF_invREFUND_RECIEVED_BY") @db.NChar(100)
+  No_BuktiGL      String?   @default("", map: "DF_invREFUND_No_BuktiGL") @db.NChar(20)
+  Kode_Cabang     String?   @db.NChar(2)
+  User_ID         String?   @db.NChar(10)
+  Tgl_Input       DateTime? @db.SmallDateTime
+  Updated         String?   @db.NChar(1)
+  Send_HO         String?   @default("N", map: "DF_invREFUND_Send_HO") @db.NChar(1)
+  Send_CAB_Date   DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model InvREKONOMZET {
+  idnya          Int       @default(autoincrement())
+  Kode_Cabang    String?   @db.NChar(2)
+  Tgl_Sales      DateTime? @db.SmallDateTime
+  Meal           Decimal?  @default(0, map: "DF_InvREKONOMZET_Meal") @db.Decimal(18, 2)
+  Obat           Decimal?  @default(0, map: "DF_InvREKONOMZET_Obat") @db.Decimal(18, 2)
+  Other          Decimal?  @default(0, map: "DF_InvREKONOMZET_Other") @db.Decimal(18, 2)
+  Paket          Decimal?  @default(0, map: "DF_InvREKONOMZET_Paket") @db.Decimal(18, 2)
+  Tindakan       Decimal?  @default(0, map: "DF_InvREKONOMZET_Tindakan") @db.Decimal(18, 2)
+  Total_Sales    Decimal?  @default(0, map: "DF_Table_1_Jumlah") @db.Decimal(18, 2)
+  Jenis_Bayar    String?   @db.NChar(30)
+  Nilai_PerJB    Decimal?  @default(0, map: "DF_InvREKONOMZET_Nilai_PerJB") @db.Decimal(18, 2)
+  Biaya_AdmPerJB Decimal?  @default(0, map: "DF_InvREKONOMZET_Biaya_AdmPerJB") @db.Decimal(18, 2)
+  Nilai_Rekon    Decimal?  @default(0, map: "DF_InvREKONOMZET_Nilai_Rekon") @db.Decimal(18, 2)
+  Kode_Rekon     String?   @db.NChar(20)
+  Tgl_Rekon      DateTime? @db.SmallDateTime
+  No_BuktiGL     String?   @default("", map: "DF_InvREKONOMZET_No_BuktiGL") @db.NChar(20)
+  No_Voucher     String?   @default("", map: "DF_InvREKONOMZET_No_Voucher") @db.NChar(30)
+  Periode_GL     String?   @default("", map: "DF_InvREKONOMZET_Periode_GL") @db.NChar(6)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invREQGUDANG {
+  idnya         Int       @default(autoincrement())
+  No_Bukti      String?   @default("", map: "DF_invREQGUDANG_No_Bukti") @db.NChar(13)
+  No_Distribusi String?   @default("", map: "DF_invREQGUDANG_No_Bukti1") @db.NChar(13)
+  Tanggal       DateTime? @default(now(), map: "DF_invREQGUDANG_Tanggal") @db.SmallDateTime
+  Qty           Decimal?  @default(0, map: "DF_invREQGUDANG_Qty") @db.Decimal(18, 2)
+  Total_Jual    Decimal?  @default(0, map: "DF_invREQGUDANG_Total_Jual") @db.Decimal(18, 2)
+  Approved_By   String?   @default("", map: "DF_invREQGUDANG_Approved_By") @db.NChar(10)
+  Approved_Date DateTime? @db.SmallDateTime
+  Pengirim      String?   @default("", map: "DF_invREQGUDANG_Pengirim") @db.NChar(10)
+  Status        String?   @default("Process", map: "DF_invREQGUDANG_Status") @db.NChar(10)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_invREQGUDANG_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invREQGUDANG_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invREQGUDANG_Send_HO") @db.NChar(1)
+  Send_Cab      String?   @default("N", map: "DF_invREQGUDANG_Send_Cab") @db.NChar(1)
+  Send_Cab_Date DateTime? @default(now(), map: "DF_invREQGUDANG_Send_Cab_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invREQUESTCAB {
+  idnya         Int       @default(autoincrement())
+  No_Permintaan String?   @db.NChar(13)
+  No_Distribusi String?   @db.NChar(13)
+  Tanggal       DateTime? @db.SmallDateTime
+  Tanggal_Kirim DateTime? @db.SmallDateTime
+  Cabang        String?   @default("", map: "DF_invREQUESTCAB_Cabang") @db.NChar(2)
+  Customer      String?   @db.NChar(10)
+  Qty           Decimal?  @default(0, map: "DF_invREQUESTCAB_Qty") @db.Decimal(18, 0)
+  Qty_Kirim     Decimal?  @default(0, map: "DF_invREQUESTCAB_Qty_Kirim") @db.Decimal(18, 0)
+  Total_Sales   Decimal?  @default(0, map: "DF_invREQUESTCAB_Nilai") @db.Decimal(18, 0)
+  Total_Kirim   Decimal?  @default(0, map: "DF_invREQUESTCAB_Total_Kirim") @db.Decimal(18, 0)
+  Jenis         String?   @db.NChar(20)
+  Kelompok      String?   @default("", map: "DF_invREQUESTCAB_Kelompok") @db.NChar(10)
+  Approved_By   String?   @default("", map: "DF_invREQUESTCAB_Approved_By") @db.NChar(10)
+  Approved_Date DateTime? @db.SmallDateTime
+  Cab_Terima    String?   @default("N", map: "DF_invREQUESTCAB_Cab_Terima") @db.NChar(1)
+  Status        String?   @db.NChar(10)
+  Send_CAB      String?   @default("N", map: "DF_invREQUESTCAB_Send_Cab") @db.NChar(1)
+  RECIEVED_BY   String    @default("", map: "DF_invREQUESTCAB_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @db.NChar(10)
+  Tgl_Input     DateTime? @db.SmallDateTime
+  Updated       String?   @db.NChar(1)
+  Send_HO       String?   @default("N", map: "DF_invREQUESTCAB_Send_HO") @db.NChar(1)
+  Send_CAB_Date DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invRETUR {
+  idnya       Int       @default(autoincrement())
+  No_Retur    String?   @db.NChar(13)
+  Tanggal     DateTime? @db.SmallDateTime
+  Supplier    String?   @db.NChar(13)
+  No_PO       String?   @db.NChar(13)
+  Qty         Decimal?  @default(0, map: "DF_invRETUR_Qty") @db.Decimal(18, 0)
+  Total_Cost  Decimal?  @default(0, map: "DF_invRETUR_Total_Cost") @db.Decimal(18, 0)
+  Jenis       String?   @db.NChar(20)
+  Status      String?   @db.NChar(10)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invRETUR_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invSALDO {
+  idnya          Int       @default(autoincrement())
+  No_Bukti       String?   @db.NChar(13)
+  No_Voucher     String?   @default("", map: "DF_invSALDO_No_Voucher") @db.NChar(30)
+  Tanggal        DateTime? @db.SmallDateTime
+  Supplier       String?   @db.NChar(50)
+  Keterangan     String?   @db.NChar(50)
+  Masuk          Decimal?  @default(0, map: "DF_Table_1_Total_Bayar") @db.Decimal(18, 2)
+  Keluar         Decimal?  @default(0, map: "DF_invSALDO_Keluar") @db.Decimal(18, 2)
+  Sisa           Decimal?  @default(0, map: "DF_invSALDO_Sisa") @db.Decimal(18, 2)
+  Bank           String?   @db.NChar(10)
+  No_Perkiraan   String?   @db.NChar(6)
+  Kode_Transaksi String?   @db.NChar(3)
+  Kode_Cabang    String?   @db.NChar(2)
+  User_ID        String?   @db.NChar(10)
+  Tgl_Input      DateTime? @db.SmallDateTime
+  Updated        String?   @db.NChar(1)
+  Send_HO        String?   @default("N", map: "DF_invSALDO_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invSALDOBANK {
+  idnya        Int       @default(autoincrement())
+  Tanggal      DateTime? @db.SmallDateTime
+  Bank         String?   @db.NChar(10)
+  No_Perkiraan String?   @db.NChar(6)
+  Saldo        Decimal?  @default(0, map: "DF_invSALDOBANK_Saldo") @db.Decimal(18, 2)
+  Status       String?   @default("Process", map: "DF_invSALDOBANK_Status") @db.NChar(10)
+  Kode_Cabang  String?   @db.NChar(2)
+  User_ID      String?   @db.NChar(10)
+  Tgl_Input    DateTime? @db.SmallDateTime
+  Updated      String?   @db.NChar(1)
+  Send_HO      String?   @default("N", map: "DF_invSALDOBANK_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invSALES {
+  idnya           Int       @default(autoincrement())
+  No_Permintaan   String?   @db.NChar(13)
+  No_Distribusi   String?   @db.NChar(13)
+  Tanggal         DateTime? @db.SmallDateTime
+  Tanggal_Kirim   DateTime? @db.SmallDateTime
+  Tgl_JT          DateTime? @db.SmallDateTime
+  Customer        String?   @db.NChar(10)
+  Source          String?   @default("", map: "DF_invSALES_Pembayaran1") @db.NChar(30)
+  Pembayaran      String?   @default("TRANSFER", map: "DF_invSALES_Pembayaran") @db.NChar(30)
+  Kode_Penerima   String?   @default("", map: "DF_invSALES_Nama_Penerima1_1") @db.NChar(13)
+  Nama_Penerima   String?   @default("", map: "DF_invSALES_Nama_Penerima") @db.NChar(70)
+  Alamat_Penerima String?   @default("", map: "DF_invSALES_Nama_Penerima1") @db.NChar(150)
+  Qty             Decimal?  @default(0, map: "DF_invSALES_Qty") @db.Decimal(18, 0)
+  Qty_Kirim       Decimal?  @default(0, map: "DF_invSALES_Qty_Kirim") @db.Decimal(18, 0)
+  Total_Sales     Decimal?  @default(0, map: "DF_invSALES_Total_Sales") @db.Decimal(18, 0)
+  Total_Diskon    Decimal?  @default(0, map: "DF_invSALES_Total_Diskon") @db.Decimal(18, 0)
+  Total_NetBlmPPN Decimal?  @default(0, map: "DF_invSALES_Total_NetBlmPPN") @db.Decimal(18, 0)
+  IsPPN           String?   @default("N", map: "DF_invSALES_IsPPN") @db.NChar(1)
+  Total_PPN       Decimal?  @default(0, map: "DF_invSALES_Total_PPN") @db.Decimal(18, 0)
+  Grand_Total     Decimal?  @default(0, map: "DF_invSALES_Grand_Total") @db.Decimal(18, 0)
+  Total_Kirim     Decimal?  @default(0, map: "DF_invSALES_Total_Kirim") @db.Decimal(18, 0)
+  Jenis           String?   @db.NChar(20)
+  Kelompok        String?   @default("", map: "DF_invSALES_Kelompok") @db.NChar(10)
+  No_Voucher      String?   @default("", map: "DF_invSALES_Total_Kirim1") @db.NChar(20)
+  Approved_By     String?   @default("", map: "DF_invSALES_Approved_By") @db.NChar(10)
+  Approved_Date   DateTime? @db.SmallDateTime
+  Otorisasi       String?   @default("", map: "DF_invSALES_Approved_By1") @db.NChar(10)
+  Otorisasi_Date  DateTime? @db.SmallDateTime
+  Cab_Terima      String?   @default("N", map: "DF_invSALES_Cab_Terima") @db.NChar(1)
+  Status          String?   @db.NChar(10)
+  Send_CAB        String?   @default("N", map: "DF_invSALES_Send_CAB") @db.NChar(1)
+  RECIEVED_BY     String    @default("", map: "DF_invSALES_RECIEVED_BY") @db.NChar(100)
+  No_BuktiGL      String?   @default("", map: "DF_invSALES_No_BuktiGL") @db.NChar(20)
+  Kode_Cabang     String?   @db.NChar(2)
+  User_ID         String?   @db.NChar(10)
+  Tgl_Input       DateTime? @db.SmallDateTime
+  Updated         String?   @db.NChar(1)
+  Send_HO         String?   @default("N", map: "DF_invSALES_Send_HO") @db.NChar(1)
+  Send_CAB_Date   DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invSERVICEREQUEST {
+  idnya           Int       @default(autoincrement())
+  No_PO           String?   @db.NChar(13)
+  No_WO           String?   @db.NChar(13)
+  Tanggal         DateTime? @default(now(), map: "DF_invSERVICEREQUEST_Tanggal") @db.SmallDateTime
+  Tanggal_Selesai DateTime? @default(now(), map: "DF_invSERVICEREQUEST_Tanggal_Selesai") @db.SmallDateTime
+  Departemen      String?   @db.NChar(5)
+  Supplier        String?   @db.NChar(13)
+  Qty             Decimal?  @default(0, map: "DF_invSERVICEREQUEST_Qty") @db.Decimal(18, 0)
+  Nilai           Decimal?  @default(0, map: "DF_invSERVICEREQUEST_Nilai") @db.Decimal(18, 0)
+  Diskon          Decimal?  @default(0, map: "DF_invSERVICEREQUEST_Diskon") @db.Decimal(18, 0)
+  Net_Blm_PPN     Decimal?  @default(0, map: "DF_invSERVICEREQUEST_Net_Blm_PPN") @db.Decimal(18, 0)
+  Nilai_PPN       Decimal?  @default(0, map: "DF_invSERVICEREQUEST_Nilai_PPN") @db.Decimal(18, 0)
+  Net_Sdh_PPN     Decimal?  @default(0, map: "DF_invSERVICEREQUEST_Net_Sdh_PPN") @db.Decimal(18, 0)
+  Total_Transaksi Decimal?  @default(0, map: "DF_invSERVICEREQUEST_Total_Transaksi") @db.Decimal(18, 0)
+  Lokasi          String?   @db.NChar(200)
+  TOPnya          String?   @db.NChar(100)
+  Status          String?   @db.NChar(10)
+  IsPPN           String?   @db.NChar(1)
+  Approved_By     String?   @db.NChar(10)
+  Approved_Date   DateTime? @db.SmallDateTime
+  Rejected_By     String?   @db.NChar(10)
+  Rejected_Date   DateTime? @db.SmallDateTime
+  Kode_Cabang     String?   @db.NChar(2)
+  User_ID         String?   @db.NChar(10)
+  Tgl_Input       DateTime? @db.SmallDateTime
+  Updated         String?   @db.NChar(1)
+  Send_HO         String?   @default("N", map: "DF_invSERVICEREQUEST_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invSJ {
+  idnya            Int       @default(autoincrement())
+  No_SJ            String?   @db.NChar(13)
+  Tanggal          DateTime? @db.SmallDateTime
+  Tanggal_Kirim    DateTime? @db.SmallDateTime
+  No_Resi          String?   @default("", map: "DF_invSJ_No_Resi") @db.NVarChar(50)
+  Nama_Expdc       String?   @default("", map: "DF_invSJ_Nama_Expdc") @db.NVarChar(100)
+  Tgl_JT           DateTime? @db.SmallDateTime
+  No_SP            String?   @db.NChar(13)
+  Kode_Pelanggan   String?   @default("", map: "DF_invSJ_Kode_Pelanggan_1") @db.NChar(13)
+  Qty              Decimal?  @default(0, map: "DF_invSJ_Qty_1") @db.Decimal(18, 0)
+  Total_Sales      Decimal?  @default(0, map: "DF_invSJ_Total_Sales_1") @db.Decimal(18, 0)
+  Total_DiskonItem Decimal?  @default(0, map: "DF_invSJ_Total_DiskonItem") @db.Decimal(18, 0)
+  Diskon_Tambahan  Decimal?  @default(0, map: "DF_invSJ_Diskon_Tambahan") @db.Decimal(18, 0)
+  Total_NetBlmPPN  Decimal?  @default(0, map: "DF_invSJ_Total_NetBlmPPN_1") @db.Decimal(18, 0)
+  IsPPN            String?   @default("N", map: "DF_invSJ_IsPPN_1") @db.NChar(1)
+  Total_PPN        Decimal?  @default(0, map: "DF_invSJ_Total_PPN_1") @db.Decimal(18, 0)
+  Uang_Muka        Decimal?  @default(0, map: "DF_invSJ_Grand_Total1") @db.Decimal(18, 0)
+  Grand_Total      Decimal?  @default(0, map: "DF_invSJ_Grand_Total_1") @db.Decimal(18, 0)
+  Approved_By      String?   @default("", map: "DF_invSJ_Approved_By_1") @db.NChar(10)
+  Approved_Date    DateTime? @db.SmallDateTime
+  Otorisasi_Diskon String?   @default("", map: "DF_invSJ_Otorisasi_Diskon") @db.NChar(10)
+  Otorisasi_Date   DateTime? @db.SmallDateTime
+  No_Invoice       String?   @default("", map: "DF_invSJ_No_Invoice_1") @db.NChar(13)
+  No_InvoicePro    String?   @default("", map: "DF_invSJ_No_InvoicePro") @db.NChar(13)
+  Status           String?   @db.NChar(10)
+  Send_CAB         String?   @default("N", map: "DF_invSJ_Send_CAB_1") @db.NChar(1)
+  RECIEVED_BY      String    @default("", map: "DF_invSJ_RECIEVED_BY_1") @db.NChar(100)
+  Kode_Cabang      String?   @db.NChar(2)
+  User_ID          String?   @db.NChar(10)
+  Tgl_Input        DateTime? @db.SmallDateTime
+  Updated          String?   @db.NChar(1)
+  Send_HO          String?   @default("N", map: "DF_invSJ_Send_HO_1") @db.NChar(1)
+  Send_CAB_Date    DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invSOURCE {
+  idnya       BigInt    @default(autoincrement())
+  Kode        String?   @db.NChar(3)
+  Deskripsi   String?   @db.NChar(30)
+  Grup        String?   @default("", map: "DF_invSOURCE_Grup") @db.NChar(20)
+  Kode_Cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invSOURCE_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invSP {
+  idnya                 Int       @default(autoincrement())
+  No_SP                 String?   @db.NChar(13)
+  Tanggal               DateTime? @db.SmallDateTime
+  Tanggal_Kirim         DateTime? @db.SmallDateTime
+  Tgl_JT                DateTime? @db.SmallDateTime
+  NoPO_Pelanggan        String?   @default("", map: "DF_invSP_NoPO_Pelanggan") @db.NChar(20)
+  TanggalPO             DateTime? @db.SmallDateTime
+  Kode_Pelanggan        String?   @default("", map: "DF_invSP_Kode_Penerima") @db.NChar(13)
+  Qty                   Decimal?  @default(0, map: "DF_invSP_Qty") @db.Decimal(18, 0)
+  Total_Sales           Decimal?  @default(0, map: "DF_invSP_Total_Sales") @db.Decimal(18, 0)
+  Total_DiskonItem      Decimal?  @default(0, map: "DF_invSP_Total_Diskon") @db.Decimal(18, 0)
+  Diskon_Tambahan       Decimal?  @default(0, map: "DF_invSP_Total_DiskonItem1") @db.Decimal(18, 0)
+  Total_NetBlmPPN       Decimal?  @default(0, map: "DF_invSP_Total_NetBlmPPN") @db.Decimal(18, 0)
+  IsPPN                 String?   @default("N", map: "DF_invSP_IsPPN") @db.NChar(1)
+  Total_PPN             Decimal?  @default(0, map: "DF_invSP_Total_PPN") @db.Decimal(18, 0)
+  Uang_Muka             Decimal?  @default(0, map: "DF_invSP_Grand_Total1") @db.Decimal(18, 0)
+  Grand_Total           Decimal?  @default(0, map: "DF_invSP_Grand_Total") @db.Decimal(18, 0)
+  Approved_By           String?   @default("", map: "DF_invSP_Approved_By") @db.NChar(10)
+  Approved_Date         DateTime? @db.SmallDateTime
+  Otorisasi_Diskon      String?   @default("", map: "DF_invSP_Otorisasi") @db.NChar(10)
+  Otorisasi_Date        DateTime? @db.SmallDateTime
+  Approved_UangMuka     String?   @default("", map: "DF_invSP_Approved_By1") @db.NChar(10)
+  ApprovedUangMuka_Date DateTime? @db.SmallDateTime
+  Status                String?   @db.NChar(10)
+  Send_CAB              String?   @default("N", map: "DF_invSP_Send_CAB") @db.NChar(1)
+  RECIEVED_BY           String    @default("", map: "DF_invSP_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang           String?   @db.NChar(2)
+  User_ID               String?   @db.NChar(10)
+  Tgl_Input             DateTime? @db.SmallDateTime
+  Updated               String?   @db.NChar(1)
+  Send_HO               String?   @default("N", map: "DF_invSP_Send_HO") @db.NChar(1)
+  Send_CAB_Date         DateTime? @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invSTOCK {
+  idnya          Int       @default(autoincrement())
+  Customer       String?   @default("", map: "DF_invSTOCK_Customer") @db.NChar(10)
+  Tanggal        DateTime? @db.SmallDateTime
+  Kode           String?   @db.NChar(13)
+  Jenis          String?   @db.NChar(20)
+  No_Doc         String?   @db.NChar(20)
+  No_GR          String?   @db.NChar(20)
+  Kode_Transaksi String?   @db.NChar(3)
+  Masuk          Decimal?  @default(0, map: "DF_invSTOCK_Masuk") @db.Decimal(18, 2)
+  Keluar         Decimal?  @default(0, map: "DF_invSTOCK_Keluar") @db.Decimal(18, 2)
+  Sisa           Decimal?  @default(0, map: "DF_invSTOCK_Sisa") @db.Decimal(18, 2)
+  Cost           Decimal?  @default(0, map: "DF_invSTOCK_Cost") @db.Decimal(18, 2)
+  Sales          Decimal?  @default(0, map: "DF_invSTOCK_Sales") @db.Decimal(18, 2)
+  Total_Cost     Decimal?  @default(0, map: "DF_invSTOCK_Total_Cost") @db.Decimal(18, 2)
+  Total_Sales    Decimal?  @default(0, map: "DF_invSTOCK_Total_Sales") @db.Decimal(18, 2)
+  Kode_Cabang    String?   @default("LC", map: "DF_invSTOCK_Kode_Cabang") @db.NChar(2)
+  User_ID        String?   @default("77777", map: "DF_invSTOCK_User_ID") @db.NChar(10)
+  Tgl_Input      DateTime? @default(now(), map: "DF_invSTOCK_Tgl_Input") @db.SmallDateTime
+  Updated        String?   @default("N", map: "DF_invSTOCK_Updated") @db.NChar(1)
+  Send_HO        String?   @default("N", map: "DF_invSTOCK_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invSTOCKFARMASI {
+  idnya          Int       @default(autoincrement())
+  Tanggal        DateTime? @db.SmallDateTime
+  Kode           String?   @db.NChar(13)
+  Jenis          String?   @db.NChar(20)
+  No_Doc         String?   @db.NChar(13)
+  No_GR          String?   @db.NChar(13)
+  Kode_Transaksi String?   @db.NChar(3)
+  Masuk          Decimal?  @default(0, map: "DF_invSTOCKFARMASI_Masuk") @db.Decimal(18, 2)
+  Keluar         Decimal?  @default(0, map: "DF_invSTOCKFARMASI_Keluar") @db.Decimal(18, 2)
+  Sisa           Decimal?  @default(0, map: "DF_invSTOCKFARMASI_Sisa") @db.Decimal(18, 2)
+  Cost           Decimal?  @default(0, map: "DF_invSTOCKFARMASI_Cost") @db.Decimal(18, 2)
+  Sales          Decimal?  @default(0, map: "DF_invSTOCKFARMASI_Sales") @db.Decimal(18, 2)
+  Total_Cost     Decimal?  @default(0, map: "DF_invSTOCKFARMASI_Total_Cost") @db.Decimal(18, 2)
+  Total_Sales    Decimal?  @default(0, map: "DF_invSTOCKFARMASI_Total_Sales") @db.Decimal(18, 2)
+  Kode_Cabang    String?   @default("HO", map: "DF_invSTOCKFARMASI_Kode_Cabang") @db.NChar(2)
+  User_ID        String?   @default("77777", map: "DF_invSTOCKFARMASI_User_ID") @db.NChar(10)
+  Tgl_Input      DateTime? @default(now(), map: "DF_invSTOCKFARMASI_Tgl_Input") @db.SmallDateTime
+  Updated        String?   @default("N", map: "DF_invSTOCKFARMASI_Updated") @db.NChar(1)
+  Send_HO        String?   @default("N", map: "DF_invSTOCKFARMASI_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invSTOCKMRK {
+  idnya          Int       @default(autoincrement())
+  Customer       String?   @default("", map: "DF_invSTOCKMRK_Customer") @db.NChar(10)
+  Tanggal        DateTime? @db.SmallDateTime
+  Kode           String?   @db.NChar(13)
+  Jenis          String?   @db.NChar(20)
+  No_Doc         String?   @db.NChar(13)
+  No_GR          String?   @db.NChar(13)
+  Kode_Transaksi String?   @db.NChar(3)
+  Masuk          Decimal?  @default(0, map: "DF_invSTOCKMRK_Masuk") @db.Decimal(18, 2)
+  Keluar         Decimal?  @default(0, map: "DF_invSTOCKMRK_Keluar") @db.Decimal(18, 2)
+  Sisa           Decimal?  @default(0, map: "DF_invSTOCKMRK_Sisa") @db.Decimal(18, 2)
+  Harga_Beli     Decimal?  @default(0, map: "DF_invSTOCKMRK_Cost") @db.Decimal(18, 2)
+  Harga_Jual     Decimal?  @default(0, map: "DF_invSTOCKMRK_Sales") @db.Decimal(18, 2)
+  Begin_Cost     Decimal?  @default(0, map: "DF_invSTOCKMRK_Total_Cost") @db.Decimal(18, 2)
+  Begin_Sales    Decimal?  @default(0, map: "DF_invSTOCKMRK_Total_Sales") @db.Decimal(18, 2)
+  Actual_Cost    Decimal?  @default(0, map: "DF_invSTOCKMRK_Actual_Cost") @db.Decimal(18, 2)
+  Actual_Sales   Decimal?  @default(0, map: "DF_invSTOCKMRK_Actual_Sales") @db.Decimal(18, 2)
+  Mrk_Cost       Decimal?  @default(0, map: "DF_invSTOCKMRK_Mrk_Cost") @db.Decimal(18, 2)
+  Mrk_Sales      Decimal?  @default(0, map: "DF_invSTOCKMRK_Mrk_Sales") @db.Decimal(18, 2)
+  Kode_Cabang    String?   @db.NChar(2)
+  User_ID        String?   @db.NChar(10)
+  Tgl_Input      DateTime? @db.SmallDateTime
+  Updated        String?   @db.NChar(1)
+  Send_HO        String?   @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invSUPPLIER {
+  idnya          Int       @default(autoincrement())
+  Kode           String?   @db.NChar(13)
+  Deskripsi      String?   @db.NChar(50)
+  Contact_Person String?   @db.NChar(50)
+  Term_Payment   Decimal?  @db.Decimal(18, 0)
+  Syarat_Bayar   String?   @db.NChar(20)
+  Bank           String?   @db.NChar(150)
+  No_Rekening    String?   @db.NChar(50)
+  Email          String?   @db.NChar(50)
+  Telepon        String?   @db.NChar(50)
+  Alamat         String?   @db.NChar(200)
+  Kota           String?   @db.NChar(50)
+  Aktif          String?   @default("Y", map: "DF_invSUPPLIER_Aktif") @db.NChar(1)
+  RECIEVED_BY    String    @default("", map: "DF_invSUPPLIER_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang    String?   @default("HO", map: "DF_invSUPPLIER_Kode_Cabang") @db.NChar(2)
+  User_ID        String?   @default("77777", map: "DF_invSUPPLIER_User_ID") @db.NChar(10)
+  Tgl_Input      DateTime? @default(now(), map: "DF_invSUPPLIER_Tgl_Input") @db.SmallDateTime
+  Updated        String?   @default("N", map: "DF_invSUPPLIER_Updated") @db.NChar(1)
+  Send_HO        String?   @default("N", map: "DF_invSUPPLIER_Send_HO_1") @db.NChar(1)
+  Send_CAB       String?   @default("N", map: "DF_invSUPPLIER_Send_CAB") @db.NChar(1)
+  Send_CAB_Date  DateTime? @default(now(), map: "DF_invSUPPLIER_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invSYSTEM {
+  idnya               Int       @default(autoincrement())
+  TanggalResetBulanan DateTime? @db.SmallDateTime
+  BatchClose_GL       String?   @db.NChar(6)
+  BatchJalan_GL       String?   @db.NChar(6)
+  Batch_SALDO         String?   @db.NChar(6)
+  Versi               String?   @default("", map: "DF_invSYSTEM_Versi") @db.NChar(10)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invTIPE {
+  idnya         Int       @default(autoincrement())
+  Kode          String?   @db.NChar(2)
+  Deskripsi     String?   @db.NChar(20)
+  Aktif         String?   @default("Y", map: "DF_invTIPE_Aktif") @db.NChar(1)
+  RECIEVED_BY   String?   @default("", map: "DF_invTIPE_RECIEVED_BY") @db.NChar(100)
+  Kode_Cabang   String?   @db.NChar(2)
+  User_ID       String?   @default("77777", map: "DF_invTIPE_User_ID") @db.NChar(10)
+  Tgl_Input     DateTime? @default(now(), map: "DF_invTIPE_Tgl_Input") @db.SmallDateTime
+  Updated       String?   @default("N", map: "DF_invTIPE_Updated") @db.NChar(1)
+  Send_HO       String    @default("N", map: "DF_invTIPE_Send_HO") @db.NChar(1)
+  Send_CAB      String?   @default("N", map: "DF_invTIPE_Send_CAB") @db.NChar(1)
+  Send_CAB_Date DateTime? @default(now(), map: "DF_invTIPE_Send_CAB_Date") @db.SmallDateTime
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invUNIT {
+  idnya       Int       @default(autoincrement())
+  Deskripsi   String?   @db.NChar(10)
+  Kode_cabang String?   @db.NChar(2)
+  User_ID     String?   @db.NChar(10)
+  Tgl_Input   DateTime? @db.SmallDateTime
+  Updated     String?   @db.NChar(1)
+  Send_HO     String?   @default("N", map: "DF_invUNIT_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invUSER {
+  idnya          Int       @default(autoincrement())
+  User_ID        String    @db.NChar(10)
+  User_Name      String    @db.NChar(30)
+  User_Pwd       String    @db.NChar(20)
+  IsCEO          Boolean   @default(false, map: "DF_invUSER_IsCEO")
+  IsMgrACCT      Boolean   @default(false, map: "DF_invUSER_IsMgrACCT")
+  IsACCT         Boolean   @default(false, map: "DF_invUSER_IsACCT")
+  IsMgrFIN       Boolean   @default(false, map: "DF_invUSER_IsMgrFIN")
+  IsFIN          Boolean   @default(false, map: "DF_invUSER_IsFIN")
+  IsMgrHRD       Boolean   @default(false, map: "DF_invUSER_IsMgrHRD")
+  IsHRD          Boolean   @default(false, map: "DF_invUSER_IsHRD")
+  IsMgrGA        Boolean   @default(false, map: "DF_invUSER_IsMgrGA")
+  IsGA           Boolean   @default(false, map: "DF_invUSER_IsGA")
+  IsMgrIT        Boolean   @default(false, map: "DF_invUSER_IsMgrIT")
+  IsIT           Boolean   @default(false, map: "DF_invUSER_IsIT")
+  IsMgrGUDANG    Boolean   @default(false, map: "DF_invUSER_IsMgrGUDANG")
+  IsGUDANG       Boolean   @default(false, map: "DF_invUSER_IsGUDANG")
+  IsMgrOPR       Boolean   @default(false, map: "DF_invUSER_IsMgrOPR")
+  IsOPR          Boolean   @default(false, map: "DF_invUSER_IsOPR")
+  IsMgrKLINIK    Boolean   @default(false, map: "DF_invUSER_IsMgrKLINIK")
+  IsKLINIK       Boolean   @default(false, map: "DF_invUSER_IsKLINIK")
+  IsMgrPROGRAM   Boolean   @default(false, map: "DF_invUSER_IsMgrPROGRAM")
+  IsPROGRAM      Boolean   @default(false, map: "DF_invUSER_IsPROGRAM")
+  IsMgrMARKETING Boolean   @default(false, map: "DF_invUSER_IsMgrMARKETING")
+  IsMARKETING    Boolean   @default(false, map: "DF_invUSER_IsMARKETING")
+  IsMgrCEU       Boolean
+  IsCEU          Boolean   @default(false, map: "DF_invUSER_IsCEU")
+  IsMgrRnD       Boolean   @default(false, map: "DF_invUSER_IsMgrRnD")
+  IsRnD          Boolean   @default(false, map: "DF_invUSER_IsRnD")
+  IsMgrLegal     Boolean   @default(false, map: "DF_invUSER_IsMgrLegal")
+  IsLegal        Boolean   @default(false, map: "DF_invUSER_IsLegal")
+  IsPsi          Boolean   @default(false, map: "DF_invUSER_IsPsi")
+  IsMgrPsi       Boolean   @default(false, map: "DF_invUSER_IsMgrPsi")
+  IsDir          Boolean   @default(false, map: "DF_invUSER_IsDir")
+  IsMgrDir       Boolean   @default(false, map: "DF_invUSER_IsMgrDir")
+  Otorisasi      String?   @default("", map: "DF_invUSER_Otorisasi") @db.NChar(100)
+  Tgl_Input      DateTime? @default(now(), map: "DF_invUSER_Tgl_Input") @db.SmallDateTime
+  Send_HO        String?   @default("N", map: "DF_invUSER_Send_HO") @db.NChar(1)
+  Send_CAB       String?   @default("N", map: "DF_invUSER_Send_CAB") @db.NChar(1)
+  Send_CAB_Date  DateTime? @default(now(), map: "DF_invUSER_Send_CAB_Date") @db.SmallDateTime
+  IsRealManager  String?   @db.VarChar(50)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invVOUCHEROUT {
+  idnya          Int       @default(autoincrement())
+  No_Bukti       String?   @db.NChar(13)
+  No_Voucher     String?   @default("", map: "DF_invVOUCHEROUT_No_Voucher") @db.NChar(30)
+  No_Doc         String?   @default("", map: "DF_invVOUCHEROUT_No_Voucher1") @db.NChar(30)
+  Tanggal        DateTime? @db.SmallDateTime
+  Supplier       String?   @db.NChar(50)
+  Total_Bayar    Decimal?  @default(0, map: "DF_invVOUCHEROUT_Total_Bayar") @db.Decimal(18, 2)
+  Bank           String?   @db.NChar(10)
+  No_Perkiraan   String?   @db.NChar(6)
+  Kode_Transaksi String?   @default("OUT", map: "DF_invVOUCHEROUT_Kode_Transaksi") @db.NChar(3)
+  Approved_By    String?   @db.NChar(10)
+  Approved_Date  DateTime? @db.SmallDateTime
+  Status         String?   @db.NChar(10)
+  No_BuktiGL     String?   @default("", map: "DF_invVOUCHEROUT_No_BuktiGL") @db.NChar(20)
+  Kode_Cabang    String?   @db.NChar(2)
+  User_ID        String?   @db.NChar(10)
+  Tgl_Input      DateTime? @db.SmallDateTime
+  Updated        String?   @db.NChar(1)
+  Send_HO        String?   @default("N", map: "DF_invVOUCHEROUT_Send_HO") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model invWORKORDER {
+  idnya             Int       @default(autoincrement())
+  No_PO             String?   @db.NChar(13)
+  Tanggal           DateTime? @default(now(), map: "DF_invWORKORDER_Tanggal") @db.SmallDateTime
+  Tanggal_Selesai   DateTime? @default(now(), map: "DF_invWORKORDER_Tanggal_Selesai") @db.SmallDateTime
+  Departemen        String?   @db.NChar(5)
+  Supplier          String?   @db.NChar(13)
+  Qty               Decimal?  @default(0, map: "DF_invWORKORDER_Qty_1") @db.Decimal(18, 0)
+  Nilai             Decimal?  @default(0, map: "DF_invWORKORDER_Nilai_1") @db.Decimal(18, 0)
+  Diskon            Decimal?  @default(0, map: "DF_invWORKORDER_Diskon_Item") @db.Decimal(18, 0)
+  Net_Blm_PPN       Decimal?  @default(0, map: "DF_invWORKORDER_Net_Blm_PPN_1") @db.Decimal(18, 0)
+  Nilai_PPN         Decimal?  @default(0, map: "DF_invWORKORDER_Nilai_PPN_1") @db.Decimal(18, 0)
+  Net_Sdh_PPN       Decimal?  @default(0, map: "DF_invWORKORDER_Net_Sdh_PPN_1") @db.Decimal(18, 0)
+  Total_Transaksi   Decimal?  @default(0, map: "DF_invWORKORDER_Total_Transaksi_1") @db.Decimal(18, 0)
+  Lokasi            String?   @db.NChar(200)
+  TOPnya            String?   @db.NChar(100)
+  Status            String?   @db.NChar(10)
+  IsPPN             String?   @db.NChar(1)
+  Approved_By       String?   @db.NChar(10)
+  Approved_Date     DateTime? @db.SmallDateTime
+  Approved_CEO      String?   @db.NChar(10)
+  Approved_CEO_Date DateTime? @db.SmallDateTime
+  Rejected_By       String?   @db.NChar(10)
+  Rejected_Date     DateTime? @db.SmallDateTime
+  Kode_Cabang       String?   @db.NChar(2)
+  User_ID           String?   @db.NChar(10)
+  Tgl_Input         DateTime? @db.SmallDateTime
+  Updated           String?   @db.NChar(1)
+  Send_HO           String?   @default("N", map: "DF_invWORKORDER_Send_HO_1") @db.NChar(1)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model novoucher {
+  No_Bukti     String? @db.NChar(20)
+  No_Voucher   String? @db.NChar(20)
+  No_VoucherGL String? @db.NChar(20)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model rekap_view {
+  kode_cabang String? @db.NVarChar(2)
+  no_account  String? @db.NVarChar(6)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model StkKV {
+  Kode      String?  @db.NVarChar(13)
+  qty       Decimal? @db.Decimal(18, 0)
+  totalcost Decimal? @db.Decimal(18, 0)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model StkLC {
+  Kode      String?  @db.NVarChar(13)
+  qty       Decimal? @db.Decimal(18, 0)
+  totalcost Decimal? @db.Decimal(18, 0)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model temporer_view {
+  kode_cabang String? @db.NVarChar(2)
+  no_account  String? @db.NVarChar(6)
+
+  @@ignore
+}
