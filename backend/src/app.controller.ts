@@ -36,6 +36,16 @@ export class AppController {
     return await this.appService.getRevenueGrowth({startdate, enddate});
   }
 
+  @Get('api/revenuegrowthpersource')
+  async getAllRevenueGrowthPerSource(@Query('startdate') startdate: string, @Query('enddate') enddate: string) {
+    return await this.appService.getRevenueGrowthPerSource({startdate, enddate});
+  }
+
+  @Get('api/productranked')
+  async getAllProductRanked(@Query('startdate') startdate: string, @Query('enddate') enddate: string) {
+    return await this.appService.getProductRanked({startdate, enddate});
+  }
+
   @Get('api/channelcontribution')
   async getAllChannelContribution(@Query('startdate') startdate: string, @Query('enddate') enddate: string) {
     return await this.appService.getChannelContribution({startdate, enddate});

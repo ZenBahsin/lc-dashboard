@@ -117,6 +117,119 @@ export class AppService {
     };
   }
 
+  async getRevenueGrowthPerSource(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    // const startdate = '2022-09-01'
+    // const enddate = '2022-09-30'
+    const getDataRevenueGrowthPerSource: any = await this.dbService.$queryRaw`
+select 'b2b' as sourcetype, sum(Grand_Total) as revenue_growths, MONTH(Tanggal) as bulan from invINVOICE
+where  Tanggal BETWEEN ${startdate} AND ${enddate}
+group by MONTH(Tanggal) 
+union all
+select 'ownshop' as sourcetype, sum(revenue_growth) as revenue_growths, bulan from 
+((
+select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as bulan from  invSALES 
+where  Tanggal BETWEEN ${startdate} AND ${enddate}
+group by
+MONTH(Tanggal)) union all
+(select sum(Net_Transaksi) as revenue_growth, MONTH(Tanggal) as bulan from  dtTRANSAKSI 
+where  Tanggal BETWEEN ${startdate} AND ${enddate}
+group by
+MONTH(Tanggal))) io
+group by
+bulan`;
+
+    return {
+      getDataRevenueGrowthPerSource,
+    };
+  }
+  async getProductRanked(params: { startdate?: string; enddate?: string }) {
+    const { startdate, enddate } = params;
+    // const startdate = '2022-09-01'
+    // const enddate = '2022-09-30'
+    const getDataProductRanked: any = await this.dbService.$queryRaw`
+  select
+    product,
+    sum(revenue_growth) as revenue_growths
+from
+    (
+        (
+            select
+                sum(Grand_Total) as revenue_growth,
+                invFARMASI.Katagori as product
+            from
+                invINVOICE
+                JOIN invITEMINVOICE ON invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+                JOIN invFARMASI ON invITEMINVOICE.Kode = invFARMASI.Kode
+            where
+                invFARMASI.Katagori in (
+                    'WORKSHOP',
+                    'APPS',
+                    'LIGHTTOOLS',
+                    'LIGHTMEAL',
+                    'PAKET'
+                )
+                AND Tanggal BETWEEN ${startdate} AND ${enddate}
+            group by
+                invFARMASI.Katagori
+        )
+        union
+        all (
+            select
+                sum(Grand_Total) as revenue_growth,
+                invFARMASI.Katagori as product
+            from
+                invSALES
+                JOIN invITEMSALES ON invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+                JOIN invFARMASI ON invITEMSALES.Kode = invFARMASI.Kode
+            where
+                invFARMASI.Katagori in (
+                    'WORKSHOP',
+                    'APPS',
+                    'LIGHTTOOLS',
+                    'LIGHTMEAL',
+                    'PAKET'
+                )
+                AND Tanggal BETWEEN ${startdate} AND ${enddate}
+            group by
+                invFARMASI.Katagori
+        )
+        union
+        all (
+            (
+                select
+                    sum (Net_Transaksi) as revenue_growth,
+                    invFARMASI.Katagori as product
+                FROM
+                    dtTRANSAKSI
+                    JOIN dtITEMTRANSAKSI ON dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+                    JOIN invFARMASI ON dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+                where
+                    invFARMASI.Katagori in (
+                        'WORKSHOP',
+                        'APPS',
+                        'LIGHTTOOLS',
+                        'LIGHTMEAL',
+                        'PAKET'
+                    )
+                    AND Tanggal BETWEEN ${startdate} AND ${enddate}
+                group by
+                    invFARMASI.Katagori
+            )
+        )
+    ) io
+group by
+    product
+order by
+    revenue_growths DESC `;
+
+    return {
+      getDataProductRanked,
+    };
+  }
   async getChannelContribution(params: {
     startdate?: string;
     enddate?: string;
@@ -183,8 +296,8 @@ export class AppService {
       group by
       product order by revenue_growths DESC `;
 
-      return {
-        getProductContributionData
-      }
+    return {
+      getProductContributionData,
+    };
   }
 }
