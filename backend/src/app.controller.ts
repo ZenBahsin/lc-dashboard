@@ -32,13 +32,13 @@ export class AppController {
   }
 
   @Get('api/revenuegrowth')
-  async getAllRevenueGrowth(@Query('startdate') startdate: string, @Query('enddate') enddate: string) {
-    return await this.appService.getRevenueGrowth({startdate, enddate});
+  async getAllRevenueGrowth(@Query('startdate') startdate: string, @Query('enddate') enddate: string, @Query('groupby') groupby: string) {
+    return await this.appService.getRevenueGrowth({startdate, enddate, groupby});
   }
 
   @Get('api/revenuegrowthpersource')
-  async getAllRevenueGrowthPerSource(@Query('startdate') startdate: string, @Query('enddate') enddate: string) {
-    return await this.appService.getRevenueGrowthPerSource({startdate, enddate});
+  async getAllRevenueGrowthPerSource(@Query('startdate') startdate: string, @Query('enddate') enddate: string,  @Query('groupby') groupby: string) {
+    return await this.appService.getRevenueGrowthPerSource({startdate, enddate, groupby});
   }
 
   @Get('api/productranked')

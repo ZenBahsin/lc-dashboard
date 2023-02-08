@@ -88,11 +88,18 @@ export class AppService {
     };
   }
 
-  async getRevenueGrowth(params: { startdate?: string; enddate?: string }) {
-    const { startdate, enddate } = params;
+  async getRevenueGrowth(params: {
+    startdate?: string;
+    enddate?: string;
+    groupby?: string;
+  }) {
+    const { startdate, enddate, groupby } = params;
     // const startdate = '2022-09-01'
     // const enddate = '2022-09-30'
-    const getDataRevenueGrowth: any = await this.dbService.$queryRaw`
+    let getDataRevenueGrowth: any;
+
+    if (groupby === 'Month' || groupby == '') {
+      getDataRevenueGrowth = await this.dbService.$queryRaw`
   select sum(revenue_growth) as revenue_growths, bulan, DATENAME(MONTH, DATEADD(MONTH, bulan, -1)) AS 'month_name'
   from  ((select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as bulan from  invINVOICE 
   where Tanggal BETWEEN ${startdate} AND ${enddate}
@@ -111,7 +118,49 @@ export class AppService {
   ) io
   group by
   bulan`;
+    } else if (groupby === 'Week') {
+      getDataRevenueGrowth = await this.dbService.$queryRaw`
+        select sum(revenue_growth) as revenue_growths, Minggu
+        from  ((select sum(Grand_Total) as revenue_growth, DATEPART(week, Tanggal) AS Minggu from  invINVOICE 
+        where Tanggal BETWEEN ${startdate} AND ${enddate}
+        group by
+        DATEPART(week, Tanggal)) union all
+        (select sum(Grand_Total) as revenue_growth, DATEPART(week, Tanggal) AS Minggu from  invSALES 
+        where Tanggal BETWEEN ${startdate} AND ${enddate}
+        group by
+        DATEPART(week, Tanggal))
+        union all 
+        ((select sum (Net_Transaksi)
+        as revenue_growth, DATEPART(week, Tanggal) AS Minggu FROM dtTRANSAKSI
+        where Tanggal BETWEEN ${startdate} AND ${enddate}
 
+        group by
+        DATEPART(week, Tanggal)))
+        ) io
+        group by
+        Minggu`;
+    } else if (groupby === 'Day') {
+      getDataRevenueGrowth = await this.dbService.$queryRaw`
+      select sum(revenue_growth) as revenue_growths, hari
+      from  ((select sum(Grand_Total) as revenue_growth, CONVERT(date,Tanggal) AS hari from  invINVOICE 
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+      group by
+      CONVERT(date,Tanggal)) union all
+      (select sum(Grand_Total) as revenue_growth,  CONVERT(date,Tanggal) AS hari from  invSALES 
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+      group by
+      CONVERT(date,Tanggal))
+      union all 
+      ((select sum (Net_Transaksi)
+      as revenue_growth, CONVERT(date,Tanggal) AS hari FROM dtTRANSAKSI
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+
+      group by
+      CONVERT(date,Tanggal)))
+      ) io
+      group by
+      hari`;
+    }
     return {
       getDataRevenueGrowth,
     };
@@ -120,11 +169,14 @@ export class AppService {
   async getRevenueGrowthPerSource(params: {
     startdate?: string;
     enddate?: string;
+    groupby?: string;
   }) {
-    const { startdate, enddate } = params;
+    const { startdate, enddate, groupby } = params;
     // const startdate = '2022-09-01'
     // const enddate = '2022-09-30'
-    const getDataRevenueGrowthPerSource: any = await this.dbService.$queryRaw`
+    let getDataRevenueGrowthPerSource: any;
+    if (groupby === 'Month' || groupby == '') {
+      getDataRevenueGrowthPerSource = await this.dbService.$queryRaw`
 select 'b2b' as sourcetype, sum(Grand_Total) as revenue_growths, MONTH(Tanggal) as bulan from invINVOICE
 where  Tanggal BETWEEN ${startdate} AND ${enddate}
 group by MONTH(Tanggal) 
@@ -141,7 +193,43 @@ group by
 MONTH(Tanggal))) io
 group by
 bulan`;
-
+    } else if (groupby === 'Week') {
+      getDataRevenueGrowthPerSource = await this.dbService.$queryRaw`
+     select 'b2b' as sourcetype, sum(Grand_Total) as revenue_growths, DATEPART(week, Tanggal) AS Minggu from invINVOICE
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+      group by DATEPART(week, Tanggal)
+      union all
+      select 'ownshop' as sourcetype, sum(revenue_growth) as revenue_growths, Minggu from 
+      ((
+      select sum(Grand_Total) as revenue_growth, DATEPART(week, Tanggal) AS Minggu from  invSALES 
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+      group by
+      DATEPART(week, Tanggal)) union all
+      (select sum(Net_Transaksi) as revenue_growth, DATEPART(week, Tanggal) AS Minggu from  dtTRANSAKSI 
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+      group by
+      DATEPART(week, Tanggal))) io
+      group by
+      Minggu`;
+    } else if (groupby === 'Day') {
+      getDataRevenueGrowthPerSource = await this.dbService
+        .$queryRaw`select 'b2b' as sourcetype, sum(Grand_Total) as revenue_growths, CONVERT(date,Tanggal) AS Hari from invINVOICE
+      where Tanggal  BETWEEN ${startdate} AND ${enddate}
+      group by CONVERT(date,Tanggal)
+      union all
+      select 'ownshop' as sourcetype, sum(revenue_growth) as revenue_growths, Hari from 
+      ((
+      select sum(Grand_Total) as revenue_growth, CONVERT(date,Tanggal) AS Hari from  invSALES 
+      where Tanggal  BETWEEN ${startdate} AND ${enddate}
+      group by
+      CONVERT(date,Tanggal)) union all
+      (select sum(Net_Transaksi) as revenue_growth, CONVERT(date,Tanggal) AS Hari from  dtTRANSAKSI 
+      where Tanggal  BETWEEN ${startdate} AND ${enddate}
+      group by
+      CONVERT(date,Tanggal))) io
+      group by
+      Hari`;
+    }
     return {
       getDataRevenueGrowthPerSource,
     };

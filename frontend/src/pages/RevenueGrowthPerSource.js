@@ -31,10 +31,13 @@ ChartJS.register(
 const RevenueGrowthPerSource = () => {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
+  const groupby = "Week";
+  const startdate = "2022-06-01";
+  const enddate = "2022-06-20";
   useEffect(() => {
     setLoading(true);
     fetch(
-      "http://localhost:8000/api/revenuegrowthpersource?startdate=2022-01-01&enddate=2022-12-30"
+      `http://localhost:8000/api/revenuegrowthpersource?startdate=${startdate}&enddate=${enddate}&groupby=${groupby}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -47,11 +50,23 @@ const RevenueGrowthPerSource = () => {
   if (!data) return <p>No profile data</p>;
 
   const getLabels = Array.from(
-    new Set(data.getDataRevenueGrowthPerSource.map((datas) => datas?.bulan))
+    new Set(
+      data.getDataRevenueGrowthPerSource.map((datas) =>
+        groupby === "Week"
+          ? datas?.Minggu
+          : groupby === "Month"
+          ? datas?.bulan
+          : datas?.Hari
+      )
+    )
   );
-  getLabels.sort((a, b) => a - b);
+  getLabels.sort((a, b) =>
+    groupby === "Day" ? new Date(a) - new Date(b) : a - b
+  );
   const labels = getLabels.map(String);
-  //console.log(labels);
+  //labels.sort((a, b) => new Date(a) - new Date(b));
+
+  console.log(labels);
 
   const optionsArea = {
     responsive: true,
@@ -96,27 +111,54 @@ const RevenueGrowthPerSource = () => {
 
   const filledMonths = data.getDataRevenueGrowthPerSource
     .filter((datas) => datas.sourcetype === "b2b")
-    .map((datas) => datas.bulan);
+    .map((datas) =>
+      groupby === "Week"
+        ? datas?.Minggu
+        : groupby === "Month"
+        ? datas?.bulan
+        : datas?.Hari
+    );
+
+  const getDataRevenueB2B = data.getDataRevenueGrowthPerSource
+    .filter((datas) => datas.sourcetype === "b2b")
+    .map((datas) => datas?.revenue_growths);
+
+  console.log(getDataRevenueB2B);
+
   const newfilledMonths = filledMonths.map(String);
   const datasetB2B = labels.map((datas) => {
     const indexOfFilledData = newfilledMonths.indexOf(datas);
-    if (indexOfFilledData !== -1)
-      return data.getDataRevenueGrowthPerSource[indexOfFilledData]
-        .revenue_growths;
+    if (indexOfFilledData !== -1) return getDataRevenueB2B[indexOfFilledData];
     return null;
   });
 
   const filledMonthsonshop = data.getDataRevenueGrowthPerSource
     .filter((datas) => datas.sourcetype === "ownshop")
-    .map((datas) => datas.bulan);
+    .map((datas) =>
+      groupby === "Week"
+        ? datas?.Minggu
+        : groupby === "Month"
+        ? datas?.bulan
+        : datas?.Hari
+    );
+
+  // console.log(filledMonthsonshop);
+
+  const getDataRevenueOwnShop = data.getDataRevenueGrowthPerSource
+    .filter((datas) => datas.sourcetype === "ownshop")
+    .map((datas) => datas?.revenue_growths);
+
+  console.log(getDataRevenueOwnShop);
+
   const newfilledMonthsonshop = filledMonthsonshop.map(String);
   const datasetOnshop = labels.map((datas) => {
     const indexOfFilledData = newfilledMonthsonshop.indexOf(datas);
     if (indexOfFilledData !== -1)
-      return data.getDataRevenueGrowthPerSource[indexOfFilledData]
-        .revenue_growths;
+      return getDataRevenueOwnShop[indexOfFilledData];
     return null;
   });
+
+  console.log(datasetOnshop);
 
   const dataChart = {
     labels,
@@ -155,6 +197,10 @@ const RevenueGrowthPerSource = () => {
         padding: "1%",
       }}
     >
+      <p>
+        {startdate} - {enddate}
+      </p>
+      <p>{groupby}</p>
       <Bar options={optionsArea} data={dataChart} width={100} height={50} />
     </div>
   );

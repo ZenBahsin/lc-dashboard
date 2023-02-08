@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import Moment from "react-moment";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -29,10 +30,13 @@ ChartJS.register(
 const Home = () => {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
+  const groupby = "Day";
+  const startdate = "2022-09-15";
+  const enddate = "2022-09-30";
   useEffect(() => {
     setLoading(true);
     fetch(
-      "http://localhost:8000/api/revenuegrowth?startdate=2022-01-01&enddate=2022-12-30"
+      `http://localhost:8000/api/revenuegrowth?startdate=${startdate}&enddate=${enddate}&groupby=${groupby}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -71,7 +75,15 @@ const Home = () => {
   };
 
   const datatachart = {
-    labels: data.getDataRevenueGrowth.map((datas) => datas?.month_name),
+    labels: data.getDataRevenueGrowth.map((datas) =>
+      groupby === "Week" ? (
+        datas?.Minggu
+      ) : groupby === "Month" ? (
+        datas?.bulan
+      ) : (
+        datas?.hari
+      )
+    ),
     datasets: [
       {
         fill: false,
@@ -85,20 +97,18 @@ const Home = () => {
 
   return (
     <div
-    style={{
-      height: "60vh",
-      position: "relative",
-      marginBottom: "1%",
-      padding: "1%",
-    }}
-  >
-      <Line
-        options={optionsArea}
-        data={datatachart}
-        width={100}
-        height={50}
-      />
-      ;
+      style={{
+        height: "60vh",
+        position: "relative",
+        marginBottom: "1%",
+        padding: "1%",
+      }}
+    >
+      <p>
+        {startdate} - {enddate}
+      </p>
+      <p>{groupby}</p>
+      <Line options={optionsArea} data={datatachart} width={100} height={50} />
     </div>
   );
 };
