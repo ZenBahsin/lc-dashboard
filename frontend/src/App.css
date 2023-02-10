@@ -36,3 +36,45 @@
     transform: rotate(360deg);
   }
 }
+
+
+th, td {
+  font-weight:normal !important;
+  padding:5px !important;
+  width:120px !important;
+  vertical-align:top !important;
+}
+/* th {
+  background:#00B0F0 !important;
+} */
+/* tr + tr th, tbody th {
+  background:#DAEEF3 !important;;
+} */
+
+.green{
+  background: #EFF2A9 !important;
+}
+.soft-green{
+  background: #FBFCEA;
+}
+.grey{
+  background: #B3B3B3 !important;
+}
+.soft-grey{
+  background: #E5E5E5 !important;
+}
+
+#mytable {
+  border-collapse:collapse !important;
+  table-layout:fixed;
+}
+
+#mytable th, #mytable td {
+  padding: 8px;
+  text-align: left;
+}
+
+#mytable th {
+
+  font-weight: bold;
+}

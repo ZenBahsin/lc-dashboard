@@ -1,33 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Moment from "react-moment";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend,
-  ArcElement,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
+import { AreaChart } from "./libs/area-chart";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend,
-  ArcElement
-);
-
-const Home = () => {
+const RevenueGrowth = () => {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const groupby = "Day";
@@ -36,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `http://localhost:8000/api/revenuegrowth?startdate=${startdate}&enddate=${enddate}&groupby=${groupby}`
+      `http://localhost:8000/api/b2brevenuegrowth?startdate=${startdate}&enddate=${enddate}&groupby=${groupby}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -75,20 +50,18 @@ const Home = () => {
   };
 
   const datatachart = {
-    labels: data.getDataRevenueGrowth.map((datas) =>
-      groupby === "Week" ? (
-        datas?.Minggu
-      ) : groupby === "Month" ? (
-        datas?.bulan
-      ) : (
-        datas?.hari
-      )
+    labels: data.getB2BDataRevenueGrowth.map((datas) =>
+      groupby === "Week"
+        ? datas?.Minggu
+        : groupby === "Month"
+        ? datas?.bulan
+        : datas?.hari
     ),
     datasets: [
       {
         fill: false,
         // label: "Dataset 2",
-        data: data.getDataRevenueGrowth.map((datas) => datas?.revenue_growths),
+        data: data.getB2BDataRevenueGrowth.map((datas) => datas?.revenue_growth),
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
@@ -96,21 +69,28 @@ const Home = () => {
   };
 
   return (
-    <div
-      style={{
-        height: "60vh",
-        position: "relative",
-        marginBottom: "1%",
-        padding: "1%",
-      }}
-    >
-      <p>
-        {startdate} - {enddate}
-      </p>
-      <p>{groupby}</p>
-      <Line options={optionsArea} data={datatachart} width={100} height={50} />
-    </div>
+    <>
+      <div
+        style={{
+          height: "60vh",
+          position: "relative",
+          marginBottom: "1%",
+          padding: "1%",
+        }}
+      >
+        <p>
+          {startdate} - {enddate}
+        </p>
+        <p>{groupby}</p>
+        <AreaChart
+          options={optionsArea}
+          data={datatachart}
+          width={200}
+          height={50}
+        />
+      </div>
+    </>
   );
 };
 
-export default Home;
+export default RevenueGrowth;

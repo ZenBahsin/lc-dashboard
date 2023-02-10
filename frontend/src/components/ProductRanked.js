@@ -6,6 +6,7 @@ const styles = {
   table: {
     width: "30%",
     borderSpacing: "10px",
+    borderCollapse: "separate"
   },
   td: {
     textAlign: "center",

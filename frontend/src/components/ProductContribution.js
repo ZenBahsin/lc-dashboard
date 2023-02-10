@@ -1,58 +1,34 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend,
-  ArcElement,
-} from "chart.js";
-import { Doughnut } from "react-chartjs-2";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend,
-  ArcElement
-);
+import { DoughnutChart } from "./libs/dougnut-chart";
 
 const ProductContribution = () => {
-  const [datapie, setDatapie] = useState(null);
+  const [data, setData] = useState(null);
 
-  const [isLoadingpie, setLoadingpie] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoadingpie(true);
+    setLoading(true);
     fetch(
       "http://localhost:8000/api/productcontribution?startdate=2022-08-01&enddate=2022-09-30"
     )
       .then((res) => res.json())
       .then((data) => {
-        setDatapie(data);
-        setLoadingpie(false);
+        setData(data);
+        setLoading(false);
       });
   }, []);
 
-  if (isLoadingpie) return <p>Loading Product Contribution...</p>;
-  if (!datapie) return <p>No pie data</p>;
+  if (isLoading) return <p>Loading Product Contribution...</p>;
+  if (!data) return <p>No pie data</p>;
 
-  const datapies = {
-    labels: datapie.getProductContributionData.map((datas) => datas?.product),
+  const datas = {
+    labels: data.getProductContributionData.map((datas) => datas?.product),
     datasets: [
       {
         spacing: 25,
         label: "Product Contribution",
-        data: datapie.getProductContributionData.map(
+        data: data.getProductContributionData.map(
           (datas) => datas?.revenue_growths
         ),
         backgroundColor: [
@@ -80,13 +56,11 @@ const ProductContribution = () => {
         padding: "1%",
       }}
     >
-      <Doughnut
-        data={datapies}
+      <DoughnutChart
+        data={datas}
         width={100}
         height={50}
-        options={{ maintainAspectRatio: false }}
       />
-      ;
     </div>
   );
 };

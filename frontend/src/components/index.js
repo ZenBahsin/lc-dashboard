@@ -7,19 +7,22 @@ const Navbar = () => {
       <Nav>
         <NavMenu>
         <NavLink to="/" activestyle>
-            Revenue Growth
+           HOMEPAGE - OVERVIEW
           </NavLink>
-          <NavLink to="/revenuegrowthpersource" activestyle>
-            Revenue Growth per Source
+          <NavLink to="/transaction" activestyle>
+            Transaction
           </NavLink>
-          <NavLink to="/channelscontribution" activestyle>
-            Channel Contribution
+          <NavLink to="/b2b" activestyle>
+            B2B
           </NavLink>
-          <NavLink to="/productcontribution" activestyle>
-            Product Contribution
+          <NavLink to="/b2bcorporate" activestyle>
+            B2B - Corporate
           </NavLink>
           <NavLink to="/productranked" activestyle>
             Product Ranked
+          </NavLink>
+          <NavLink to="/tabletransaction" activestyle>
+            Transaction Table
           </NavLink>
         </NavMenu>
       </Nav>

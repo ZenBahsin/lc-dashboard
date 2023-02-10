@@ -166,6 +166,37 @@ export class AppService {
     };
   }
 
+  async getB2BRevenueGrowth(params: {
+    startdate?: string;
+    enddate?: string;
+    groupby?: string;
+  }) {
+    const { startdate, enddate, groupby } = params;
+    // const startdate = '2022-09-01'
+    // const enddate = '2022-09-30'
+    let getB2BDataRevenueGrowth: any;
+
+    if (groupby === 'Month' || groupby == '') {
+      getB2BDataRevenueGrowth = await this.dbService.$queryRaw`
+        select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as bulan from invINVOICE
+        where Tanggal BETWEEN '2022-01-01 00:00:00' AND '2022-12-30 00:00:00'
+        group by  MONTH(Tanggal)`;
+    } else if (groupby === 'Week') {
+      getB2BDataRevenueGrowth = await this.dbService.$queryRaw`
+       select sum(Grand_Total) as revenue_growth, DATEPART(week, Tanggal) as Minggu from invINVOICE
+        where Tanggal BETWEEN ${startdate} AND ${enddate}
+        group by  DATEPART(week, Tanggal)`;
+    } else if (groupby === 'Day') {
+      getB2BDataRevenueGrowth = await this.dbService.$queryRaw`
+      select sum(Grand_Total) as revenue_growth, CONVERT(date,Tanggal) AS hari from invINVOICE
+        where Tanggal BETWEEN ${startdate} AND ${enddate}
+        group by  CONVERT(date,Tanggal)`;
+    }
+    return {
+      getB2BDataRevenueGrowth,
+    };
+  }
+
   async getRevenueGrowthPerSource(params: {
     startdate?: string;
     enddate?: string;
@@ -342,6 +373,108 @@ order by
     };
   }
 
+  async getB2BChannelContribution(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getB2BChannelContributionData: any = await this.dbService.$queryRaw`
+    SELECT 'CORPORATE' as sourcetype, sum (invINVOICE.Grand_Total)
+      as revenue_growths  FROM invINVOICE  JOIN  invCABANG ON
+      invCABANG.Kode = invINVOICE.Kode_Cabang 
+      JOIN invPELANGGANCORP ON 
+      invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+      JOIN invITEMINVOICE ON
+      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+      where invPELANGGANCORP.Tipe = 'CORPORATE'
+      AND invINVOICE.Tanggal BETWEEN '2022-01-01 00:00:00' AND '2022-12-31 00:00:00'
+union all
+SELECT 'RETAIL' as sourcetype, sum (invINVOICE.Grand_Total)
+      as revenue_growths  FROM invINVOICE  JOIN  invCABANG ON
+      invCABANG.Kode = invINVOICE.Kode_Cabang 
+      JOIN invPELANGGANCORP ON 
+      invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+      JOIN invITEMINVOICE ON
+      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+      where invPELANGGANCORP.Tipe = 'RETAIL'
+      AND invINVOICE.Tanggal BETWEEN ${startdate} AND ${enddate}
+union all
+SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
+      as Ach  FROM invINVOICE  JOIN  invCABANG ON
+      invCABANG.Kode = invINVOICE.Kode_Cabang 
+      JOIN invPELANGGANCORP ON 
+      invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+      JOIN invITEMINVOICE ON
+      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+      where invPELANGGANCORP.Tipe = 'RESELLER'
+      AND invINVOICE.Tanggal BETWEEN ${startdate} AND ${enddate}
+`;
+    return {
+      getB2BChannelContributionData,
+    };
+  }
+
+  async getB2BProductContribution(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getB2BProductContributionData: any = await this.dbService
+      .$queryRaw`select sum(Grand_Total) as revenue_growth, invFARMASI.Katagori as product from
+      invINVOICE
+      JOIN invITEMINVOICE ON invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+       JOIN invFARMASI ON invITEMINVOICE.Kode = invFARMASI.Kode
+                  where
+                      invFARMASI.Katagori in (
+                          'WORKSHOP',
+                          'APPS',
+                          'LIGHTTOOLS',
+                          'LIGHTMEAL',
+                          'PAKET'
+                      )
+                      AND Tanggal BETWEEN ${startdate} AND ${enddate}
+                  group by
+                      invFARMASI.Katagori 
+      order by
+          sum(Grand_Total) DESC `;
+
+    return {
+      getB2BProductContributionData,
+    };
+  }
+
+  async getB2BCorporateProductContribution(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getB2BCorporateProductContributionData: any = await this.dbService
+      .$queryRaw`select sum(Grand_Total) as revenue_growth, invFARMASI.Katagori as product from
+      invINVOICE
+      JOIN invITEMINVOICE ON invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+       JOIN invFARMASI ON invITEMINVOICE.Kode = invFARMASI.Kode
+	    JOIN invPELANGGANCORP ON 
+    invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+                  where
+                      invFARMASI.Katagori in (
+                          'WORKSHOP',
+                          'APPS',
+                          'LIGHTTOOLS',
+                          'LIGHTMEAL',
+                          'PAKET'
+                      )
+                      AND Tanggal BETWEEN ${startdate} AND ${enddate}
+					  AND invPELANGGANCORP.Tipe = 'CORPORATE'
+                  group by
+                      invFARMASI.Katagori 
+      order by
+          sum(Grand_Total) DESC `;
+
+    return {
+      getB2BCorporateProductContributionData,
+    };
+  }
+
   async getProductContribution(params: {
     startdate?: string;
     enddate?: string;
@@ -386,6 +519,158 @@ order by
 
     return {
       getProductContributionData,
+    };
+  }
+
+  async getMatrixTableofTransaction(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getMatrixTableofTransactionData: any = await this.dbService
+      .$queryRaw`select 'b2b' as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+      JOIN invITEMINVOICE ON
+      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+      JOIN invFARMASI ON
+      invITEMINVOICE.Kode = invFARMASI.Kode
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      group by  invFARMASI.Katagori 
+      union all
+      select 'ownshop' as sourcetype, sum(ACH) as ach, product from 
+      ((
+      select sum(Grand_Total) as ACH, invFARMASI.Katagori as product from  invSALES 
+      JOIN invITEMSALES ON
+      invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+      JOIN invFARMASI ON
+      invITEMSALES.Kode = invFARMASI.Kode
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      group by
+       invFARMASI.Katagori) union all
+      (select sum(Net_Transaksi) as ACH, invFARMASI.Katagori as product from  dtTRANSAKSI 
+      JOIN dtITEMTRANSAKSI ON
+      dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+      JOIN invFARMASI ON
+      dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      group by
+      invFARMASI.Katagori)) io
+      group by
+      product`;
+
+    const getMatrixTableofTotalTransactionData: any = await this.dbService
+      .$queryRaw`select 'TOTAL' as sourcetype, sum(ACH) as ach, product from 
+      ((
+      select sum(Grand_Total) as ACH, invFARMASI.Katagori as product from  invINVOICE
+      JOIN invITEMINVOICE ON
+      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+      JOIN invFARMASI ON
+      invITEMINVOICE.Kode = invFARMASI.Kode
+      where Tanggal  BETWEEN ${startdate} AND ${enddate}
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      group by
+      invFARMASI.Katagori) union all
+      (select sum(Grand_Total) as ACH, invFARMASI.Katagori as product from  invSALES 
+      JOIN invITEMSALES ON
+      invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+      JOIN invFARMASI ON
+      invITEMSALES.Kode = invFARMASI.Kode
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      group by
+      invFARMASI.Katagori) union all
+      (select sum(Net_Transaksi) as ACH, invFARMASI.Katagori as product from  dtTRANSAKSI 
+      JOIN dtITEMTRANSAKSI ON
+      dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+      JOIN invFARMASI ON
+      dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      group by
+      invFARMASI.Katagori)) io
+      group by
+      product`;
+
+    return {
+      getMatrixTableofTransactionData,
+      getMatrixTableofTotalTransactionData,
+    };
+  }
+
+  async getMatrixTableofB2BTransaction(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getMatrixTableofB2BTransactionData: any = await this.dbService
+      .$queryRaw`select invPELANGGANCORP.Tipe as "sourcetype", sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+      JOIN invITEMINVOICE ON
+      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+      JOIN invFARMASI ON
+      invITEMINVOICE.Kode = invFARMASI.Kode
+	   JOIN invPELANGGANCORP ON 
+      invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      group by  invPELANGGANCORP.Tipe, invFARMASI.Katagori
+	  order by invPELANGGANCORP.Tipe`;
+
+    const getMatrixTableofB2BTotalTransactionData: any = await this.dbService
+      .$queryRaw`select 'TOTAL' as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+    JOIN invITEMINVOICE ON
+    invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+    JOIN invFARMASI ON
+    invITEMINVOICE.Kode = invFARMASI.Kode
+   JOIN invPELANGGANCORP ON 
+    invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+    where Tanggal BETWEEN  ${startdate} AND ${enddate}
+    AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+    group by invFARMASI.Katagori`;
+
+    return {
+      getMatrixTableofB2BTransactionData,
+      getMatrixTableofB2BTotalTransactionData,
+    };
+  }
+
+  async getMatrixTableofB2BCorporateTransaction(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getMatrixTableofB2BCorporateTransactionData: any = await this
+      .dbService
+      .$queryRaw`select invPELANGGANCORP.Deskripsi as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+      JOIN invITEMINVOICE ON
+      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+      JOIN invFARMASI ON
+      invITEMINVOICE.Kode = invFARMASI.Kode
+	   JOIN invPELANGGANCORP ON 
+      invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+      where Tanggal  BETWEEN ${startdate} AND ${enddate}
+	  AND invPELANGGANCORP.Tipe = 'CORPORATE'
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      group by  invPELANGGANCORP.Deskripsi, invPELANGGANCORP.Tipe, invFARMASI.Katagori`;
+
+    const getMatrixTableofB2BCorporateTotalTransactionData: any = await this
+      .dbService
+      .$queryRaw`select 'TOTAL' as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+    JOIN invITEMINVOICE ON
+    invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+    JOIN invFARMASI ON
+    invITEMINVOICE.Kode = invFARMASI.Kode
+    JOIN invPELANGGANCORP ON 
+    invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+    where Tanggal BETWEEN ${startdate} AND ${enddate}
+    AND invPELANGGANCORP.Tipe = 'CORPORATE'
+    AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+    group by invFARMASI.Katagori`;
+
+    return {
+      getMatrixTableofB2BCorporateTransactionData,
+      getMatrixTableofB2BCorporateTotalTransactionData,
     };
   }
 }
