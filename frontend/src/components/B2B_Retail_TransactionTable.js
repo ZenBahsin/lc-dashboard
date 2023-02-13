@@ -1,18 +1,17 @@
-/* eslint-disable eqeqeq */
 import React from "react";
 import { useState, useEffect } from "react";
 import THeadVertical from "./libs/matrixTables/TheadVertical";
-import  Tbody  from "./libs/matrixTables/TBody";
+import TBody from "./libs/matrixTables/TBody";
 
-const TransactionTable = () => {
+const B2BCorpTransactionTable = () => {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  const startdate = "2022-08-01";
-  const enddate = "2022-08-30";
+  const startdate = "2022-01-01";
+  const enddate = "2022-12-30";
   useEffect(() => {
     setLoading(true);
     fetch(
-      `http://localhost:8000/api/tablematrixoftransaction?startdate=${startdate}&enddate=${enddate}`
+      `http://localhost:8000/api/tablematrixofb2bretailtransaction?startdate=${startdate}&enddate=${enddate}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -22,12 +21,11 @@ const TransactionTable = () => {
   }, []);
 
   if (isLoading) return <p>Loading Table...</p>;
-  if (!data) return <p>No profile data</p>;
-  console.log(data);
+  if (!data) return <p>No data</p>;
 
   const hasil = [];
 
-  data.getMatrixTableofTransactionData.forEach((data) => {
+  data.getMatrixTableofB2BRetailTransactionData.forEach((data) => {
     const index = hasil.findIndex(
       (hasilData) => hasilData.sourcetype === data.sourcetype
     );
@@ -41,11 +39,9 @@ const TransactionTable = () => {
     }
   });
 
-  console.log(hasil);
-
   const hasilTOTAL = [];
 
-  data.getMatrixTableofTotalTransactionData.forEach((data) => {
+  data.getMatrixTableofB2BRetailTotalTransactionData.forEach((data) => {
     const index = hasilTOTAL.findIndex(
       (hasilData) => hasilData.sourcetype === data.sourcetype
     );
@@ -62,9 +58,9 @@ const TransactionTable = () => {
   return (
     <table style={{ width: "100%" }} id="mytable">
       <THeadVertical />
-      <Tbody data={hasil} dataTotal={hasilTOTAL} />
+      <TBody data={hasil} dataTotal={hasilTOTAL} />
     </table>
   );
 };
 
-export default TransactionTable;
+export default B2BCorpTransactionTable;

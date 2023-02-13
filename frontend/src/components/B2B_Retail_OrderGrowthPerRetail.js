@@ -2,16 +2,16 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { GroupBarChart } from "./libs/bar-group-chart";
 
-const RevenueGrowthPerSource = () => {
+const B2BOrderGrowthPerRetail = () => {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  const groupby = "Week";
-  const startdate = "2022-06-01";
-  const enddate = "2022-06-20";
+  const groupby = "Month";
+  const startdate = "2022-01-01";
+  const enddate = "2022-12-30";
   useEffect(() => {
     setLoading(true);
     fetch(
-      `http://localhost:8000/api/revenuegrowthpersource?startdate=${startdate}&enddate=${enddate}&groupby=${groupby}`
+      `http://localhost:8000/api/ordergrowthperretail?startdate=${startdate}&enddate=${enddate}&groupby=${groupby}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -20,12 +20,12 @@ const RevenueGrowthPerSource = () => {
       });
   }, []);
 
-  if (isLoading) return <p>Loading Revenue Growth per Source...</p>;
-  if (!data) return <p>No profile data</p>;
+  if (isLoading) return <p>Loading Oerder Growth per Retail...</p>;
+  if (!data) return <p>No data</p>;
 
   const getLabels = Array.from(
     new Set(
-      data.getDataRevenueGrowthPerSource.map((datas) =>
+      data.getDataOrderGrowthPerRetail.map((datas) =>
         groupby === "Week"
           ? datas?.Minggu
           : groupby === "Month"
@@ -42,7 +42,7 @@ const RevenueGrowthPerSource = () => {
   console.log(labels);
 
   const sourceTypes = [];
-  data.getDataRevenueGrowthPerSource.forEach((datas) => {
+  data.getDataOrderGrowthPerRetail.forEach((datas) => {
     if (!sourceTypes.includes(datas.sourcetype)) {
       sourceTypes.push(datas.sourcetype);
     }
@@ -50,7 +50,7 @@ const RevenueGrowthPerSource = () => {
 
   const datasets = [];
   sourceTypes.forEach((sourcetype) => {
-    const filledMonths = data.getDataRevenueGrowthPerSource
+    const filledMonths = data.getDataOrderGrowthPerRetail
       .filter((datas) => datas.sourcetype === sourcetype)
       .map((datas) =>
         groupby === "Week"
@@ -60,7 +60,7 @@ const RevenueGrowthPerSource = () => {
           : datas?.Hari
       );
 
-    const getDataOrder = data.getDataRevenueGrowthPerSource
+    const getDataOrder = data.getDataOrderGrowthPerRetail
       .filter((datas) => datas.sourcetype === sourcetype)
       .map((datas) => datas?.revenue_growths);
 
@@ -108,4 +108,4 @@ const RevenueGrowthPerSource = () => {
   );
 };
 
-export default RevenueGrowthPerSource;
+export default B2BOrderGrowthPerRetail;

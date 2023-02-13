@@ -159,4 +159,50 @@ export class AppController {
       enddate,
     });
   }
+
+  @Get('api/tablematrixofb2bretailtransaction')
+  async getAllMatrixTableofB2BRetailTransaction(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getMatrixTableofB2BRetailTransaction({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/b2bretailcontribution')
+  async getAllB2BRetailContribution(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getB2BRetailContribution({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/ordergrowthperretail')
+  async getAllOrderGrowthPerRetail(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+    @Query('groupby') groupby: string,
+  ) {
+    return await this.appService.getOrderGrowthPerRetail({
+      startdate,
+      enddate,
+      groupby,
+    });
+  }
+
+  @Get('api/b2bproductcontributionretail')
+  async getAllB2BProductContributionRetail(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getB2BProductContributionRetail({
+      startdate,
+      enddate,
+    });
+  }
 }

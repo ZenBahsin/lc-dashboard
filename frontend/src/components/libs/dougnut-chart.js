@@ -33,9 +33,12 @@ export const optionsOfDoughnut = {
   segmentStrokeWidth: 5,
   plugins: {
     legend: {
-      //   position: 'top' as const,
-      display: true,
-    },
+        position: "bottom",
+        labels: {
+          fontSize: 14,
+          fontColor: "black",
+        },
+      },
   },
 };
 

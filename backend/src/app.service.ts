@@ -673,4 +673,113 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       getMatrixTableofB2BCorporateTotalTransactionData,
     };
   }
+
+  async getMatrixTableofB2BRetailTransaction(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getMatrixTableofB2BRetailTransactionData: any = await this.dbService
+      .$queryRaw`select invPELANGGANCORP.Deskripsi as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+      JOIN invITEMINVOICE ON
+      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+      JOIN invFARMASI ON
+      invITEMINVOICE.Kode = invFARMASI.Kode
+	   JOIN invPELANGGANCORP ON 
+      invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+      where Tanggal  BETWEEN ${startdate} AND ${enddate}
+	  AND invPELANGGANCORP.Tipe = 'RETAIL'
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      group by  invPELANGGANCORP.Deskripsi, invPELANGGANCORP.Tipe, invFARMASI.Katagori`;
+
+    const getMatrixTableofB2BRetailTotalTransactionData: any = await this
+      .dbService
+      .$queryRaw`select 'TOTAL' as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+    JOIN invITEMINVOICE ON
+    invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+    JOIN invFARMASI ON
+    invITEMINVOICE.Kode = invFARMASI.Kode
+    JOIN invPELANGGANCORP ON 
+    invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+    where Tanggal BETWEEN ${startdate} AND ${enddate}
+    AND invPELANGGANCORP.Tipe = 'RETAIL'
+    AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+    group by invFARMASI.Katagori`;
+
+    return {
+      getMatrixTableofB2BRetailTransactionData,
+      getMatrixTableofB2BRetailTotalTransactionData,
+    };
+  }
+
+  async getB2BRetailContribution(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getB2BRetailContributionData: any = await this.dbService
+      .$queryRaw`    
+  SELECT invPELANGGANCORP.Deskripsi as sourcetype, sum (invINVOICE.Grand_Total)
+      as revenue_growths  FROM invINVOICE  JOIN  invCABANG ON
+      invCABANG.Kode = invINVOICE.Kode_Cabang 
+      JOIN invPELANGGANCORP ON 
+      invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+      JOIN invITEMINVOICE ON
+      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+      where invPELANGGANCORP.Tipe = 'RETAIL'
+      AND invINVOICE.Tanggal  BETWEEN ${startdate} AND ${enddate}
+	  group by  invPELANGGANCORP.Deskripsi`;
+    return {
+      getB2BRetailContributionData,
+    };
+  }
+
+  async getOrderGrowthPerRetail(params: {
+    startdate?: string;
+    enddate?: string;
+    groupby?: string;
+  }) {
+    const { startdate, enddate, groupby } = params;
+    let getDataOrderGrowthPerRetail: any;
+    if (groupby === 'Month' || groupby == '') {
+      getDataOrderGrowthPerRetail = await this.dbService.$queryRaw`
+      select invPELANGGANCORP.Deskripsi as sourcetype, sum(Grand_Total) as revenue_growths, 
+      MONTH(Tanggal) as bulan from invINVOICE
+      JOIN invPELANGGANCORP ON 
+      invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+      where   invPELANGGANCORP.Tipe = 'RETAIL' AND
+      Tanggal  BETWEEN ${startdate} AND ${enddate}
+      group by MONTH(Tanggal), invPELANGGANCORP.Deskripsi
+      order by MONTH(Tanggal), invPELANGGANCORP.Deskripsi`;
+    }
+    return {
+      getDataOrderGrowthPerRetail,
+    };
+  }
+
+  async getB2BProductContributionRetail(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getB2BProductContributionRetailData: any = await this.dbService
+      .$queryRaw`select sum(Grand_Total) as revenue_growth, TRIM(invFARMASI.Katagori) as product,
+      (sum(Grand_Total) * 100)/sum(sum(Grand_Total))  OVER () as 'Percentage_of_revenue_growths'
+      from  invINVOICE
+      JOIN invITEMINVOICE ON
+      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+      JOIN invFARMASI ON
+      invITEMINVOICE.Kode = invFARMASI.Kode
+	  JOIN invPELANGGANCORP ON 
+      invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+      where invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET') AND
+	  invPELANGGANCORP.Tipe = 'RETAIL' AND
+      Tanggal BETWEEN ${startdate} AND ${enddate} 
+      group by
+      invFARMASI.Katagori order by sum(Grand_Total) DESC`;
+
+    return {
+      getB2BProductContributionRetailData,
+    };
+  }
 }

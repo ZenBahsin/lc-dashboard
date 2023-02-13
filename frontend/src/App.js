@@ -2,11 +2,11 @@ import "./App.css";
 import Navbar from "./components/index";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/HomePage";
-import ProductRanked from "./components/ProductRanked";
 import TransactionTable from "./components/TransactionTable";
 import Transaction from "./pages/Transaction";
 import B2B from "./pages/B2B";
 import B2BCorporate from "./pages/B2B_Corporate";
+import B2BRetail from "./pages/B2B_Retail";
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
             path="/b2bcorporate"
             element={<B2BCorporate />}
           />
-          <Route path="/productranked" element={<ProductRanked />} />
+          <Route path="/b2bretail" element={<B2BRetail />} />
           <Route path="/tabletransaction" element={<TransactionTable />} />
         </Routes>
       </Router>

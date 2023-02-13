@@ -6,8 +6,8 @@ const Navbar = () => {
     <>
       <Nav>
         <NavMenu>
-        <NavLink to="/" activestyle>
-           HOMEPAGE - OVERVIEW
+          <NavLink to="/" activestyle>
+            HOMEPAGE - OVERVIEW
           </NavLink>
           <NavLink to="/transaction" activestyle>
             Transaction
@@ -18,8 +18,8 @@ const Navbar = () => {
           <NavLink to="/b2bcorporate" activestyle>
             B2B - Corporate
           </NavLink>
-          <NavLink to="/productranked" activestyle>
-            Product Ranked
+          <NavLink to="/b2bretail" activestyle>
+            B2B - Retail
           </NavLink>
           <NavLink to="/tabletransaction" activestyle>
             Transaction Table
