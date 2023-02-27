@@ -21,8 +21,14 @@ const Navbar = () => {
           <NavLink to="/b2bretail" activestyle>
             B2B - Retail
           </NavLink>
-          <NavLink to="/tabletransaction" activestyle>
-            Transaction Table
+          <NavLink to="/ownshop" activestyle>
+            Own Shop
+          </NavLink>
+          <NavLink to="/ownshopcommerce" activestyle>
+            Own Shop - Commerce
+          </NavLink>
+          <NavLink to="/ownshopcorner" activestyle>
+            Own Shop - Corner
           </NavLink>
         </NavMenu>
       </Nav>

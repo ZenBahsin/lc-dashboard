@@ -56,10 +56,12 @@ const B2BCorpTransactionTable = () => {
     }
   });
   return (
-    <table style={{ width: "100%" }} id="mytable">
-      <THeadVertical />
-      <TBody data={hasil} dataTotal={hasilTOTAL} />
-    </table>
+    <div id="tableContainer">
+      <table>
+        <THeadVertical />
+        <TBody data={hasil} dataTotal={hasilTOTAL} />
+      </table>
+    </div>
   );
 };
 

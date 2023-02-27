@@ -27,7 +27,9 @@ const ProgressBar = ({ product, percentage }) => {
               : "blue"
           }
         >
-          <ProgressLabel color="black">{percentage}%</ProgressLabel>
+          <ProgressLabel fontSize="2xs" color="black">
+            {percentage}%
+          </ProgressLabel>
         </Progress>
       </Box>
     </Flex>

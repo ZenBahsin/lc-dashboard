@@ -782,4 +782,418 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       getB2BProductContributionRetailData,
     };
   }
+
+  async getMatrixTableofOwnShopTransaction(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getMatrixTableofOwnShopTransactionData: any = await this.dbService
+      .$queryRaw` select 'Commerce' as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product 
+      from  invSALES  JOIN invITEMSALES ON invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+        JOIN invFARMASI ON invITEMSALES.Kode = invFARMASI.Kode
+        where Tanggal BETWEEN ${startdate} AND ${enddate} 
+        AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      group by invFARMASI.Katagori
+        union all
+        select 'Corner' as sourcetype, sum(Net_Transaksi) as ach, invFARMASI.Katagori as product 
+      from  dtTRANSAKSI  JOIN dtITEMTRANSAKSI ON dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+        JOIN invFARMASI ON dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+        where Tanggal BETWEEN ${startdate} AND ${enddate} 
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      group by invFARMASI.Katagori`;
+
+    const getMatrixTableofOwnShopTotalTransactionData: any = await this
+      .dbService
+      .$queryRaw`select 'TOTAL' as sourcetype, sum(ach) as ach, product from
+      (
+         select 'Commerce' as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product from  invSALES 
+         JOIN invITEMSALES ON
+         invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+         JOIN invFARMASI ON
+         invITEMSALES.Kode = invFARMASI.Kode
+         where Tanggal BETWEEN  ${startdate} AND ${enddate}
+         AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+         group by
+          invFARMASI.Katagori union all
+         select 'Corner' as sourcetype, sum(Net_Transaksi) as ach, invFARMASI.Katagori as product from  dtTRANSAKSI 
+         JOIN dtITEMTRANSAKSI ON
+         dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+         JOIN invFARMASI ON
+         dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+         where Tanggal BETWEEN '2022-01-01 00:00:00' AND '2022-12-30 00:00:00'  
+         AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+         group by
+         invFARMASI.Katagori 
+         ) io
+        group by
+         product`;
+
+    return {
+      getMatrixTableofOwnShopTransactionData,
+      getMatrixTableofOwnShopTotalTransactionData,
+    };
+  }
+
+  async getOwnShopChannelContribution(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getOwnShopChannelContributionData: any = await this.dbService
+      .$queryRaw`	select 'Commerce' as sourcetype, sum(Grand_Total) as revenue_growth from  invSALES 
+      JOIN invITEMSALES ON invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+        JOIN invFARMASI ON invITEMSALES.Kode = invFARMASI.Kode
+        where Tanggal BETWEEN ${startdate} AND ${enddate}
+        AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+          union all
+        select 'Corner' as sourcetype, sum(Net_Transaksi) as revenue_growth from  dtTRANSAKSI 
+        JOIN dtITEMTRANSAKSI ON dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+        JOIN invFARMASI ON dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+        where Tanggal BETWEEN ${startdate} AND ${enddate} 
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')`;
+
+    return {
+      getOwnShopChannelContributionData,
+    };
+  }
+
+  async getOwnShopProductContribution(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getOwnShopProductContributionData: any = await this.dbService
+      .$queryRaw`select  product, sum(revenue_growth) as revenue_growths, 
+      (sum(revenue_growth) * 100)/sum(sum(revenue_growth))  OVER () as 'Percentage_of_revenue_growths'
+      from ((select sum(Grand_Total) as revenue_growth, invFARMASI.Katagori as product from  invSALES 
+      JOIN invITEMSALES ON
+      invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+      JOIN invFARMASI ON
+      invITEMSALES.Kode = invFARMASI.Kode 
+      where invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      AND
+      Tanggal BETWEEN ${startdate} AND ${enddate}
+      group by
+      invFARMASI.Katagori)
+      union all 
+      ((select sum (Net_Transaksi)
+      as revenue_growth, invFARMASI.Katagori as product FROM dtTRANSAKSI
+      JOIN dtITEMTRANSAKSI ON
+      dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+      JOIN invFARMASI ON
+      dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+      where invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET') AND
+      Tanggal BETWEEN ${startdate} AND ${enddate}  
+      group by
+      invFARMASI.Katagori))
+      ) io
+      group by
+      product order by revenue_growths DESC  `;
+
+    return {
+      getOwnShopProductContributionData,
+    };
+  }
+
+  async getOwnShopRevenueGrowth(params: {
+    startdate?: string;
+    enddate?: string;
+    groupby?: string;
+  }) {
+    const { startdate, enddate, groupby } = params;
+
+    let getDataOwnShopRevenueGrowth: any;
+
+    if (groupby === 'Month' || groupby == '') {
+      getDataOwnShopRevenueGrowth = await this.dbService.$queryRaw`
+      select sum(revenue_growth) as revenue_growths, bulan, DATENAME(MONTH, DATEADD(MONTH, bulan, -1)) AS 'month_name'
+      from  ((select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as bulan from  invSALES 
+      where Tanggal BETWEEN ${startdate} AND ${enddate}  
+      group by
+      MONTH(Tanggal))
+      union all 
+      ((select sum (Net_Transaksi)
+      as revenue_growth, MONTH(Tanggal) as bulan FROM dtTRANSAKSI
+      where Tanggal BETWEEN ${startdate} AND ${enddate}  
+      group by
+      MONTH(Tanggal)))
+      ) io
+      group by
+      bulan`;
+    }
+    return {
+      getDataOwnShopRevenueGrowth,
+    };
+  }
+
+  async getMatrixTableofOwnShopCommerceTransaction(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getMatrixTableofOwnShopCommerceTransactionData: any = await this
+      .dbService
+      .$queryRaw`select invSALES.Pembayaran as sourcetype, sum (invSALES.Grand_Total) as ach,
+      invFARMASI.Katagori as product from invSALES
+        JOIN invITEMSALES ON
+        invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+        JOIN invFARMASI ON
+        invITEMSALES.Kode = invFARMASI.Kode 
+        where invSALES.Tanggal BETWEEN ${startdate} AND ${enddate}
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      AND invSALES.Pembayaran in ('TOKOPEDIA','SHOPEE','BLIBLI','LAZADA','GOFOOD','GRABFOOD', 'LIGHTSHOP(TADA)')
+        group by  invsales.Pembayaran, invFARMASI.Katagori
+      ORDER BY invsales.Pembayaran, invFARMASI.Katagori`;
+
+    const getMatrixTableofOwnShopCommerceTotalTransactionData: any = await this
+      .dbService
+      .$queryRaw`select 'TOTAL' as sourcetype, sum(ach) as ach, product from
+      (
+        select invSALES.Pembayaran as sourcetype, sum (invSALES.Grand_Total) as ach,
+        invFARMASI.Katagori as product from invSALES
+          JOIN invITEMSALES ON
+          invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+          JOIN invFARMASI ON
+          invITEMSALES.Kode = invFARMASI.Kode 
+          where invSALES.Tanggal BETWEEN '2022-01-01 00:00:00' AND '2022-12-31 00:00:00'
+        AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+        AND invSALES.Pembayaran in ('TOKOPEDIA','SHOPEE','BLIBLI','LAZADA','GOFOOD','GRABFOOD', 'LIGHTSHOP(TADA)')
+          group by  invsales.Pembayaran, invFARMASI.Katagori
+      )
+        io
+         group by product`;
+
+    return {
+      getMatrixTableofOwnShopCommerceTransactionData,
+      getMatrixTableofOwnShopCommerceTotalTransactionData,
+    };
+  }
+
+  async getOwnShopCommerceContribution(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getOwnShopCommerceContributionData: any = await this.dbService
+      .$queryRaw`	  select invSALES.Pembayaran as sourcetype, sum (invSALES.Grand_Total) as ach from invSALES
+      JOIN invITEMSALES ON
+      invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+      JOIN invFARMASI ON
+      invITEMSALES.Kode = invFARMASI.Kode 
+      where invSALES.Tanggal BETWEEN ${startdate} AND ${enddate}
+	  AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+	  AND invSALES.Pembayaran in ('TOKOPEDIA','SHOPEE','BLIBLI','LAZADA','GOFOOD','GRABFOOD', 'LIGHTSHOP(TADA)')
+      group by  invsales.Pembayaran
+	  ORDER BY invsales.Pembayaran
+`;
+    return {
+      getOwnShopCommerceContributionData,
+    };
+  }
+
+  async getOwnShopCommerceProductContribution(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getOwnShopCommerceProductContributionData: any = await this.dbService
+      .$queryRaw`select TRIM(invFARMASI.Katagori) as sourcetype, sum (invSALES.Grand_Total) as ach from invSALES
+      JOIN invITEMSALES ON
+      invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+      JOIN invFARMASI ON
+      invITEMSALES.Kode = invFARMASI.Kode 
+      where invSALES.Tanggal BETWEEN ${startdate} AND ${enddate}
+	  AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+	  AND invSALES.Pembayaran in ('TOKOPEDIA','SHOPEE','BLIBLI','LAZADA','GOFOOD','GRABFOOD', 'LIGHTSHOP(TADA)')
+      group by  invFARMASI.Katagori`;
+    return {
+      getOwnShopCommerceProductContributionData,
+    };
+  }
+
+  async getOwnShopCommerceMostSoldProduct(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getOwnShopCommerceMostSoldProductData: any = await this.dbService
+      .$queryRaw`	  select TRIM(invFARMASI.Katagori) as sourcetype, sum (invSALES.Grand_Total) as revenue_growth,
+      (sum(invSALES.Grand_Total) * 100)/sum(sum(invSALES.Grand_Total))  OVER () as 'Percentage_of_revenue_growths'
+      from invSALES
+        JOIN invITEMSALES ON
+        invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+        JOIN invFARMASI ON
+        invITEMSALES.Kode = invFARMASI.Kode 
+        where invSALES.Tanggal BETWEEN ${startdate} AND ${enddate}
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      AND invSALES.Pembayaran in ('TOKOPEDIA','SHOPEE','BLIBLI','LAZADA','GOFOOD','GRABFOOD', 'LIGHTSHOP(TADA)')
+        group by  invFARMASI.Katagori
+      order by Percentage_of_revenue_growths DESC`;
+    return {
+      getOwnShopCommerceMostSoldProductData,
+    };
+  }
+
+  async getRevenueGrowthPerCommerce(params: {
+    startdate?: string;
+    enddate?: string;
+    groupby?: string;
+  }) {
+    const { startdate, enddate, groupby } = params;
+    let getDataRevenueGrowthPerCommerce: any;
+    if (groupby === 'Month' || groupby == '') {
+      getDataRevenueGrowthPerCommerce = await this.dbService.$queryRaw`
+      select invSALES.Pembayaran as sourcetype, sum(Grand_Total) as revenue_growths, 
+      MONTH(Tanggal) as bulan from invSALES
+      JOIN invPELANGGANCORP ON 
+      Tanggal BETWEEN ${startdate} AND ${enddate}
+	  AND invSALES.Pembayaran in ('TOKOPEDIA','SHOPEE','BLIBLI','LAZADA','GOFOOD','GRABFOOD', 'LIGHTSHOP(TADA)')
+      group by MONTH(Tanggal), invSALES.Pembayaran
+      order by  invSALES.Pembayaran, MONTH(Tanggal)`;
+    }
+    return {
+      getDataRevenueGrowthPerCommerce,
+    };
+  }
+
+  async getMatrixTableofOwnShopCornerTransaction(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getMatrixTableofOwnShopCornerTransactionData: any = await this
+      .dbService
+      .$queryRaw`select TRIM(invCABANG.Deskripsi) as sourcetype, sum (dtTRANSAKSI.Total_Transaksi)
+      as ach,  TRIM(invFARMASI.Katagori) as product  FROM dtTRANSAKSI  JOIN  invCABANG ON
+      invCABANG.Kode = dtTRANSAKSI.Kode_Cabang 
+      JOIN dtITEMTRANSAKSI ON
+      dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+      JOIN invFARMASI ON
+      dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+      where invCABANG.Kode IN ('KV', 'PI', 'PP')
+	  AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      AND dtTRANSAKSI.Tanggal BETWEEN ${startdate} AND ${enddate}
+      group by invFARMASI.Katagori, invCABANG.Deskripsi
+	  ORDER BY invCABANG.Deskripsi, invFARMASI.Katagori`;
+
+    const getMatrixTableofOwnShopCornerTotalTransactionData: any = await this
+      .dbService
+      .$queryRaw` select 'TOTAL' as sourcetype, sum(ach) as ach, product from
+      (
+       select invCABANG.Deskripsi as Corner, sum (dtTRANSAKSI.Total_Transaksi)
+        as ach,  invFARMASI.Katagori as product  FROM dtTRANSAKSI  JOIN  invCABANG ON
+        invCABANG.Kode = dtTRANSAKSI.Kode_Cabang 
+        JOIN dtITEMTRANSAKSI ON
+        dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+        JOIN invFARMASI ON
+        dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+        where invCABANG.Kode IN ('KV', 'PI', 'PP')
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+        AND dtTRANSAKSI.Tanggal BETWEEN ${startdate} AND ${enddate}
+        group by invFARMASI.Katagori, invCABANG.Deskripsi
+      ) io
+           group by product`;
+
+    return {
+      getMatrixTableofOwnShopCornerTransactionData,
+      getMatrixTableofOwnShopCornerTotalTransactionData,
+    };
+  }
+
+  async getOwnShopCornerContribution(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getOwnShopCornerContributionData: any = await this.dbService
+      .$queryRaw`select invCABANG.Deskripsi as sourcetype, sum (dtTRANSAKSI.Total_Transaksi)
+      as ach  FROM dtTRANSAKSI  JOIN  invCABANG ON
+      invCABANG.Kode = dtTRANSAKSI.Kode_Cabang 
+      JOIN dtITEMTRANSAKSI ON
+      dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+      JOIN invFARMASI ON
+      dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+      where invCABANG.Kode IN ('KV', 'PI', 'PP')
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+      AND dtTRANSAKSI.Tanggal BETWEEN ${startdate} AND ${enddate}
+      group by invCABANG.Kode, invCABANG.Deskripsi`;
+    return {
+      getOwnShopCornerContributionData,
+    };
+  }
+
+  async getOwnShopCornerProductContribution(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getOwnShopCornerProductContributionData: any = await this.dbService
+      .$queryRaw`select TRIM(invFARMASI.Katagori) as sourcetype, sum (dtTRANSAKSI.Total_Transaksi) as ach from dtTRANSAKSI
+      JOIN  invCABANG ON
+     invCABANG.Kode = dtTRANSAKSI.Kode_Cabang 
+     JOIN dtITEMTRANSAKSI ON
+     dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+     JOIN invFARMASI ON
+     dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+     where dtTRANSAKSI.Tanggal BETWEEN ${startdate} AND ${enddate}
+   AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+   AND invCABANG.Kode IN ('KV', 'PI', 'PP')
+     group by  invFARMASI.Katagori`;
+    return {
+      getOwnShopCornerProductContributionData,
+    };
+  }
+
+  async getOwnShopCornerMostSoldProduct(params: {
+    startdate?: string;
+    enddate?: string;
+  }) {
+    const { startdate, enddate } = params;
+    const getOwnShopCornerMostSoldProductData: any = await this.dbService
+      .$queryRaw`select TRIM(invFARMASI.Katagori) as sourcetype, sum (dtTRANSAKSI.Total_Transaksi) as revenue_growth,
+      (sum(dtTRANSAKSI.Total_Transaksi) * 100)/sum(sum(dtTRANSAKSI.Total_Transaksi))  OVER () as 'Percentage_of_revenue_growths'
+      from dtTRANSAKSI
+            JOIN  invCABANG ON
+           invCABANG.Kode = dtTRANSAKSI.Kode_Cabang 
+           JOIN dtITEMTRANSAKSI ON
+           dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+           JOIN invFARMASI ON
+           dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+           where dtTRANSAKSI.Tanggal BETWEEN ${startdate} AND ${enddate}
+         AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+         AND invCABANG.Kode IN ('KV', 'PI', 'PP')
+           group by  invFARMASI.Katagori`;
+    return {
+      getOwnShopCornerMostSoldProductData,
+    };
+  }
+
+  async getRevenueGrowthPerCorner(params: {
+    startdate?: string;
+    enddate?: string;
+    groupby?: string;
+  }) {
+    const { startdate, enddate, groupby } = params;
+    let getDataRevenueGrowthPerCorner: any;
+    if (groupby === 'Month' || groupby == '') {
+      getDataRevenueGrowthPerCorner = await this.dbService.$queryRaw`
+       select invCABANG.Deskripsi as sourcetype, sum(dtTRANSAKSI.Total_Transaksi) as revenue_growths, 
+      MONTH(Tanggal) as bulan from dtTRANSAKSI
+      JOIN  invCABANG ON
+      invCABANG.Kode = dtTRANSAKSI.Kode_Cabang 
+      JOIN dtITEMTRANSAKSI ON
+      dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+      JOIN invFARMASI ON
+      dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+      where Tanggal BETWEEN ${startdate} AND ${enddate}
+	  AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+	  AND invCABANG.Kode IN ('KV', 'PI', 'PP')
+      group by MONTH(Tanggal),invCABANG.Deskripsi
+      order by  invCABANG.Deskripsi, MONTH(Tanggal)`;
+    }
+    return {
+      getDataRevenueGrowthPerCorner,
+    };
+  }
 }

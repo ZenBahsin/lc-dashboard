@@ -205,4 +205,164 @@ export class AppController {
       enddate,
     });
   }
+
+  @Get('api/tablematrixofownshoptransaction')
+  async getAllMatrixTableofOwnShopTransaction(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getMatrixTableofOwnShopTransaction({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/ownshopchannelcontribution')
+  async getAllOwnShopChannelContribution(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getOwnShopChannelContribution({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/ownshopproductcontribution')
+  async getAllOwnShopProductContribution(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getOwnShopProductContribution({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/ownshoprevenuegrowth')
+  async getAllOwnShopRevenueGrowth(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+    @Query('groupby') groupby: string,
+  ) {
+    return await this.appService.getOwnShopRevenueGrowth({
+      startdate,
+      enddate,
+      groupby,
+    });
+  }
+
+  @Get('api/tablematrixofownshopcommercetransaction')
+  async getAllMatrixTableofOwnShopCommerceTransaction(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getMatrixTableofOwnShopCommerceTransaction({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/ownshopcommercecontribution')
+  async getOwnShopCommerceContribution(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getOwnShopCommerceContribution({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/ownshopcommerceproductcontribution')
+  async getOwnShopCommerceProductContribution(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getOwnShopCommerceProductContribution({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/ownshopcommercemostsoldproduct')
+  async getOwnShopCommerceMostSoldProduct(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getOwnShopCommerceMostSoldProduct({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/revenuegrowthpercommerce')
+  async getRevenueGrowthPerCommerce(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+    @Query('groupby') groupby: string,
+  ) {
+    return await this.appService.getRevenueGrowthPerCommerce({
+      startdate,
+      enddate,
+      groupby,
+    });
+  }
+
+  @Get('api/tablematrixofownshopcornertransaction')
+  async getAllMatrixTableofOwnShopCornerTransaction(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getMatrixTableofOwnShopCornerTransaction({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/ownshopcornercontribution')
+  async getOwnShopCornerContribution(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getOwnShopCornerContribution({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/ownshopcornerproductcontribution')
+  async getOwnShopCornerProductContribution(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getOwnShopCornerProductContribution({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/ownshopcornermostsoldproduct')
+  async getOwnShopCornerMostSoldProduct(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+  ) {
+    return await this.appService.getOwnShopCornerMostSoldProduct({
+      startdate,
+      enddate,
+    });
+  }
+
+  @Get('api/revenuegrowthpercorner')
+  async getRevenueGrowthPerCorner(
+    @Query('startdate') startdate: string,
+    @Query('enddate') enddate: string,
+    @Query('groupby') groupby: string,
+  ) {
+    return await this.appService.getRevenueGrowthPerCorner({
+      startdate,
+      enddate,
+      groupby,
+    });
+  }
 }

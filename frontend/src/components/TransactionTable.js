@@ -2,7 +2,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import THeadVertical from "./libs/matrixTables/TheadVertical";
-import  Tbody  from "./libs/matrixTables/TBody";
+import TBody from "./libs/matrixTables/TBody";
 
 const TransactionTable = () => {
   const [data, setData] = useState(null);
@@ -60,10 +60,12 @@ const TransactionTable = () => {
   });
 
   return (
-    <table style={{ width: "100%" }} id="mytable">
+    <div id="tableContainer">
+    <table>
       <THeadVertical />
-      <Tbody data={hasil} dataTotal={hasilTOTAL} />
+      <TBody data={hasil} dataTotal={hasilTOTAL} />
     </table>
+  </div>
   );
 };
 

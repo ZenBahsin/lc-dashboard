@@ -1,9 +1,10 @@
+/* eslint-disable eqeqeq */
 import React from "react";
 import { useState, useEffect } from "react";
 import THeadVertical from "./libs/matrixTables/TheadVertical";
 import TBody from "./libs/matrixTables/TBody";
 
-const B2BCorpTransactionTable = () => {
+const OwnShopTransactionTable = () => {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const startdate = "2022-01-01";
@@ -11,7 +12,7 @@ const B2BCorpTransactionTable = () => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      `http://localhost:8000/api/tablematrixofb2bretailtransaction?startdate=${startdate}&enddate=${enddate}`
+      `http://localhost:8000/api/tablematrixofownshoptransaction?startdate=${startdate}&enddate=${enddate}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -22,10 +23,11 @@ const B2BCorpTransactionTable = () => {
 
   if (isLoading) return <p>Loading Table...</p>;
   if (!data) return <p>No data</p>;
+  // console.log(data);
 
   const hasil = [];
 
-  data.getMatrixTableofB2BRetailTransactionData.forEach((data) => {
+  data.getMatrixTableofOwnShopTransactionData.forEach((data) => {
     const index = hasil.findIndex(
       (hasilData) => hasilData.sourcetype === data.sourcetype
     );
@@ -41,7 +43,7 @@ const B2BCorpTransactionTable = () => {
 
   const hasilTOTAL = [];
 
-  data.getMatrixTableofB2BRetailTotalTransactionData.forEach((data) => {
+  data.getMatrixTableofOwnShopTotalTransactionData.forEach((data) => {
     const index = hasilTOTAL.findIndex(
       (hasilData) => hasilData.sourcetype === data.sourcetype
     );
@@ -57,12 +59,12 @@ const B2BCorpTransactionTable = () => {
 
   return (
     <div id="tableContainer">
-    <table>
-      <THeadVertical />
-      <TBody data={hasil} dataTotal={hasilTOTAL} />
-    </table>
-  </div>
+      <table>
+        <THeadVertical />
+        <TBody data={hasil} dataTotal={hasilTOTAL} />
+      </table>
+    </div>
   );
 };
 
-export default B2BCorpTransactionTable;
+export default OwnShopTransactionTable;

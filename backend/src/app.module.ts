@@ -4,12 +4,12 @@ import { DirectiveLocation, GraphQLDirective } from 'graphql';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
+import { PdfModule } from './pdf.module';
 import { PrismaService } from './prisma.service';
 
 @Module({
   imports: [
-    // UsersModule,
+    PdfModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
