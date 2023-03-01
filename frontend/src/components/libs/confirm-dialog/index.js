@@ -21,6 +21,7 @@ const ConfirmDialog = ({
   message,
   closeLabel,
   confirmLabel,
+  TitleLabel,
   children,
   options,
 }) => {
@@ -66,7 +67,7 @@ const ConfirmDialog = ({
                 </AlertDialogBody>
               </Conditional>
               <Conditional isTrue={!!options}>
-                <Text mb="8px">Value:</Text>
+                <Text mb="8px">{TitleLabel}:</Text>
                 <Input
                   mb={5}
                   onChange={(e) => {

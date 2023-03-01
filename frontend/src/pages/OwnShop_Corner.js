@@ -31,7 +31,7 @@ const OwnShopCorner = () => {
       endDate,
       periodic,
       printFullPage: true,
-      notes
+      notes,
     });
   };
 
@@ -50,9 +50,10 @@ const OwnShopCorner = () => {
       <FullScreen handle={handle}>
         <ConfirmDialog
           isOpen={showConfirmDialog}
-          title="Print Confirmation"
-          message="Are you sure you want to print this report?"
+          title="Print Konfirmasi"
+          message="Apakah Anda yakin ingin mencetak Laporan Ini?"
           confirmLabel="Print"
+          TitleLabel="Judul Laporan"
           onConfirm={onConfirmHandler}
           onCancel={onCancelHandler}
           options="Judul Report"
