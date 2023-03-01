@@ -11,6 +11,7 @@ const OwnShopCornerContribution = ({ filterParams }) => {
   const [isLoading, setLoading] = useState(false);
   const startDate = filterParams?.startDate || "2022-01-01"; // tambahkan ? pada filterParams
   const endDate = filterParams?.endDate || "2022-12-30"; // tambahkan ? pada filterParams
+  const periodic = filterParams?.periodic || "Month";
 
   useEffect(() => {
     if (startDate && endDate) {
@@ -74,6 +75,7 @@ const OwnShopCornerContribution = ({ filterParams }) => {
             exportPDF({
               elementId: "ownshopcornercontribution",
               startDate,
+              periodic,
               endDate,
             })
           }

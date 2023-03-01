@@ -8,16 +8,35 @@ import OwnShopCornerOrderGrowthPerCorner from "../components/OwnShop_Corner_Orde
 import DateFilter from "../components/libs/dateFilter";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { exportPDF } from "../components/libs/pdfUtils";
+import ConfirmDialog from "../components/libs/confirm-dialog";
 
 const OwnShopCorner = () => {
   const [filterParams, setFilterParams] = useState({});
   const handle = useFullScreenHandle();
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   const startDate = filterParams?.startDate || "2022-01-01"; // tambahkan ? pada filterParams
   const endDate = filterParams?.endDate || "2022-12-30"; // tambahkan ? pada filterParams
+  const periodic = filterParams?.periodic || "Month";
 
   const handleFilter = (params) => {
     setFilterParams(params);
+  };
+
+  const onConfirmHandler = (notes) => {
+    setShowConfirmDialog(false);
+    exportPDF({
+      elementId: "ownshopcorner",
+      startDate,
+      endDate,
+      periodic,
+      printFullPage: true,
+      notes
+    });
+  };
+
+  const onCancelHandler = () => {
+    setShowConfirmDialog(false);
   };
 
   return (
@@ -29,26 +48,30 @@ const OwnShopCorner = () => {
         <button onClick={handle.enter}>Enter fullscreen</button>
       </Flex>
       <FullScreen handle={handle}>
-        <Button
-          ml="8"
-          onClick={() =>
-            exportPDF({
-              elementId: "ownhsopcorner",
-              startDate,
-              endDate,
-              printFullPage: true,
-            })
-          }
-          className="print-button"
-          colorScheme={"facebook"}
+        <ConfirmDialog
+          isOpen={showConfirmDialog}
+          title="Print Confirmation"
+          message="Are you sure you want to print this report?"
+          confirmLabel="Print"
+          onConfirm={onConfirmHandler}
+          onCancel={onCancelHandler}
+          options="Judul Report"
         >
-          Print
-        </Button>
-        <div id="ownhsopcorner">
+          {({ openDialog }) => (
+            <Button
+              ml={8}
+              onClick={openDialog}
+              className="print-button"
+              colorScheme={"facebook"}
+              tooltip="print"
+            >
+              Print
+            </Button>
+          )}
+        </ConfirmDialog>
+        <div id="ownshopcorner">
           <Box m="8">
-            <Card>
-              <OwnShopCornerTransactionTable filterParams={filterParams} />
-            </Card>
+            <OwnShopCornerTransactionTable filterParams={filterParams} />
           </Box>
           <SimpleGrid columns={{ base: 1, md: 2 }} spacing="8">
             <Box m="8">

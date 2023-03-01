@@ -1192,6 +1192,39 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       group by MONTH(Tanggal),invCABANG.Deskripsi
       order by  invCABANG.Deskripsi, MONTH(Tanggal)`;
     }
+    else if (groupby === 'Week') {
+      getDataRevenueGrowthPerCorner = await this.dbService.$queryRaw`
+      select invCABANG.Deskripsi as sourcetype, sum(dtTRANSAKSI.Total_Transaksi) as revenue_growths, 
+      DATEPART(week, Tanggal) as Minggu from dtTRANSAKSI
+      JOIN  invCABANG ON
+      invCABANG.Kode = dtTRANSAKSI.Kode_Cabang 
+      JOIN dtITEMTRANSAKSI ON
+      dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+      JOIN invFARMASI ON
+      dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+      where  Tanggal BETWEEN ${startdate} AND ${enddate}
+	  AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+	  AND invCABANG.Kode IN ('KV', 'PI', 'PP')
+      group by  DATEPART(week, Tanggal),invCABANG.Deskripsi
+      order by  invCABANG.Deskripsi,  DATEPART(week, Tanggal)`
+    }
+    else if (groupby === 'Day') {
+      getDataRevenueGrowthPerCorner = await this.dbService.$queryRaw`
+      select invCABANG.Deskripsi as sourcetype, sum(dtTRANSAKSI.Total_Transaksi) as revenue_growths, 
+      CONVERT(date,Tanggal) AS Hari from dtTRANSAKSI
+      JOIN  invCABANG ON
+      invCABANG.Kode = dtTRANSAKSI.Kode_Cabang 
+      JOIN dtITEMTRANSAKSI ON
+      dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
+      JOIN invFARMASI ON
+      dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
+      where  Tanggal BETWEEN ${startdate} AND ${enddate}
+	  AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+	  AND invCABANG.Kode IN ('KV', 'PI', 'PP')
+      group by  CONVERT(date,Tanggal),invCABANG.Deskripsi
+      order by  invCABANG.Deskripsi, CONVERT(date,Tanggal)
+      `
+    }
     return {
       getDataRevenueGrowthPerCorner,
     };

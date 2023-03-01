@@ -4,13 +4,20 @@ import { format } from "date-fns";
 
 const getTextPosition = (printFullPage) => {
   if (printFullPage) {
-    return { x: 35, y: 15, fontSize: 10 };
+    return { fontSize: 10 };
   } else {
-    return { x: 10, y: 40, fontSize: 15 };
+    return { fontSize: 15 };
   }
 };
 
-export const exportPDF = ({ elementId, startDate, endDate, printFullPage }) => {
+export const exportPDF = ({
+  elementId,
+  startDate,
+  endDate,
+  periodic,
+  printFullPage,
+  notes,
+}) => {
   const input = document.getElementById(elementId);
   html2canvas(input, {
     logging: true,
@@ -21,20 +28,43 @@ export const exportPDF = ({ elementId, startDate, endDate, printFullPage }) => {
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
     const imgData = canvas.toDataURL("img/png");
     const pdf = new jsPDF("l", "mm", "a4");
+
+    // Add header
+    pdf.addImage("lightWeight2.png", "PNG", 5, 5, 20, 20);
+
+    const formattedStartDate =
+      periodic === "Month"
+        ? format(new Date(startDate), "MMMM yyyy")
+        : format(new Date(startDate), "d MMMM yyyy");
+    const formattedEndDate =
+      periodic === "Month"
+        ? format(new Date(endDate), "MMMM yyyy")
+        : format(new Date(endDate), "d MMMM yyyy");
+
+    const headerText = `Start Date: ${formattedStartDate}\nEnd Date: ${formattedEndDate}\nGroup By: ${periodic}`;
+    const { fontSize: headerFontSize } = getTextPosition(printFullPage);
+    const textWidth = pdf.getStringUnitWidth(headerText) * headerFontSize * 0.1;
     const pageWidth = pdf.internal.pageSize.getWidth();
+    const x = pageWidth - textWidth - 20;
+    const y = 12;
+    pdf.setFontSize(headerFontSize);
+    pdf.text(headerText, x, y);
+
+    // Add title
+    const title = notes ? `${notes}` : `${elementId}`;
+    const titleX = 30;
+    const titleY = 17;
+    pdf.setFontSize(20);
+    pdf.text(title, titleX, titleY);
+
+    // Add content
     const pageHeight = pdf.internal.pageSize.getHeight();
-    const x = (pageWidth - imgWidth) / 2;
-    const y = (pageHeight - imgHeight) / 2;
-    pdf.addImage(imgData, "PNG", x, y, imgWidth, imgHeight);
-    // Add logo
-    pdf.addImage("lightWeight2.png", "PNG", 10, 10, 20, 20);
-    // Add text
-    const formattedStartDate = format(new Date(startDate), "d MMMM yyyy");
-    const formattedEndDate = format(new Date(endDate), "d MMMM yyyy");
-    const text = `Start Date: ${formattedStartDate}\nEnd Date: ${formattedEndDate}`;
-    const { x: textX, y: textY, fontSize } = getTextPosition(printFullPage);
-    pdf.setFontSize(fontSize);
-    pdf.text(text, textX, textY);
-    pdf.save(`${elementId}.pdf`);
+    const contentX = (pageWidth - imgWidth) / 2;
+    const contentY = (pageHeight - imgHeight) / 2 + headerFontSize * 1.5;
+    pdf.addImage(imgData, "PNG", contentX, contentY, imgWidth, imgHeight);
+    const fileName = notes
+      ? `${notes.replace(/ /g, "_")}.pdf`
+      : `${elementId}.pdf`;
+    pdf.save(fileName);
   });
 };

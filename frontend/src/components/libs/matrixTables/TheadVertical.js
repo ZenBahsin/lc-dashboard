@@ -1,8 +1,5 @@
 const THeadVertical = () => {
-  const tableHeadData = [
-    {
-      name: "Workshop",
-      subhead: [{ ach: "Ach" }],
+  const tableHeadData = [    {      name: "Workshop",      subhead: [{ ach: "Ach" }],
     },
     {
       name: "Apps",
@@ -33,7 +30,7 @@ const THeadVertical = () => {
         {tableHeadData.map((data, index) => (
           <th
             className={index % 2 ? "grey" : "green"}
-            key={`key-${index}`}
+            key={`name-${index}`}
             colSpan={1}
           >
             {data.name}
@@ -43,14 +40,12 @@ const THeadVertical = () => {
       <tr>
         <th colSpan={1} style={{ background: "white" }}></th>
         {tableHeadData.map((datas, indexs) => (
-          <>
-            <th
-              className={indexs % 2 ? "soft-grey" : "soft-green"}
-              key={`key-${indexs}`}
-            >
-              {datas?.subhead[0].ach}
-            </th>
-          </>
+          <th
+            className={indexs % 2 ? "soft-grey" : "soft-green"}
+            key={`subhead-${indexs}`}
+          >
+            {datas?.subhead[0].ach}
+          </th>
         ))}
       </tr>
     </thead>

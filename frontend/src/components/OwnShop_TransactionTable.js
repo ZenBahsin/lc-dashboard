@@ -59,7 +59,7 @@ const OwnShopTransactionTable = () => {
 
   return (
     <div id="tableContainer">
-      <table>
+      <table width={"100%"}>
         <THeadVertical />
         <TBody data={hasil} dataTotal={hasilTOTAL} />
       </table>

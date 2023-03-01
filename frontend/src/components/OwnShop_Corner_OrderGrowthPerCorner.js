@@ -5,20 +5,21 @@ import { GroupBarChart } from "./libs/bar-group-chart";
 const OwnShopCornerOrderGrowthPerCorner = ({ filterParams }) => {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  const groupby = "Month";
   const startDate = filterParams?.startDate || "2022-01-01"; // tambahkan ? pada filterParams
   const endDate = filterParams?.endDate || "2022-12-30"; // tambahkan ? pada filterParams
+  const periodic = filterParams?.periodic || "Month";
+  console.log("periodic di oerder growth",periodic);
   useEffect(() => {
     setLoading(true);
     fetch(
-      `http://localhost:8000/api/revenuegrowthpercorner?startdate=${startDate}&enddate=${endDate}&groupby=${groupby}`
+      `http://localhost:8000/api/revenuegrowthpercorner?startdate=${startDate}&enddate=${endDate}&groupby=${periodic}`
     )
       .then((res) => res.json())
       .then((data) => {
         setData(data);
         setLoading(false);
       });
-  }, [endDate, startDate]);
+  }, [endDate, periodic, startDate]);
 
   if (isLoading) return <p>Loading Oerder Growth per Corner...</p>;
   if (!data?.getDataRevenueGrowthPerCorner?.length)
@@ -27,16 +28,16 @@ const OwnShopCornerOrderGrowthPerCorner = ({ filterParams }) => {
   const getLabels = Array.from(
     new Set(
       data.getDataRevenueGrowthPerCorner.map((datas) =>
-        groupby === "Week"
+        periodic === "Week"
           ? datas?.Minggu
-          : groupby === "Month"
+          : periodic === "Month"
           ? datas?.bulan
           : datas?.Hari
       )
     )
   );
   getLabels.sort((a, b) =>
-    groupby === "Day" ? new Date(a) - new Date(b) : a - b
+    periodic === "Day" ? new Date(a) - new Date(b) : a - b
   );
   const labels = getLabels.map(String);
 
@@ -54,9 +55,9 @@ const OwnShopCornerOrderGrowthPerCorner = ({ filterParams }) => {
     const filledMonths = data.getDataRevenueGrowthPerCorner
       .filter((datas) => datas.sourcetype === sourcetype)
       .map((datas) =>
-        groupby === "Week"
+        periodic === "Week"
           ? datas?.Minggu
-          : groupby === "Month"
+          : periodic === "Month"
           ? datas?.bulan
           : datas?.Hari
       );
@@ -103,7 +104,7 @@ const OwnShopCornerOrderGrowthPerCorner = ({ filterParams }) => {
       <p data-html2canvas-ignore="true">
         {startDate} - {endDate}
       </p>
-      <p data-html2canvas-ignore="true">{groupby}</p>
+      <p data-html2canvas-ignore="true">{periodic}</p>
       <GroupBarChart data={dataChart} width={100} height={50} />
     </div>
   );
