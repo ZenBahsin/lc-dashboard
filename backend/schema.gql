@@ -4,6 +4,63 @@
 
 directive @upper on FIELD_DEFINITION
 
+type DashboardDTO {
+  sourcetype: String!
+  ach: Float!
+  revenue_growths: Float!
+  revenue_growth: Float!
+  Percentage_of_revenue_growths: Float!
+  bulan: Int!
+  minggu: Int!
+  hari: DateTime!
+  periode: Scalar
+  product: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+scalar Scalar
+
 type Query {
+  getRevenueGrowth(startdate: String, enddate: String, groupby: String): [DashboardDTO!]!
+  getRevenueGrowthPerSource(startdate: String, enddate: String, groupby: String): [DashboardDTO!]!
+  getProductRanked(startdate: String, enddate: String): [DashboardDTO!]!
+  getMatrixTableofTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getMatrixTableofTotalTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getChannelContribution(startdate: String, enddate: String): [DashboardDTO!]!
+  getProductContribution(startdate: String, enddate: String): [DashboardDTO!]!
+  getMatrixTableofB2BTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getMatrixTableofB2BTotalTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getB2BChannelContribution(startdate: String, enddate: String): [DashboardDTO!]!
+  getB2BProductContribution(startdate: String, enddate: String): [DashboardDTO!]!
+  getB2BRevenueGrowth(startdate: String, enddate: String, groupby: String): [DashboardDTO!]!
+  getMatrixTableofB2BCorporateTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getMatrixTableofTotalB2BCorporateTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getB2BCorporateProductContribution(startdate: String, enddate: String): [DashboardDTO!]!
+  getMatrixTableofB2BRetailTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getMatrixTableofTotalB2BRetailTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getB2BRetailContribution(startdate: String, enddate: String): [DashboardDTO!]!
+  getOrderGrowthPerRetail(startdate: String, enddate: String, groupby: String): [DashboardDTO!]!
+  getB2BProductContributionRetail(startdate: String, enddate: String): [DashboardDTO!]!
+  getMatrixTableofOwnShopTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getMatrixTableofTotalOwnShopTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getOwnShopChannelContribution(startdate: String, enddate: String): [DashboardDTO!]!
+  getOwnShopProductContribution(startdate: String, enddate: String): [DashboardDTO!]!
+  getOwnShopRevenueGrowth(startdate: String, enddate: String, groupby: String): [DashboardDTO!]!
+  getMatrixTableofOwnShopCommerceTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getMatrixTableofTotalOwnShopCommerceTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getOwnShopCommerceContribution(startdate: String, enddate: String): [DashboardDTO!]!
+  getOwnShopCommerceProductContribution(startdate: String, enddate: String): [DashboardDTO!]!
+  getOwnShopCommerceMostSoldProduct(startdate: String, enddate: String): [DashboardDTO!]!
+  getRevenueGrowthPerCommerce(startdate: String, enddate: String, groupby: String): [DashboardDTO!]!
+  getMatrixTableofOwnShopCornerTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getMatrixTableofTotalOwnShopCornerTransaction(startdate: String, enddate: String): [DashboardDTO!]!
+  getOwnShopCornerContribution(startdate: String, enddate: String): [DashboardDTO!]!
+  getOwnShopCornerProductContribution(startdate: String, enddate: String): [DashboardDTO!]!
+  getOwnShopCornerMostSoldProduct(startdate: String, enddate: String): [DashboardDTO!]!
+  getRevenueGrowthPerCorner(startdate: String, enddate: String, groupby: String): [DashboardDTO!]!
   getHello: String!
 }

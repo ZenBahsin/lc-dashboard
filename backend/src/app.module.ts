@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PdfModule } from './pdf.module';
 import { PrismaService } from './prisma.service';
+import { AppResolver } from './app.resolver';
 
 @Module({
   imports: [
@@ -25,6 +26,6 @@ import { PrismaService } from './prisma.service';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService],
+  providers: [AppResolver, AppService, PrismaService],
 })
 export class AppModule {}

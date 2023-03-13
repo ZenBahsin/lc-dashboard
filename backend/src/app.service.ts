@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { Query, Resolver } from '@nestjs/graphql';
+import { Query } from '@nestjs/graphql';
 import { PrismaService } from './prisma.service';
 
 @Injectable()
@@ -100,66 +100,66 @@ export class AppService {
 
     if (groupby === 'Month' || groupby == '') {
       getDataRevenueGrowth = await this.dbService.$queryRaw`
-  select sum(revenue_growth) as revenue_growths, bulan, DATENAME(MONTH, DATEADD(MONTH, bulan, -1)) AS 'month_name'
-  from  ((select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as bulan from  invINVOICE 
-  where Tanggal BETWEEN ${startdate} AND ${enddate}
-  group by
-  MONTH(Tanggal)) union all
-  (select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as bulan from  invSALES 
-  where Tanggal BETWEEN ${startdate} AND ${enddate}
-  group by
-  MONTH(Tanggal))
-  union all 
-  ((select sum (Net_Transaksi)
-  as revenue_growth, MONTH(Tanggal) as bulan FROM dtTRANSAKSI
-  where Tanggal BETWEEN ${startdate} AND ${enddate}
-  group by
-  MONTH(Tanggal)))
+        select sum(revenue_growth) as revenue_growths, periode, DATENAME(MONTH, DATEADD(MONTH, periode, -1)) AS 'month_name'
+        from  ((select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as periode from  invINVOICE 
+        where Tanggal BETWEEN ${startdate} AND ${enddate}
+        group by
+        MONTH(Tanggal)) union all
+        (select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as periode from  invSALES 
+        where Tanggal BETWEEN ${startdate} AND ${enddate}
+        group by
+        MONTH(Tanggal))
+        union all 
+        ((select sum (Net_Transaksi)
+        as revenue_growth, MONTH(Tanggal) as periode FROM dtTRANSAKSI
+        where Tanggal BETWEEN ${startdate} AND ${enddate}
+        group by
+        MONTH(Tanggal)))
   ) io
   group by
-  bulan`;
+  periode`;
     } else if (groupby === 'Week') {
       getDataRevenueGrowth = await this.dbService.$queryRaw`
-        select sum(revenue_growth) as revenue_growths, Minggu
-        from  ((select sum(Grand_Total) as revenue_growth, DATEPART(week, Tanggal) AS Minggu from  invINVOICE 
+        select sum(revenue_growth) as revenue_growths, periode
+        from  ((select sum(Grand_Total) as revenue_growth, DATEPART(week, Tanggal) AS periode from  invINVOICE 
         where Tanggal BETWEEN ${startdate} AND ${enddate}
         group by
         DATEPART(week, Tanggal)) union all
-        (select sum(Grand_Total) as revenue_growth, DATEPART(week, Tanggal) AS Minggu from  invSALES 
+        (select sum(Grand_Total) as revenue_growth, DATEPART(week, Tanggal) AS periode from  invSALES 
         where Tanggal BETWEEN ${startdate} AND ${enddate}
         group by
         DATEPART(week, Tanggal))
         union all 
         ((select sum (Net_Transaksi)
-        as revenue_growth, DATEPART(week, Tanggal) AS Minggu FROM dtTRANSAKSI
+        as revenue_growth, DATEPART(week, Tanggal) AS periode FROM dtTRANSAKSI
         where Tanggal BETWEEN ${startdate} AND ${enddate}
 
         group by
         DATEPART(week, Tanggal)))
         ) io
         group by
-        Minggu`;
+        periode`;
     } else if (groupby === 'Day') {
       getDataRevenueGrowth = await this.dbService.$queryRaw`
-      select sum(revenue_growth) as revenue_growths, hari
-      from  ((select sum(Grand_Total) as revenue_growth, CONVERT(date,Tanggal) AS hari from  invINVOICE 
+      select sum(revenue_growth) as revenue_growths, periode
+      from  ((select sum(Grand_Total) as revenue_growth, CONVERT(date,Tanggal) AS periode from  invINVOICE 
       where Tanggal BETWEEN ${startdate} AND ${enddate}
       group by
       CONVERT(date,Tanggal)) union all
-      (select sum(Grand_Total) as revenue_growth,  CONVERT(date,Tanggal) AS hari from  invSALES 
+      (select sum(Grand_Total) as revenue_growth,  CONVERT(date,Tanggal) AS periode from  invSALES 
       where Tanggal BETWEEN ${startdate} AND ${enddate}
       group by
       CONVERT(date,Tanggal))
       union all 
       ((select sum (Net_Transaksi)
-      as revenue_growth, CONVERT(date,Tanggal) AS hari FROM dtTRANSAKSI
+      as revenue_growth, CONVERT(date,Tanggal) AS periode FROM dtTRANSAKSI
       where Tanggal BETWEEN ${startdate} AND ${enddate}
 
       group by
       CONVERT(date,Tanggal)))
       ) io
       group by
-      hari`;
+      periode`;
     }
     return {
       getDataRevenueGrowth,
@@ -178,17 +178,17 @@ export class AppService {
 
     if (groupby === 'Month' || groupby == '') {
       getB2BDataRevenueGrowth = await this.dbService.$queryRaw`
-        select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as bulan from invINVOICE
-        where Tanggal BETWEEN '2022-01-01 00:00:00' AND '2022-12-30 00:00:00'
+        select sum(Grand_Total) as revenue_growths, MONTH(Tanggal) as periode from invINVOICE
+        where Tanggal BETWEEN ${startdate} AND ${enddate}
         group by  MONTH(Tanggal)`;
     } else if (groupby === 'Week') {
       getB2BDataRevenueGrowth = await this.dbService.$queryRaw`
-       select sum(Grand_Total) as revenue_growth, DATEPART(week, Tanggal) as Minggu from invINVOICE
+       select sum(Grand_Total) as revenue_growths, DATEPART(week, Tanggal) as periode from invINVOICE
         where Tanggal BETWEEN ${startdate} AND ${enddate}
         group by  DATEPART(week, Tanggal)`;
     } else if (groupby === 'Day') {
       getB2BDataRevenueGrowth = await this.dbService.$queryRaw`
-      select sum(Grand_Total) as revenue_growth, CONVERT(date,Tanggal) AS hari from invINVOICE
+      select sum(Grand_Total) as revenue_growths, CONVERT(date,Tanggal) AS periode from invINVOICE
         where Tanggal BETWEEN ${startdate} AND ${enddate}
         group by  CONVERT(date,Tanggal)`;
     }
@@ -208,58 +208,58 @@ export class AppService {
     let getDataRevenueGrowthPerSource: any;
     if (groupby === 'Month' || groupby == '') {
       getDataRevenueGrowthPerSource = await this.dbService.$queryRaw`
-select 'b2b' as sourcetype, sum(Grand_Total) as revenue_growths, MONTH(Tanggal) as bulan from invINVOICE
-where  Tanggal BETWEEN ${startdate} AND ${enddate}
-group by MONTH(Tanggal) 
-union all
-select 'ownshop' as sourcetype, sum(revenue_growth) as revenue_growths, bulan from 
-((
-select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as bulan from  invSALES 
-where  Tanggal BETWEEN ${startdate} AND ${enddate}
-group by
-MONTH(Tanggal)) union all
-(select sum(Net_Transaksi) as revenue_growth, MONTH(Tanggal) as bulan from  dtTRANSAKSI 
-where  Tanggal BETWEEN ${startdate} AND ${enddate}
-group by
-MONTH(Tanggal))) io
-group by
-bulan`;
+  select 'b2b' as sourcetype, sum(Grand_Total) as revenue_growths, MONTH(Tanggal) as periode from invINVOICE
+  where  Tanggal BETWEEN ${startdate} AND ${enddate}
+  group by MONTH(Tanggal) 
+  union all
+  select 'ownshop' as sourcetype, sum(revenue_growth) as revenue_growths, periode from 
+      ((
+    select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as periode from  invSALES 
+    where  Tanggal BETWEEN ${startdate} AND ${enddate}
+    group by
+    MONTH(Tanggal)) union all
+    (select sum(Net_Transaksi) as revenue_growth, MONTH(Tanggal) as periode from  dtTRANSAKSI 
+    where  Tanggal BETWEEN ${startdate} AND ${enddate}
+    group by
+    MONTH(Tanggal))) io
+    group by
+    periode`;
     } else if (groupby === 'Week') {
       getDataRevenueGrowthPerSource = await this.dbService.$queryRaw`
-     select 'b2b' as sourcetype, sum(Grand_Total) as revenue_growths, DATEPART(week, Tanggal) AS Minggu from invINVOICE
+     select 'b2b' as sourcetype, sum(Grand_Total) as revenue_growths, DATEPART(week, Tanggal) AS periode from invINVOICE
       where Tanggal BETWEEN ${startdate} AND ${enddate}
       group by DATEPART(week, Tanggal)
       union all
-      select 'ownshop' as sourcetype, sum(revenue_growth) as revenue_growths, Minggu from 
+      select 'ownshop' as sourcetype, sum(revenue_growth) as revenue_growths, periode from 
       ((
-      select sum(Grand_Total) as revenue_growth, DATEPART(week, Tanggal) AS Minggu from  invSALES 
+      select sum(Grand_Total) as revenue_growth, DATEPART(week, Tanggal) AS periode from  invSALES 
       where Tanggal BETWEEN ${startdate} AND ${enddate}
       group by
       DATEPART(week, Tanggal)) union all
-      (select sum(Net_Transaksi) as revenue_growth, DATEPART(week, Tanggal) AS Minggu from  dtTRANSAKSI 
+      (select sum(Net_Transaksi) as revenue_growth, DATEPART(week, Tanggal) AS periode from  dtTRANSAKSI 
       where Tanggal BETWEEN ${startdate} AND ${enddate}
       group by
       DATEPART(week, Tanggal))) io
       group by
-      Minggu`;
+      periode`;
     } else if (groupby === 'Day') {
       getDataRevenueGrowthPerSource = await this.dbService
-        .$queryRaw`select 'b2b' as sourcetype, sum(Grand_Total) as revenue_growths, CONVERT(date,Tanggal) AS Hari from invINVOICE
+        .$queryRaw`select 'b2b' as sourcetype, sum(Grand_Total) as revenue_growths, CONVERT(date,Tanggal) AS periode from invINVOICE
       where Tanggal  BETWEEN ${startdate} AND ${enddate}
       group by CONVERT(date,Tanggal)
       union all
-      select 'ownshop' as sourcetype, sum(revenue_growth) as revenue_growths, Hari from 
+      select 'ownshop' as sourcetype, sum(revenue_growth) as revenue_growths, periode from 
       ((
-      select sum(Grand_Total) as revenue_growth, CONVERT(date,Tanggal) AS Hari from  invSALES 
+      select sum(Grand_Total) as revenue_growth, CONVERT(date,Tanggal) AS periode from  invSALES 
       where Tanggal  BETWEEN ${startdate} AND ${enddate}
       group by
       CONVERT(date,Tanggal)) union all
-      (select sum(Net_Transaksi) as revenue_growth, CONVERT(date,Tanggal) AS Hari from  dtTRANSAKSI 
+      (select sum(Net_Transaksi) as revenue_growth, CONVERT(date,Tanggal) AS periode from  dtTRANSAKSI 
       where Tanggal  BETWEEN ${startdate} AND ${enddate}
       group by
       CONVERT(date,Tanggal))) io
       group by
-      Hari`;
+      periode`;
     }
     return {
       getDataRevenueGrowthPerSource,
@@ -267,8 +267,7 @@ bulan`;
   }
   async getProductRanked(params: { startdate?: string; enddate?: string }) {
     const { startdate, enddate } = params;
-    // const startdate = '2022-09-01'
-    // const enddate = '2022-09-30'
+
     const getDataProductRanked: any = await this.dbService.$queryRaw`
   select
     product,
@@ -355,17 +354,30 @@ order by
   }) {
     const { startdate, enddate } = params;
     const getChannelContributionData: any = await this.dbService
-      .$queryRaw`select 'b2b' as sourcetype, sum(Grand_Total) as revenue_growths from invINVOICE
-    where Tanggal BETWEEN ${startdate} AND ${enddate}
-    union all
-    select 'ownshop' as sourcetype, sum(revenue_growth) as revenue_growths from 
-    ((
-    select sum(Grand_Total) as revenue_growth from  invSALES 
-    where Tanggal BETWEEN ${startdate} AND ${enddate})
-    union all
-    (select sum(Net_Transaksi) as revenue_growth from  dtTRANSAKSI 
-    where Tanggal BETWEEN ${startdate} AND ${enddate}
-    )) io
+      .$queryRaw`SELECT sourcetype, SUM(revenue_growth) AS revenue_growths
+      FROM (
+          SELECT 'b2b' AS sourcetype, SUM(Grand_Total) AS revenue_growth 
+          FROM invINVOICE 
+          WHERE Tanggal BETWEEN ${startdate} AND ${enddate} AND Grand_Total IS NOT NULL
+      
+          UNION ALL
+      
+          SELECT 'ownshop' AS sourcetype, SUM(revenue_growth) AS revenue_growth 
+          FROM (
+              SELECT SUM(Grand_Total) AS revenue_growth 
+              FROM invSALES 
+              WHERE Tanggal BETWEEN ${startdate} AND ${enddate} AND Grand_Total IS NOT NULL
+      
+              UNION ALL
+      
+              SELECT SUM(Net_Transaksi) AS revenue_growth 
+              FROM dtTRANSAKSI 
+              WHERE Tanggal BETWEEN ${startdate} AND ${enddate} AND Net_Transaksi IS NOT NULL
+          ) io
+      ) t
+      WHERE revenue_growth IS NOT NULL AND sourcetype IS NOT NULL
+      GROUP BY sourcetype;
+      
     `;
 
     return {
@@ -379,35 +391,37 @@ order by
   }) {
     const { startdate, enddate } = params;
     const getB2BChannelContributionData: any = await this.dbService.$queryRaw`
-    SELECT 'CORPORATE' as sourcetype, sum (invINVOICE.Grand_Total)
-      as revenue_growths  FROM invINVOICE  JOIN  invCABANG ON
-      invCABANG.Kode = invINVOICE.Kode_Cabang 
-      JOIN invPELANGGANCORP ON 
-      invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
-      JOIN invITEMINVOICE ON
-      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
-      where invPELANGGANCORP.Tipe = 'CORPORATE'
-      AND invINVOICE.Tanggal BETWEEN '2022-01-01 00:00:00' AND '2022-12-31 00:00:00'
-union all
-SELECT 'RETAIL' as sourcetype, sum (invINVOICE.Grand_Total)
-      as revenue_growths  FROM invINVOICE  JOIN  invCABANG ON
-      invCABANG.Kode = invINVOICE.Kode_Cabang 
-      JOIN invPELANGGANCORP ON 
-      invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
-      JOIN invITEMINVOICE ON
-      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
-      where invPELANGGANCORP.Tipe = 'RETAIL'
-      AND invINVOICE.Tanggal BETWEEN ${startdate} AND ${enddate}
-union all
-SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
-      as Ach  FROM invINVOICE  JOIN  invCABANG ON
-      invCABANG.Kode = invINVOICE.Kode_Cabang 
-      JOIN invPELANGGANCORP ON 
-      invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
-      JOIN invITEMINVOICE ON
-      invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
-      where invPELANGGANCORP.Tipe = 'RESELLER'
-      AND invINVOICE.Tanggal BETWEEN ${startdate} AND ${enddate}
+   SELECT sourcetype, revenue_growths
+FROM (
+    SELECT 'CORPORATE' AS sourcetype, SUM(invINVOICE.Grand_Total) AS revenue_growths  
+    FROM invINVOICE  
+    JOIN invCABANG ON invCABANG.Kode = invINVOICE.Kode_Cabang 
+    JOIN invPELANGGANCORP ON invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+    JOIN invITEMINVOICE ON invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+    WHERE invPELANGGANCORP.Tipe = 'CORPORATE'
+        AND invINVOICE.Tanggal BETWEEN ${startdate} AND ${enddate}
+        AND invINVOICE.Grand_Total IS NOT NULL
+    UNION ALL
+    SELECT 'RETAIL' AS sourcetype, SUM(invINVOICE.Grand_Total) AS revenue_growths  
+    FROM invINVOICE  
+    JOIN invCABANG ON invCABANG.Kode = invINVOICE.Kode_Cabang 
+    JOIN invPELANGGANCORP ON invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+    JOIN invITEMINVOICE ON invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+    WHERE invPELANGGANCORP.Tipe = 'RETAIL'
+        AND invINVOICE.Tanggal BETWEEN ${startdate} AND ${enddate}
+        AND invINVOICE.Grand_Total IS NOT NULL
+    UNION ALL
+    SELECT 'RESELLER' AS sourcetype, SUM(invINVOICE.Grand_Total) AS revenue_growths  
+    FROM invINVOICE  
+    JOIN invCABANG ON invCABANG.Kode = invINVOICE.Kode_Cabang 
+    JOIN invPELANGGANCORP ON invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+    JOIN invITEMINVOICE ON invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
+    WHERE invPELANGGANCORP.Tipe = 'RESELLER'
+        AND invINVOICE.Tanggal BETWEEN ${startdate} AND ${enddate}
+        AND invINVOICE.Grand_Total IS NOT NULL
+) AS results
+WHERE revenue_growths IS NOT NULL
+
 `;
     return {
       getB2BChannelContributionData,
@@ -420,7 +434,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
   }) {
     const { startdate, enddate } = params;
     const getB2BProductContributionData: any = await this.dbService
-      .$queryRaw`select sum(Grand_Total) as revenue_growth, invFARMASI.Katagori as product from
+      .$queryRaw`select sum(Grand_Total) as revenue_growths, invFARMASI.Katagori as product from
       invINVOICE
       JOIN invITEMINVOICE ON invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
        JOIN invFARMASI ON invITEMINVOICE.Kode = invFARMASI.Kode
@@ -449,7 +463,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
   }) {
     const { startdate, enddate } = params;
     const getB2BCorporateProductContributionData: any = await this.dbService
-      .$queryRaw`select sum(Grand_Total) as revenue_growth, invFARMASI.Katagori as product from
+      .$queryRaw`select sum(Grand_Total) as revenue_growths, TRIM(invFARMASI.Katagori) as product from
       invINVOICE
       JOIN invITEMINVOICE ON invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
        JOIN invFARMASI ON invITEMINVOICE.Kode = invFARMASI.Kode
@@ -483,7 +497,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
     const getProductContributionData: any = await this.dbService
       .$queryRaw`select  product, sum(revenue_growth) as revenue_growths, 
       (sum(revenue_growth) * 100)/sum(sum(revenue_growth))  OVER () as 'Percentage_of_revenue_growths'
-      from  ((select sum(Grand_Total) as revenue_growth, invFARMASI.Katagori as product from  invINVOICE
+      from  ((select sum(Grand_Total) as revenue_growth, TRIM(invFARMASI.Katagori) as product from  invINVOICE
       JOIN invITEMINVOICE ON
       invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
       JOIN invFARMASI ON
@@ -492,7 +506,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       Tanggal BETWEEN ${startdate} AND ${enddate}
       group by
       invFARMASI.Katagori) union all
-      (select sum(Grand_Total) as revenue_growth, invFARMASI.Katagori as product from  invSALES 
+      (select sum(Grand_Total) as revenue_growth, TRIM(invFARMASI.Katagori) as product from  invSALES 
       JOIN invITEMSALES ON
       invITEMSALES.No_Permintaan = invSALES.No_Permintaan
       JOIN invFARMASI ON
@@ -504,7 +518,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       invFARMASI.Katagori)
       union all 
       ((select sum (Net_Transaksi)
-      as revenue_growth, invFARMASI.Katagori as product FROM dtTRANSAKSI
+      as revenue_growth, TRIM(invFARMASI.Katagori) as product FROM dtTRANSAKSI
       JOIN dtITEMTRANSAKSI ON
       dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
       JOIN invFARMASI ON
@@ -528,7 +542,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
   }) {
     const { startdate, enddate } = params;
     const getMatrixTableofTransactionData: any = await this.dbService
-      .$queryRaw`select 'b2b' as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+      .$queryRaw`select 'b2b' as sourcetype, sum(Grand_Total) as ach, TRIM(invFARMASI.Katagori) as product  from invINVOICE
       JOIN invITEMINVOICE ON
       invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
       JOIN invFARMASI ON
@@ -539,7 +553,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       union all
       select 'ownshop' as sourcetype, sum(ACH) as ach, product from 
       ((
-      select sum(Grand_Total) as ACH, invFARMASI.Katagori as product from  invSALES 
+      select sum(Grand_Total) as ACH, TRIM(invFARMASI.Katagori) as product from  invSALES 
       JOIN invITEMSALES ON
       invITEMSALES.No_Permintaan = invSALES.No_Permintaan
       JOIN invFARMASI ON
@@ -548,7 +562,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
       group by
        invFARMASI.Katagori) union all
-      (select sum(Net_Transaksi) as ACH, invFARMASI.Katagori as product from  dtTRANSAKSI 
+      (select sum(Net_Transaksi) as ACH, TRIM(invFARMASI.Katagori) as product from  dtTRANSAKSI 
       JOIN dtITEMTRANSAKSI ON
       dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
       JOIN invFARMASI ON
@@ -563,7 +577,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
     const getMatrixTableofTotalTransactionData: any = await this.dbService
       .$queryRaw`select 'TOTAL' as sourcetype, sum(ACH) as ach, product from 
       ((
-      select sum(Grand_Total) as ACH, invFARMASI.Katagori as product from  invINVOICE
+      select sum(Grand_Total) as ACH, TRIM(invFARMASI.Katagori) as product from  invINVOICE
       JOIN invITEMINVOICE ON
       invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
       JOIN invFARMASI ON
@@ -572,7 +586,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
       group by
       invFARMASI.Katagori) union all
-      (select sum(Grand_Total) as ACH, invFARMASI.Katagori as product from  invSALES 
+      (select sum(Grand_Total) as ACH, TRIM(invFARMASI.Katagori) as product from  invSALES 
       JOIN invITEMSALES ON
       invITEMSALES.No_Permintaan = invSALES.No_Permintaan
       JOIN invFARMASI ON
@@ -581,7 +595,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
       group by
       invFARMASI.Katagori) union all
-      (select sum(Net_Transaksi) as ACH, invFARMASI.Katagori as product from  dtTRANSAKSI 
+      (select sum(Net_Transaksi) as ACH, TRIM(invFARMASI.Katagori) as product from  dtTRANSAKSI 
       JOIN dtITEMTRANSAKSI ON
       dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
       JOIN invFARMASI ON
@@ -605,7 +619,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
   }) {
     const { startdate, enddate } = params;
     const getMatrixTableofB2BTransactionData: any = await this.dbService
-      .$queryRaw`select invPELANGGANCORP.Tipe as "sourcetype", sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+      .$queryRaw`select TRIM(invPELANGGANCORP.Tipe) as "sourcetype", sum(Grand_Total) as ach, TRIM(invFARMASI.Katagori) as product  from invINVOICE
       JOIN invITEMINVOICE ON
       invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
       JOIN invFARMASI ON
@@ -618,7 +632,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
 	  order by invPELANGGANCORP.Tipe`;
 
     const getMatrixTableofB2BTotalTransactionData: any = await this.dbService
-      .$queryRaw`select 'TOTAL' as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+      .$queryRaw`select 'TOTAL' as sourcetype, sum(Grand_Total) as ach, TRIM(invFARMASI.Katagori) as product  from invINVOICE
     JOIN invITEMINVOICE ON
     invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
     JOIN invFARMASI ON
@@ -642,7 +656,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
     const { startdate, enddate } = params;
     const getMatrixTableofB2BCorporateTransactionData: any = await this
       .dbService
-      .$queryRaw`select invPELANGGANCORP.Deskripsi as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+      .$queryRaw`select TRIM(invPELANGGANCORP.Deskripsi) as sourcetype, sum(Grand_Total) as ach, TRIM(invFARMASI.Katagori) as product  from invINVOICE
       JOIN invITEMINVOICE ON
       invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
       JOIN invFARMASI ON
@@ -656,7 +670,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
 
     const getMatrixTableofB2BCorporateTotalTransactionData: any = await this
       .dbService
-      .$queryRaw`select 'TOTAL' as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+      .$queryRaw`select 'TOTAL' as sourcetype, sum(Grand_Total) as ach, TRIM(invFARMASI.Katagori) as product  from invINVOICE
     JOIN invITEMINVOICE ON
     invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
     JOIN invFARMASI ON
@@ -680,7 +694,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
   }) {
     const { startdate, enddate } = params;
     const getMatrixTableofB2BRetailTransactionData: any = await this.dbService
-      .$queryRaw`select invPELANGGANCORP.Deskripsi as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+      .$queryRaw`select TRIM(invPELANGGANCORP.Deskripsi) as sourcetype, sum(Grand_Total) as ach, TRIM(invFARMASI.Katagori) as product  from invINVOICE
       JOIN invITEMINVOICE ON
       invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
       JOIN invFARMASI ON
@@ -694,7 +708,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
 
     const getMatrixTableofB2BRetailTotalTransactionData: any = await this
       .dbService
-      .$queryRaw`select 'TOTAL' as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product  from invINVOICE
+      .$queryRaw`select 'TOTAL' as sourcetype, sum(Grand_Total) as ach, TRIM(invFARMASI.Katagori) as product  from invINVOICE
     JOIN invITEMINVOICE ON
     invITEMINVOICE.No_Invoice = invINVOICE.No_Invoice
     JOIN invFARMASI ON
@@ -719,7 +733,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
     const { startdate, enddate } = params;
     const getB2BRetailContributionData: any = await this.dbService
       .$queryRaw`    
-  SELECT invPELANGGANCORP.Deskripsi as sourcetype, sum (invINVOICE.Grand_Total)
+  SELECT TRIM(invPELANGGANCORP.Deskripsi) as sourcetype, sum (invINVOICE.Grand_Total)
       as revenue_growths  FROM invINVOICE  JOIN  invCABANG ON
       invCABANG.Kode = invINVOICE.Kode_Cabang 
       JOIN invPELANGGANCORP ON 
@@ -743,8 +757,8 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
     let getDataOrderGrowthPerRetail: any;
     if (groupby === 'Month' || groupby == '') {
       getDataOrderGrowthPerRetail = await this.dbService.$queryRaw`
-      select invPELANGGANCORP.Deskripsi as sourcetype, sum(Grand_Total) as revenue_growths, 
-      MONTH(Tanggal) as bulan from invINVOICE
+      select TRIM(invPELANGGANCORP.Deskripsi) as sourcetype, sum(Grand_Total) as revenue_growths, 
+      MONTH(Tanggal) as periode from invINVOICE
       JOIN invPELANGGANCORP ON 
       invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
       where   invPELANGGANCORP.Tipe = 'RETAIL' AND
@@ -752,6 +766,29 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       group by MONTH(Tanggal), invPELANGGANCORP.Deskripsi
       order by MONTH(Tanggal), invPELANGGANCORP.Deskripsi`;
     }
+    else if (groupby === 'Week') {
+        getDataOrderGrowthPerRetail = await this.dbService.$queryRaw`
+           select TRIM(invPELANGGANCORP.Deskripsi) as sourcetype, sum(Grand_Total) as revenue_growths, 
+          DATEPART(week, Tanggal) AS periode from invINVOICE
+          JOIN invPELANGGANCORP ON 
+          invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+          where   invPELANGGANCORP.Tipe = 'RETAIL' AND
+          Tanggal  BETWEEN ${startdate} AND ${enddate}
+      group by  DATEPART(week, Tanggal), invPELANGGANCORP.Deskripsi
+	   order by DATEPART(week, Tanggal), invPELANGGANCORP.Deskripsi`;
+      }
+      else if (groupby === 'Day'){
+        getDataOrderGrowthPerRetail = await this.dbService.$queryRaw`
+        select TRIM(invPELANGGANCORP.Deskripsi) as sourcetype, sum(Grand_Total) as revenue_growths, 
+        CONVERT(date,Tanggal) AS periode from invINVOICE
+        JOIN invPELANGGANCORP ON 
+        invINVOICE.Kode_Pelanggan = invPELANGGANCORP.Kode
+        where   invPELANGGANCORP.Tipe = 'RETAIL' AND
+        Tanggal  BETWEEN ${startdate} AND ${enddate}
+        group by  CONVERT(date,Tanggal), invPELANGGANCORP.Deskripsi
+	      order by CONVERT(date,Tanggal), invPELANGGANCORP.Deskripsi`;
+      }
+    
     return {
       getDataOrderGrowthPerRetail,
     };
@@ -789,14 +826,14 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
   }) {
     const { startdate, enddate } = params;
     const getMatrixTableofOwnShopTransactionData: any = await this.dbService
-      .$queryRaw` select 'Commerce' as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product 
+      .$queryRaw` select 'Commerce' as sourcetype, sum(Grand_Total) as ach, TRIM(invFARMASI.Katagori) as product 
       from  invSALES  JOIN invITEMSALES ON invITEMSALES.No_Permintaan = invSALES.No_Permintaan
         JOIN invFARMASI ON invITEMSALES.Kode = invFARMASI.Kode
         where Tanggal BETWEEN ${startdate} AND ${enddate} 
         AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
       group by invFARMASI.Katagori
         union all
-        select 'Corner' as sourcetype, sum(Net_Transaksi) as ach, invFARMASI.Katagori as product 
+        select 'Corner' as sourcetype, sum(Net_Transaksi) as ach, TRIM(invFARMASI.Katagori) as product 
       from  dtTRANSAKSI  JOIN dtITEMTRANSAKSI ON dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
         JOIN invFARMASI ON dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
         where Tanggal BETWEEN ${startdate} AND ${enddate} 
@@ -807,7 +844,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       .dbService
       .$queryRaw`select 'TOTAL' as sourcetype, sum(ach) as ach, product from
       (
-         select 'Commerce' as sourcetype, sum(Grand_Total) as ach, invFARMASI.Katagori as product from  invSALES 
+         select 'Commerce' as sourcetype, sum(Grand_Total) as ach, TRIM(invFARMASI.Katagori) as product from  invSALES 
          JOIN invITEMSALES ON
          invITEMSALES.No_Permintaan = invSALES.No_Permintaan
          JOIN invFARMASI ON
@@ -816,7 +853,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
          AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
          group by
           invFARMASI.Katagori union all
-         select 'Corner' as sourcetype, sum(Net_Transaksi) as ach, invFARMASI.Katagori as product from  dtTRANSAKSI 
+         select 'Corner' as sourcetype, sum(Net_Transaksi) as ach, TRIM(invFARMASI.Katagori) as product from  dtTRANSAKSI 
          JOIN dtITEMTRANSAKSI ON
          dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
          JOIN invFARMASI ON
@@ -841,13 +878,13 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
   }) {
     const { startdate, enddate } = params;
     const getOwnShopChannelContributionData: any = await this.dbService
-      .$queryRaw`	select 'Commerce' as sourcetype, sum(Grand_Total) as revenue_growth from  invSALES 
+      .$queryRaw`	select 'Commerce' as sourcetype, sum(Grand_Total) as revenue_growths from  invSALES 
       JOIN invITEMSALES ON invITEMSALES.No_Permintaan = invSALES.No_Permintaan
         JOIN invFARMASI ON invITEMSALES.Kode = invFARMASI.Kode
         where Tanggal BETWEEN ${startdate} AND ${enddate}
         AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
           union all
-        select 'Corner' as sourcetype, sum(Net_Transaksi) as revenue_growth from  dtTRANSAKSI 
+        select 'Corner' as sourcetype, sum(Net_Transaksi) as revenue_growths from  dtTRANSAKSI 
         JOIN dtITEMTRANSAKSI ON dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
         JOIN invFARMASI ON dtITEMTRANSAKSI.Kode_Barang = invFARMASI.Kode
         where Tanggal BETWEEN ${startdate} AND ${enddate} 
@@ -866,7 +903,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
     const getOwnShopProductContributionData: any = await this.dbService
       .$queryRaw`select  product, sum(revenue_growth) as revenue_growths, 
       (sum(revenue_growth) * 100)/sum(sum(revenue_growth))  OVER () as 'Percentage_of_revenue_growths'
-      from ((select sum(Grand_Total) as revenue_growth, invFARMASI.Katagori as product from  invSALES 
+      from ((select sum(Grand_Total) as revenue_growth, TRIM(invFARMASI.Katagori) as product from  invSALES 
       JOIN invITEMSALES ON
       invITEMSALES.No_Permintaan = invSALES.No_Permintaan
       JOIN invFARMASI ON
@@ -878,7 +915,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       invFARMASI.Katagori)
       union all 
       ((select sum (Net_Transaksi)
-      as revenue_growth, invFARMASI.Katagori as product FROM dtTRANSAKSI
+      as revenue_growth, TRIM(invFARMASI.Katagori) as product FROM dtTRANSAKSI
       JOIN dtITEMTRANSAKSI ON
       dtITEMTRANSAKSI.No_Transaksi = dtTRANSAKSI.No_Transaksi
       JOIN invFARMASI ON
@@ -907,20 +944,54 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
 
     if (groupby === 'Month' || groupby == '') {
       getDataOwnShopRevenueGrowth = await this.dbService.$queryRaw`
-      select sum(revenue_growth) as revenue_growths, bulan, DATENAME(MONTH, DATEADD(MONTH, bulan, -1)) AS 'month_name'
-      from  ((select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as bulan from  invSALES 
+      select sum(revenue_growth) as revenue_growths, periode, DATENAME(MONTH, DATEADD(MONTH, periode, -1)) AS 'month_name'
+      from  ((select sum(Grand_Total) as revenue_growth, MONTH(Tanggal) as periode from  invSALES 
       where Tanggal BETWEEN ${startdate} AND ${enddate}  
       group by
       MONTH(Tanggal))
       union all 
       ((select sum (Net_Transaksi)
-      as revenue_growth, MONTH(Tanggal) as bulan FROM dtTRANSAKSI
+      as revenue_growth, MONTH(Tanggal) as periode FROM dtTRANSAKSI
       where Tanggal BETWEEN ${startdate} AND ${enddate}  
       group by
       MONTH(Tanggal)))
       ) io
       group by
-      bulan`;
+      periode`;
+    }
+    else if(groupby === "Week"){
+      getDataOwnShopRevenueGrowth = await this.dbService.$queryRaw`
+      select sum(revenue_growth) as revenue_growths, periode
+      from  ((select sum(Grand_Total) as revenue_growth,  DATEPART(week, Tanggal) as periode from  invSALES 
+      where Tanggal BETWEEN ${startdate} AND ${enddate} 
+      group by
+      DATEPART(week, Tanggal))
+      union all 
+      ((select sum (Net_Transaksi)
+      as revenue_growth, DATEPART(week, Tanggal) as periode FROM dtTRANSAKSI
+      where Tanggal BETWEEN ${startdate} AND ${enddate} 
+      group by
+       DATEPART(week, Tanggal)))
+      ) io
+      group by
+      periode`;
+    }
+    else if(groupby==="Day"){
+      getDataOwnShopRevenueGrowth = await this.dbService.$queryRaw`
+      select sum(revenue_growth) as revenue_growths, periode
+      from  ((select sum(Grand_Total) as revenue_growth,   CONVERT(date,Tanggal)  as periode from  invSALES 
+      where Tanggal BETWEEN ${startdate} AND ${enddate} 
+      group by
+      CONVERT(date,Tanggal) )
+      union all 
+      ((select sum (Net_Transaksi)
+      as revenue_growth,  CONVERT(date,Tanggal)  as periode FROM dtTRANSAKSI
+      where Tanggal BETWEEN ${startdate} AND ${enddate} 
+      group by
+      CONVERT(date,Tanggal) ))
+      ) io
+      group by
+      periode`;
     }
     return {
       getDataOwnShopRevenueGrowth,
@@ -934,8 +1005,8 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
     const { startdate, enddate } = params;
     const getMatrixTableofOwnShopCommerceTransactionData: any = await this
       .dbService
-      .$queryRaw`select invSALES.Pembayaran as sourcetype, sum (invSALES.Grand_Total) as ach,
-      invFARMASI.Katagori as product from invSALES
+      .$queryRaw`select TRIM(invSALES.Pembayaran) as sourcetype, sum (invSALES.Grand_Total) as ach,
+      TRIM(invFARMASI.Katagori) as product from invSALES
         JOIN invITEMSALES ON
         invITEMSALES.No_Permintaan = invSALES.No_Permintaan
         JOIN invFARMASI ON
@@ -950,13 +1021,13 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
       .dbService
       .$queryRaw`select 'TOTAL' as sourcetype, sum(ach) as ach, product from
       (
-        select invSALES.Pembayaran as sourcetype, sum (invSALES.Grand_Total) as ach,
-        invFARMASI.Katagori as product from invSALES
+        select TRIM(invSALES.Pembayaran) as sourcetype, sum (invSALES.Grand_Total) as ach,
+        TRIM(invFARMASI.Katagori) as product from invSALES
           JOIN invITEMSALES ON
           invITEMSALES.No_Permintaan = invSALES.No_Permintaan
           JOIN invFARMASI ON
           invITEMSALES.Kode = invFARMASI.Kode 
-          where invSALES.Tanggal BETWEEN '2022-01-01 00:00:00' AND '2022-12-31 00:00:00'
+          where invSALES.Tanggal  BETWEEN ${startdate} AND ${enddate}
         AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
         AND invSALES.Pembayaran in ('TOKOPEDIA','SHOPEE','BLIBLI','LAZADA','GOFOOD','GRABFOOD', 'LIGHTSHOP(TADA)')
           group by  invsales.Pembayaran, invFARMASI.Katagori
@@ -976,7 +1047,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
   }) {
     const { startdate, enddate } = params;
     const getOwnShopCommerceContributionData: any = await this.dbService
-      .$queryRaw`	  select invSALES.Pembayaran as sourcetype, sum (invSALES.Grand_Total) as ach from invSALES
+      .$queryRaw`select TRIM(invSALES.Pembayaran) as sourcetype, sum (invSALES.Grand_Total) as ach from invSALES
       JOIN invITEMSALES ON
       invITEMSALES.No_Permintaan = invSALES.No_Permintaan
       JOIN invFARMASI ON
@@ -1045,12 +1116,44 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
     if (groupby === 'Month' || groupby == '') {
       getDataRevenueGrowthPerCommerce = await this.dbService.$queryRaw`
       select invSALES.Pembayaran as sourcetype, sum(Grand_Total) as revenue_growths, 
-      MONTH(Tanggal) as bulan from invSALES
-      JOIN invPELANGGANCORP ON 
-      Tanggal BETWEEN ${startdate} AND ${enddate}
+      MONTH(Tanggal) as periode from invSALES
+        JOIN invITEMSALES ON
+        invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+        JOIN invFARMASI ON
+        invITEMSALES.Kode = invFARMASI.Kode 
+        where invSALES.Tanggal BETWEEN ${startdate} AND ${enddate}
+        AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
 	  AND invSALES.Pembayaran in ('TOKOPEDIA','SHOPEE','BLIBLI','LAZADA','GOFOOD','GRABFOOD', 'LIGHTSHOP(TADA)')
       group by MONTH(Tanggal), invSALES.Pembayaran
       order by  invSALES.Pembayaran, MONTH(Tanggal)`;
+    }
+    else if(groupby === 'Week'){
+      getDataRevenueGrowthPerCommerce = await this.dbService.$queryRaw`
+      select invSALES.Pembayaran as sourcetype, sum(Grand_Total) as revenue_growths, 
+      DATEPART(week, Tanggal) as periode from invSALES
+      JOIN invITEMSALES ON
+        invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+        JOIN invFARMASI ON
+        invITEMSALES.Kode = invFARMASI.Kode 
+      Tanggal BETWEEN ${startdate} AND ${enddate}
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+	  AND invSALES.Pembayaran in ('TOKOPEDIA','SHOPEE','BLIBLI','LAZADA','GOFOOD','GRABFOOD', 'LIGHTSHOP(TADA)')
+      group by DATEPART(week, Tanggal), invSALES.Pembayaran
+      order by  invSALES.Pembayaran, DATEPART(week, Tanggal)`;
+    }
+    else if(groupby === 'Day'){
+      getDataRevenueGrowthPerCommerce = await this.dbService.$queryRaw`
+      select invSALES.Pembayaran as sourcetype, sum(Grand_Total) as revenue_growths, 
+      CONVERT(date,Tanggal) as periode from invSALES
+      JOIN invITEMSALES ON
+        invITEMSALES.No_Permintaan = invSALES.No_Permintaan
+        JOIN invFARMASI ON
+        invITEMSALES.Kode = invFARMASI.Kode 
+      Tanggal BETWEEN ${startdate} AND ${enddate}
+      AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
+	  AND invSALES.Pembayaran in ('TOKOPEDIA','SHOPEE','BLIBLI','LAZADA','GOFOOD','GRABFOOD', 'LIGHTSHOP(TADA)')
+      group by CONVERT(date,Tanggal), invSALES.Pembayaran
+      order by  invSALES.Pembayaran, CONVERT(date,Tanggal)`;
     }
     return {
       getDataRevenueGrowthPerCommerce,
@@ -1179,7 +1282,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
     if (groupby === 'Month' || groupby == '') {
       getDataRevenueGrowthPerCorner = await this.dbService.$queryRaw`
        select invCABANG.Deskripsi as sourcetype, sum(dtTRANSAKSI.Total_Transaksi) as revenue_growths, 
-      MONTH(Tanggal) as bulan from dtTRANSAKSI
+      MONTH(Tanggal) as periode from dtTRANSAKSI
       JOIN  invCABANG ON
       invCABANG.Kode = dtTRANSAKSI.Kode_Cabang 
       JOIN dtITEMTRANSAKSI ON
@@ -1191,11 +1294,10 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
 	  AND invCABANG.Kode IN ('KV', 'PI', 'PP')
       group by MONTH(Tanggal),invCABANG.Deskripsi
       order by  invCABANG.Deskripsi, MONTH(Tanggal)`;
-    }
-    else if (groupby === 'Week') {
+    } else if (groupby === 'Week') {
       getDataRevenueGrowthPerCorner = await this.dbService.$queryRaw`
       select invCABANG.Deskripsi as sourcetype, sum(dtTRANSAKSI.Total_Transaksi) as revenue_growths, 
-      DATEPART(week, Tanggal) as Minggu from dtTRANSAKSI
+      DATEPART(week, Tanggal) as periode from dtTRANSAKSI
       JOIN  invCABANG ON
       invCABANG.Kode = dtTRANSAKSI.Kode_Cabang 
       JOIN dtITEMTRANSAKSI ON
@@ -1206,12 +1308,11 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
 	  AND invFARMASI.Katagori in ('WORKSHOP','APPS','LIGHTTOOLS','LIGHTMEAL','PAKET')
 	  AND invCABANG.Kode IN ('KV', 'PI', 'PP')
       group by  DATEPART(week, Tanggal),invCABANG.Deskripsi
-      order by  invCABANG.Deskripsi,  DATEPART(week, Tanggal)`
-    }
-    else if (groupby === 'Day') {
+      order by  invCABANG.Deskripsi,  DATEPART(week, Tanggal)`;
+    } else if (groupby === 'Day') {
       getDataRevenueGrowthPerCorner = await this.dbService.$queryRaw`
       select invCABANG.Deskripsi as sourcetype, sum(dtTRANSAKSI.Total_Transaksi) as revenue_growths, 
-      CONVERT(date,Tanggal) AS Hari from dtTRANSAKSI
+      CONVERT(date,Tanggal) AS periode from dtTRANSAKSI
       JOIN  invCABANG ON
       invCABANG.Kode = dtTRANSAKSI.Kode_Cabang 
       JOIN dtITEMTRANSAKSI ON
@@ -1223,7 +1324,7 @@ SELECT 'RESELLER' as sourcetype, sum (invINVOICE.Grand_Total)
 	  AND invCABANG.Kode IN ('KV', 'PI', 'PP')
       group by  CONVERT(date,Tanggal),invCABANG.Deskripsi
       order by  invCABANG.Deskripsi, CONVERT(date,Tanggal)
-      `
+      `;
     }
     return {
       getDataRevenueGrowthPerCorner,
